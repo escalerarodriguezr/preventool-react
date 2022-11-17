@@ -1,12 +1,26 @@
 import {Route, Routes} from "react-router-dom";
-import {Login} from "../auth/pages";
+import {PublicRouter} from "./PublicRouter";
+import {AuthRouter} from "../auth";
+import {PrivateRouter} from "./PrivateRouter";
+import {AdminRouter} from "../admin";
+
 
 
 export const Router = () => {
+
     return(
         <Routes>
-            <Route path="/login/*" element={<Login/>} />
+            <Route path="/auth/*" element={
+                <PublicRouter>
+                    <AuthRouter/>
+                </PublicRouter>
+            } />
 
+            <Route path="/admin/*" element={
+                <PrivateRouter>
+                   <AdminRouter/>
+                </PrivateRouter>
+            } />
         </Routes>
     )
 }
