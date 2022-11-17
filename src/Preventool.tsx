@@ -1,7 +1,11 @@
+// Import scss
+import "./assets/scss/theme.scss";
+// import "./assets/scss/app.scss";
+
 export const Preventool = () => {
     return(
         <>
-            <h1>PrevetoolApp</h1>
+            <h1 className={'text-success'}>PrevetoolApp</h1>
         </>
     )
 }
