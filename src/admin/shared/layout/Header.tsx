@@ -5,6 +5,7 @@ import {NavBarBrand} from "./NavBarBrand";
 import {SearchForm} from "./SearchForm";
 import {MegaMenu} from "./MegaMenu";
 import {SocialMenu} from "./SocialMenu";
+import {NotificationDropdown} from "./NotificationDropdown";
 
 export const Header = () => {
     return(
@@ -21,7 +22,7 @@ export const Header = () => {
                     <div className="d-flex">
                         <SocialMenu/>
                         <ButtonFullScreen/>
-                        {/*<NotificationDropdown />*/}
+                        <NotificationDropdown />
                         <ProfileMenu />
                     </div>
                 </div>
