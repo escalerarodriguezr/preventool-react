@@ -18,6 +18,10 @@ import {ProfileMenu} from "./ProfileMenu";
 import {MegaMenu} from "./MegaMenu";
 import {SearchForm} from "./SearchForm";
 import {SocialMenu} from "./SocialMenu";
+import {ButtonFullScreen} from "./ButtonFullScreen";
+
+
+
 
 
 
@@ -61,17 +65,9 @@ export const Header = () => {
 
                     <div className="d-flex">
                         {/*<SocialMenu/>*/}
+                        <ButtonFullScreen/>
 
-                        {/*<div className="dropdown d-none d-lg-inline-block ms-1">*/}
-                        {/*    <button*/}
-                        {/*        type="button"*/}
-                        {/*        onClick={()=>{}}*/}
-                        {/*        className="btn header-item noti-icon"*/}
-                        {/*        data-toggle="fullscreen"*/}
-                        {/*    >*/}
-                        {/*        <i className="bx bx-fullscreen"></i>*/}
-                        {/*    </button>*/}
-                        {/*</div>*/}
+
 
                         {/*<NotificationDropdown />*/}
                         <ProfileMenu />
