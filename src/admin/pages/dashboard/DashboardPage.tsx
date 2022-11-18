@@ -1,4 +1,5 @@
 import {Col, Container, Row} from "reactstrap";
+import {Breadcrumbs} from "../../shared/component/Breadcrumbs";
 
 export const DashboardPage = () => {
     return(
@@ -7,6 +8,7 @@ export const DashboardPage = () => {
                 <Container fluid>
                     {/* Render Breadcrumbs */}
                     {/*<Breadcrumbs title="Jobs" breadcrumbItem="Job Categories" />*/}
+                    <Breadcrumbs />
 
                     <Row className="justify-content-center text-center">
                         <Col xl={4}>
