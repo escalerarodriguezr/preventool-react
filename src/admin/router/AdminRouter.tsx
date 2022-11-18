@@ -6,7 +6,11 @@ import {AdminLayout} from "../shared";
 export const AdminRouter = () => {
     return(
         <Routes>
-            <Route path="/dashboard" element={<DashboardPage/>} />
+            <Route path="/dashboard" element={
+                <AdminLayout>
+                    <DashboardPage/>
+                </AdminLayout>
+            } />
             <Route path="/*" element={
                 <AdminLayout>
                     <DashboardPage/>

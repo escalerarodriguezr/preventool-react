@@ -2,9 +2,6 @@ import SimpleBar from "simplebar-react"
 import {Link} from "react-router-dom";
 import {useEffect, useRef} from "react";
 
-
-
-
 export const SideBarContent = () => {
 
     const simpleBar = useRef<any>(undefined);
@@ -13,13 +10,11 @@ export const SideBarContent = () => {
         const sideUlMenu:HTMLUListElement = simpleBar.current
         const items = sideUlMenu.getElementsByTagName("a");
         const arrows:HTMLAnchorElement[] = Array.from(items).filter(item => item.classList.contains('has-arrow'));
-
         arrows.forEach((element:HTMLElement)=>{
             const subMenu:any = element.closest('li')?.querySelector('ul');
             element.addEventListener('click',()=>{
                 subMenu.style.display === 'none' ? subMenu.style.display='' : subMenu.style.display='none';
             })
-
         })
 
 
@@ -114,7 +109,7 @@ export const SideBarContent = () => {
                     </ul>
                 </div>
             </SimpleBar>
-            
+
         </>
     )
 }
