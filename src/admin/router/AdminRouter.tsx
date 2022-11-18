@@ -5,24 +5,18 @@ import {AdminLayout} from "../shared";
 
 export const AdminRouter = () => {
     return(
-        <Routes>
-            <Route path="/dashboard" element={
-                <AdminLayout>
-                    <DashboardPage/>
-                </AdminLayout>
-            } />
-            <Route path="/*" element={
-                <AdminLayout>
-                    <DashboardPage/>
-                </AdminLayout>
 
-            } />
-            {/*<Route path="/" element={<Heroes />}>*/}
-            {/*   */}
-            {/*    <Route path="dc" element={<Dc />} />*/}
-            {/*    <Route path="search" element={<Search />} />*/}
-            {/*    <Route path="hero/:id" element={<Heroe/>} />*/}
-            {/*</Route>*/}
+
+        <Routes>
+            <Route path="/" element={<AdminLayout />}>
+                <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="*" element={<DashboardPage />} />
+
+            </Route>
         </Routes>
+
+
+
+        // </Routes>
     )
 }
