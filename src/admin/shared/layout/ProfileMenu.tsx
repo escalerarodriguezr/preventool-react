@@ -2,13 +2,17 @@ import {Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from "reactstrap";
 
 import user1 from "../../../assets/images/users/avatar-1.jpg";
 import {Link} from "react-router-dom";
+import {useState} from "react";
 
 export const ProfileMenu = () => {
+
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
     return(
         <>
             <Dropdown
-                isOpen={false}
-                toggle={()=> {}}
+                isOpen={isOpen}
+                toggle={()=> {setIsOpen(()=>!isOpen)}}
                 className="d-inline-block"
             >
                 <DropdownToggle

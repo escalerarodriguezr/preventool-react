@@ -1,6 +1,5 @@
 import {Link, NavLink} from "react-router-dom";
 import {Col, Dropdown, DropdownMenu, DropdownToggle, Row} from "reactstrap";
-
 import megamenuImg from "../../../assets/images/megamenu-img.png";
 
 import logo from "../../../assets/images/logo.svg";
@@ -15,14 +14,15 @@ import mail_chimp from "../../../assets/images/brands/mail_chimp.png";
 import slack from "../../../assets/images/brands/slack.png";
 
 
-
-
-
 import {ProfileMenu} from "./ProfileMenu";
 
 
 
 export const Header = () => {
+
+
+
+
     return(
         <>
 
@@ -38,15 +38,6 @@ export const Header = () => {
                                     <img src={logoDark} alt="" height="17" />
                                 </span>
                             </Link>
-
-                            {/*<Link to="/" className="logo logo-light">*/}
-                            {/*    <span className="logo-sm">*/}
-                            {/*      <img src={logoLightSvg} alt="" height="22" />*/}
-                            {/*    </span>*/}
-                            {/*    <span className="logo-lg">*/}
-                            {/*      <img src={logoLightPng} alt="" height="19" />*/}
-                            {/*    </span>*/}
-                            {/*</Link>*/}
                         </div>
                         <button
                             type="button"
@@ -67,10 +58,6 @@ export const Header = () => {
                                 <span className="bx bx-search-alt"></span>
                             </div>
                         </form>
-
-
-
-
 
                         {/*MegaMeunu*/}
                         <Dropdown
@@ -172,7 +159,6 @@ export const Header = () => {
                                 </Row>
                             </DropdownMenu>
                         </Dropdown>
-
                         {/*MegaMeunuFin*/}
                     </div>
 
@@ -186,47 +172,6 @@ export const Header = () => {
                 {/*    Otro flex*/}
 
                     <div className="d-flex">
-                        {/*<div className="dropdown d-inline-block d-lg-none ms-2">*/}
-                        {/*    <button*/}
-                        {/*        onClick={() => {*/}
-                        {/*            // this.setState({ isSearch: !this.state.isSearch });*/}
-                        {/*        }}*/}
-                        {/*        type="button"*/}
-                        {/*        className="btn header-item noti-icon"*/}
-                        {/*        id="page-header-search-dropdown"*/}
-                        {/*    >*/}
-                        {/*        <i className="mdi mdi-magnify"></i>*/}
-                        {/*    </button>*/}
-                        {/*    <div*/}
-                        {/*        className={*/}
-                        {/*            true*/}
-                        {/*                ? "dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 show"*/}
-                        {/*                : "dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"*/}
-                        {/*        }*/}
-                        {/*        aria-labelledby="page-header-search-dropdown"*/}
-                        {/*    >*/}
-                        {/*        <form className="p-3">*/}
-                        {/*            <div className="form-group m-0">*/}
-                        {/*                <div className="input-group">*/}
-                        {/*                    <input*/}
-                        {/*                        type="text"*/}
-                        {/*                        className="form-control"*/}
-                        {/*                        placeholder="Search ..."*/}
-                        {/*                        aria-label="Recipient's username"*/}
-                        {/*                    />*/}
-                        {/*                    <div className="input-group-append">*/}
-                        {/*                        <button className="btn btn-primary" type="submit">*/}
-                        {/*                            <i className="mdi mdi-magnify"></i>*/}
-                        {/*                        </button>*/}
-                        {/*                    </div>*/}
-                        {/*                </div>*/}
-                        {/*            </div>*/}
-                        {/*        </form>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-
-                        {/*<LanguageDropdown />*/}
-
                         <Dropdown
                             className="d-none d-lg-inline-block ms-1"
                             isOpen={false}
@@ -301,17 +246,6 @@ export const Header = () => {
                         {/*<NotificationDropdown />*/}
                         <ProfileMenu />
 
-                        {/*<div className="dropdown d-inline-block">*/}
-                        {/*    <button*/}
-                        {/*        onClick={() => {*/}
-                        {/*            // this.toggleRightbar();*/}
-                        {/*        }}*/}
-                        {/*        type="button"*/}
-                        {/*        className="btn header-item noti-icon right-bar-toggle"*/}
-                        {/*    >*/}
-                        {/*        <i className="bx bx-cog bx-spin"></i>*/}
-                        {/*    </button>*/}
-                        {/*</div>*/}
                     </div>
 
 
