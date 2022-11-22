@@ -2,29 +2,19 @@ import {ReactElement} from "react";
 import {Header} from "./Header";
 import {Sidebar} from "./Sidebar";
 import {Footer} from "./Footer";
-import {Col, Container, Row} from "reactstrap";
+import {Outlet} from "react-router-dom";
 
-interface Props {
-    children: ReactElement | ReactElement [];
-}
-
-export const AdminLayout = ({children}: Props): any => {
-
+export const AdminLayout = (): ReactElement => {
     return(
         <>
             <div id="layout-wrapper">
                 <Header/>
                 <Sidebar/>
                 <div className="main-content">
-                    {children}
+                    <Outlet/>
                 </div>
-
                 <Footer/>
-
-
             </div>
-
-
         </>
     )
 }
