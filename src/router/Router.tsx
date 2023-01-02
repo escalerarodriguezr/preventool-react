@@ -4,8 +4,6 @@ import {AuthRouter} from "../auth";
 import {PrivateRouter} from "./PrivateRouter";
 import {AdminRouter} from "../admin";
 
-
-
 export const Router = () => {
 
     return(
