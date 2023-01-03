@@ -8,9 +8,16 @@ import * as Yup from 'yup';
 import profile from "../../assets/images/profile-img.png";
 import logo from "../../assets/images/logo.svg";
 import {useFormik} from "formik";
+import {useAuthStore} from "../../store/auth/useAuthStore";
 
 
 export const Login = () => {
+
+    const {
+        status,
+        user,
+        loginAction
+    } = useAuthStore();
 
 
     const formik = useFormik({
@@ -21,7 +28,10 @@ export const Login = () => {
 
         //Se dispara solo cuando el form tiene todas las reglas de validacion pasadas correctamente
         onSubmit: values => {
-            console.log(values);
+            loginAction({email:values.email,password:values.password});
+
+            console.log('redirect si login');
+
         },
 
         //Se le pasa la funcion que toma todos los inputs del form y los validará

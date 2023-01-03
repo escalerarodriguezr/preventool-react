@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "axios": "^1.2.2",
     "bootstrap": "^5.2.2",
     "formik": "^2.2.9",
     "metismenu": "^3.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "reactstrap": "^9.1.5",
     "simplebar-react": "^2.4.3",
