@@ -2,8 +2,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../store";
 import {getEnv} from "../../shared/utils/getEnv";
 import {authApi} from "../../shared/api/preventool/authApi";
-import {AxiosResponse} from "axios";
-import {onLoginSuccess} from "./authSlice";
+import {AxiosError, AxiosResponse} from "axios";
+import {clearErrorMessage, clearToken, onLoginSuccess, setErrorMessage} from "./authSlice";
 
 export const useAuthStore = () => {
 
@@ -12,29 +12,37 @@ export const useAuthStore = () => {
 
 
 
-    const loginAction = async({ email, password }:{email:string,password:string}):Promise<void> => {
-        const t =getEnv();
+    const loginAction = async({ email, password }:{email:string,password:string}):Promise<boolean> => {
 
-        // dispatch( onChecking() );
-
+        dispatch(clearErrorMessage());
+        dispatch(clearToken());
+        localStorage.removeItem('token');
         try {
             const loginResponse:AxiosResponse = await authApi.post('',{ username:email, password });
             const token = loginResponse.data?.token;
             if(token){
                 localStorage.setItem('token', token );
                 localStorage.setItem('tokenInitDate', String(new Date().getTime()) );
-                dispatch(onLoginSuccess(token))
+                dispatch(onLoginSuccess(token));
+                return true;
             }
-
-            // dispatch( onLogin({ name: data.name, uid: data.uid }) );
+            return false;
 
         } catch (error) {
-            //manejar el error
-            console.log(error);
-            // dispatch( onLogout('Credenciales incorrectas') );
-            // setTimeout(() => {
-            //     dispatch( clearErrorMessage() );
-            // }, 10);
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 404 && data.class.includes('UserNotFoundException') )
+            {
+                dispatch(setErrorMessage('El usuario no existe'));
+            }else if( status === 401 )
+            {
+                dispatch(setErrorMessage('El usuario y password incorrectos'));
+            }else{
+                dispatch(setErrorMessage('Servicio no disponible'));
+            }
+
+            return false;
         }
     }
 

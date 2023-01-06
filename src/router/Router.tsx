@@ -15,7 +15,7 @@ export const Router = () => {
             <CircleSpinnerOverlay
                 loading={loading}
                 color="#5b9bd1"
-                overlayColor="rgba(0,153,255,0.2)"
+                overlayColor="rgba(0,153,255,0.1)"
             />
             <Routes>
                 <Route path="/auth/*" element={

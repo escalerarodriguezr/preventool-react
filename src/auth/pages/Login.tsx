@@ -5,23 +5,27 @@ import * as Yup from 'yup';
 
 
 // import images
+// @ts-ignore
 import profile from "../../assets/images/profile-img.png";
+// @ts-ignore
 import logo from "../../assets/images/logo.svg";
 import {useFormik} from "formik";
 import {useAuthStore} from "../../store/auth/useAuthStore";
 import {useUiStore} from "../../store/ui/useUiStore";
+import {useEffect} from "react";
 
 
 export const Login = () => {
 
     const {
-        loginAction
+        loginAction,
+        errorMessage
     } = useAuthStore();
 
     const {
         appLoading,
         appLoaded
-    } = useUiStore()
+    } = useUiStore();
 
 
     const formik = useFormik({
@@ -31,13 +35,10 @@ export const Login = () => {
         },
 
         //Se dispara solo cuando el form tiene todas las reglas de validacion pasadas correctamente
-        onSubmit: values => {
-            // loginAction({email:values.email,password:values.password});
+        onSubmit: async values => {
             appLoading();
-            setTimeout(()=>{
-                appLoaded();
-            },500)
-
+            await loginAction({email:values.email,password:values.password});
+            appLoaded();
         },
 
         //Se le pasa la funcion que toma todos los inputs del form y los validará
@@ -120,8 +121,6 @@ export const Login = () => {
                                                     Email invalido..
                                                 </div>
 
-
-
                                                 <div className="mb-3">
                                                     <label htmlFor="password" className="form-label">
                                                         Password
@@ -143,8 +142,14 @@ export const Login = () => {
                                                         <div className="invalid-feedback">
                                                             {errors.password}
                                                         </div>
-
                                                     </div>
+
+                                                </div>
+
+                                                <div className="mb-3">
+                                                    {(errorMessage && (
+                                                        <span className="error">{errorMessage}</span>
+                                                    ))}
 
                                                 </div>
 
