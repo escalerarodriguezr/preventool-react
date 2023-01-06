@@ -9,15 +9,20 @@ import profile from "../../assets/images/profile-img.png";
 import logo from "../../assets/images/logo.svg";
 import {useFormik} from "formik";
 import {useAuthStore} from "../../store/auth/useAuthStore";
+import {useUiStore} from "../../store/ui/useUiStore";
 
 
 export const Login = () => {
 
     const {
-        status,
-        user,
         loginAction
     } = useAuthStore();
+
+    const {
+        loading,
+        appLoading,
+        appLoaded
+    } = useUiStore()
 
 
     const formik = useFormik({
@@ -28,10 +33,12 @@ export const Login = () => {
 
         //Se dispara solo cuando el form tiene todas las reglas de validacion pasadas correctamente
         onSubmit: values => {
-            loginAction({email:values.email,password:values.password});
-
-            console.log('redirect si login');
-
+            // loginAction({email:values.email,password:values.password});
+            appLoading();
+            setTimeout(()=>{
+                appLoaded();
+            },5000)
+            
         },
 
         //Se le pasa la funcion que toma todos los inputs del form y los validará
