@@ -46,13 +46,19 @@ export const useAuthStore = () => {
         }
     }
 
+    const logOutAction = ():void =>{
+        dispatch(clearToken());
+        localStorage.removeItem('token');
+    }
+
     return {
-        //* Propiedades
+        //State
         errorMessage,
         token,
 
-        //* Métodos
-        loginAction
+        //Actions
+        loginAction,
+        logOutAction
 
     }
 }

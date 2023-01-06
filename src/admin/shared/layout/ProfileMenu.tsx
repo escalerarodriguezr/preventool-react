@@ -1,12 +1,21 @@
 import {Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from "reactstrap";
 
-import user1 from "../../../assets/images/users/avatar-1.jpg";
-import {Link} from "react-router-dom";
+// @ts-ignore
+import user1 from "../../../assets/images/users/default-user-icon-1.jpg";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import {useAuthStore} from "../../../store/auth/useAuthStore";
 
 export const ProfileMenu = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const {logOutAction} = useAuthStore();
+    const navigate = useNavigate();
+
+    const onLogout = () => {
+        logOutAction();
+        navigate('/auth');
+    }
 
     return(
         <>
@@ -24,11 +33,10 @@ export const ProfileMenu = () => {
                         className="rounded-circle header-profile-user"
                         src={user1}
                         alt="Header Avatar"
-                    />{" "}
-                    <span className="d-none d-xl-inline-block ms-1" onClick={()=>{console.log("hola")}}>
-              {'Cesar'}
-            </span>
+                    />
+                    <span className="d-none d-md-inline-block ms-1">{'Admin'}</span>
                     <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
+
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
                     <DropdownItem tag="a" href="/profile">
@@ -53,10 +61,13 @@ export const ProfileMenu = () => {
                         <span>{"Logout"}</span>
                     </Link>
                     <div className="dropdown-divider" />
-                    <Link to="/logout" className="dropdown-item">
+                    <button
+                        className="dropdown-item"
+                        onClick={onLogout}
+                    >
                         <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />
                         <span>{"Logout"}</span>
-                    </Link>
+                    </button>
                 </DropdownMenu>
             </Dropdown>
         </>

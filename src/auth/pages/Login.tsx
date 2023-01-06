@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
 //importamos yup
 import * as Yup from 'yup';
@@ -26,6 +26,8 @@ export const Login = () => {
         appLoaded
     } = useUiStore();
 
+    const navigate = useNavigate();
+
 
     const loginInitialForm:LoginForm ={
         email: '',
@@ -34,10 +36,13 @@ export const Login = () => {
 
     const formik = useFormik({
         initialValues: loginInitialForm,
-        onSubmit: async values => {
+        onSubmit: async (values:LoginForm) => {
             appLoading();
-            await loginAction({email:values.email,password:values.password});
+            const loginSuccess:boolean = await loginAction({email:values.email,password:values.password});
             appLoaded();
+            if(loginSuccess){
+                navigate('/admin');
+            }
         },
 
         validationSchema: Yup.object({
@@ -117,9 +122,9 @@ export const Login = () => {
                                                     Email invalido..
                                                 </div>
 
-                                                <div className="mb-3">
+                                                <div className="mb-3 mt-2">
                                                     <label htmlFor="password" className="form-label">
-                                                        Password
+                                                        Contraseña
                                                     </label>
                                                     <div className="input-group auth-pass-inputgroup">
                                                         <input
