@@ -19,7 +19,6 @@ export const Login = () => {
     } = useAuthStore();
 
     const {
-        loading,
         appLoading,
         appLoaded
     } = useUiStore()
@@ -37,8 +36,8 @@ export const Login = () => {
             appLoading();
             setTimeout(()=>{
                 appLoaded();
-            },5000)
-            
+            },500)
+
         },
 
         //Se le pasa la funcion que toma todos los inputs del form y los validará
