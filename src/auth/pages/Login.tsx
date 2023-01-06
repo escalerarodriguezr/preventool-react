@@ -3,7 +3,6 @@ import {Card, CardBody, Col, Container, Row} from "reactstrap";
 //importamos yup
 import * as Yup from 'yup';
 
-
 // import images
 // @ts-ignore
 import profile from "../../assets/images/profile-img.png";
@@ -12,7 +11,7 @@ import logo from "../../assets/images/logo.svg";
 import {useFormik} from "formik";
 import {useAuthStore} from "../../store/auth/useAuthStore";
 import {useUiStore} from "../../store/ui/useUiStore";
-import {useEffect} from "react";
+import {LoginForm} from "../interface/LoginFormInterface";
 
 
 export const Login = () => {
@@ -28,22 +27,19 @@ export const Login = () => {
     } = useUiStore();
 
 
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: ''
-        },
+    const loginInitialForm:LoginForm ={
+        email: '',
+        password: ''
+    }
 
-        //Se dispara solo cuando el form tiene todas las reglas de validacion pasadas correctamente
+    const formik = useFormik({
+        initialValues: loginInitialForm,
         onSubmit: async values => {
             appLoading();
             await loginAction({email:values.email,password:values.password});
             appLoaded();
         },
 
-        //Se le pasa la funcion que toma todos los inputs del form y los validará
-        //validate
-        //Me construyo un validation schema
         validationSchema: Yup.object({
             password: Yup.string()
                 .required('Requerido'),
