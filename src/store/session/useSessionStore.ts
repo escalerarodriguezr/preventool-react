@@ -11,7 +11,6 @@ export const useSessionStore = () => {
 
     const clearSessionAction = () => {
         dispatch(clearSession());
-
     }
 
     const getSessionAction = async():Promise<boolean> => {

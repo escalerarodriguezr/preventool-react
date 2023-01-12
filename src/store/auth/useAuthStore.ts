@@ -1,6 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../store";
-import {getEnv} from "../../shared/utils/getEnv";
 import {authApi} from "../../shared/api/preventool/authApi";
 import {AxiosError, AxiosResponse} from "axios";
 import {clearErrorMessage, clearToken, onLoginSuccess, setErrorMessage} from "./authSlice";
@@ -31,7 +30,6 @@ export const useAuthStore = () => {
         } catch (error) {
             const axiosError = error as AxiosError;
             const {status, data} = axiosError.response as AxiosResponse ;
-
             if( status === 404 && data.class.includes('UserNotFoundException') )
             {
                 dispatch(setErrorMessage('El usuario no existe'));

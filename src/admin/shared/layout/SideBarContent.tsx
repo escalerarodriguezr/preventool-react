@@ -1,6 +1,8 @@
 import SimpleBar from "simplebar-react"
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {useEffect, useRef} from "react";
+import {useSessionStore} from "../../../store/session/useSessionStore";
+import {AdminRoles} from "../model/Admin/AdminRoles";
 
 export const SideBarContent = () => {
 
@@ -20,91 +22,154 @@ export const SideBarContent = () => {
 
     },[])
 
+    const {sessionState} = useSessionStore();
+
     return(
         <>
             <SimpleBar className="h-100">
                 <div id="sidebar-menu">
                     <ul className="metismenu list-unstyled" id="side-menu"  ref={simpleBar}>
-                        <li className="menu-title">{"Menu"}</li>
+                        {/*DashBoard*/}
                         <li>
-                            <a className="has-arrow">
+                            <NavLink
+                                to="/admin/dashboard"
+                                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                            >
                                 <i className="bx bx-home-circle" />
-                                <span>{"Dashboards"}</span>
-                            </a>
-                            <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>
-                                <li>
-                                    <Link to="/dashboard">{"Default"}</Link>
-                                </li>
-                                <li>
-                                    <Link to="#">{"Saas"}</Link>
-                                </li>
-                                <li>
-                                    <Link to="#">
-                                      <span
-                                          className="badge rounded-pill text-bg-success float-end"
-                                          key="t-new"
-                                      >
-                                        New
-                                      </span>{"Jobs"}
-                                    </Link>
-                                </li>
-                            </ul>
+                                <span>{"Dashboard"}</span>
+                            </NavLink>
                         </li>
 
-                        <li className="menu-title">{"Apps"}</li>
+                        {/*Admin*/}
 
-                        <li>
-                            <Link to="#" className="">
-                                <i className="bx bx-calendar" />
-                                <span>{"Calendar"}</span>
-                            </Link>
-                        </li>
+                        {(sessionState.actionAdmin?.role === AdminRoles.ROOT) &&
+                            <>
+                                <li className="menu-title">{"Administración"}</li>
 
-                        <li>
-                            <Link to="#" className="">
-                                <i className="bx bx-chat" />
-                                <span>{"Chat"}</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="#" className="">
-                                <i className="bx bx-file" />
-                                <span>{"File Manager"}</span>
-                            </Link>
-                        </li>
-
-                        <li>
-                            <a className="has-arrow">
-                                <i className="bx bx-store" />
-                                <span>{"Ecommerce"}</span>
-                            </a>
-                            <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>
                                 <li>
-                                    <Link to="#">{"Products"}</Link>
+                                    <a className="has-arrow">
+                                        <i className="bx bx-home-circle" />
+                                        <span>{"Administradores"}</span>
+                                    </a>
+                                    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>
+                                        <li>
+                                            <NavLink
+                                                to="/admin/createAdmin"
+                                                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                            >
+                                                {"Crear Administrador"}
+                                            </NavLink>
+                                        </li>
+                                        {/*<li>*/}
+                                        {/*    <Link to="#">{"Saas"}</Link>*/}
+                                        {/*</li>*/}
+                                        {/*<li>*/}
+                                        {/*    <Link to="#">*/}
+                                        {/*      <span*/}
+                                        {/*          className="badge rounded-pill text-bg-success float-end"*/}
+                                        {/*          key="t-new"*/}
+                                        {/*      >*/}
+                                        {/*        New*/}
+                                        {/*      </span>{"Jobs"}*/}
+                                        {/*    </Link>*/}
+                                        {/*</li>*/}
+                                    </ul>
                                 </li>
-                                <li>
-                                    <Link to="#">{"Product Details"}</Link>
-                                </li>
-
-                            </ul>
-                        </li>
+                            </>
+                        }
 
 
-                        <li>
-                            <a className="has-arrow">
-                                <i className="bx bx-envelope"></i>
-                                <span>{"Email"}</span>
-                            </a>
-                            <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>
-                                <li>
-                                    <Link to="#">{"Inbox"}</Link>
-                                </li>
-                                <li>
-                                    <Link to="#">{"Read Email"} </Link>
-                                </li>
 
-                            </ul>
-                        </li>
+
+
+
+
+
+
+
+
+
+
+
+                        {/*<li>*/}
+                        {/*    <a className="has-arrow">*/}
+                        {/*        <i className="bx bx-home-circle" />*/}
+                        {/*        <span>{"Dashboards"}</span>*/}
+                        {/*    </a>*/}
+                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>*/}
+                        {/*        <li>*/}
+                        {/*            <Link to="/dashboard">{"Default"}</Link>*/}
+                        {/*        </li>*/}
+                        {/*        <li>*/}
+                        {/*            <Link to="#">{"Saas"}</Link>*/}
+                        {/*        </li>*/}
+                        {/*        <li>*/}
+                        {/*            <Link to="#">*/}
+                        {/*              <span*/}
+                        {/*                  className="badge rounded-pill text-bg-success float-end"*/}
+                        {/*                  key="t-new"*/}
+                        {/*              >*/}
+                        {/*                New*/}
+                        {/*              </span>{"Jobs"}*/}
+                        {/*            </Link>*/}
+                        {/*        </li>*/}
+                        {/*    </ul>*/}
+                        {/*</li>*/}
+
+                        {/*<li className="menu-title">{"Apps"}</li>*/}
+
+                        {/*<li>*/}
+                        {/*    <Link to="#" className="">*/}
+                        {/*        <i className="bx bx-calendar" />*/}
+                        {/*        <span>{"Calendar"}</span>*/}
+                        {/*    </Link>*/}
+                        {/*</li>*/}
+
+                        {/*<li>*/}
+                        {/*    <Link to="#" className="">*/}
+                        {/*        <i className="bx bx-chat" />*/}
+                        {/*        <span>{"Chat"}</span>*/}
+                        {/*    </Link>*/}
+                        {/*</li>*/}
+                        {/*<li>*/}
+                        {/*    <Link to="#" className="">*/}
+                        {/*        <i className="bx bx-file" />*/}
+                        {/*        <span>{"File Manager"}</span>*/}
+                        {/*    </Link>*/}
+                        {/*</li>*/}
+
+                        {/*<li>*/}
+                        {/*    <a className="has-arrow">*/}
+                        {/*        <i className="bx bx-store" />*/}
+                        {/*        <span>{"Ecommerce"}</span>*/}
+                        {/*    </a>*/}
+                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>*/}
+                        {/*        <li>*/}
+                        {/*            <Link to="#">{"Products"}</Link>*/}
+                        {/*        </li>*/}
+                        {/*        <li>*/}
+                        {/*            <Link to="#">{"Product Details"}</Link>*/}
+                        {/*        </li>*/}
+
+                        {/*    </ul>*/}
+                        {/*</li>*/}
+
+
+                        {/*<li>*/}
+                        {/*    <a className="has-arrow">*/}
+                        {/*        <i className="bx bx-envelope"></i>*/}
+                        {/*        <span>{"Email"}</span>*/}
+                        {/*    </a>*/}
+                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>*/}
+                        {/*        <li>*/}
+                        {/*            <Link to="#">{"Inbox"}</Link>*/}
+                        {/*        </li>*/}
+                        {/*        <li>*/}
+                        {/*            <Link to="#">{"Read Email"} </Link>*/}
+                        {/*        </li>*/}
+
+                        {/*    </ul>*/}
+                        {/*</li>*/}
 
                     </ul>
                 </div>
