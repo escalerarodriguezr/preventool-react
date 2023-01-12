@@ -5,12 +5,15 @@ import user1 from "../../../assets/images/users/default-user-icon-1.jpg";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {useAuthStore} from "../../../store/auth/useAuthStore";
+import {useSessionStore} from "../../../store/session/useSessionStore";
 
 export const ProfileMenu = () => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const {logOutAction} = useAuthStore();
     const navigate = useNavigate();
+
+    const {sessionState} = useSessionStore();
 
     const onLogout = () => {
         logOutAction();
@@ -34,7 +37,7 @@ export const ProfileMenu = () => {
                         src={user1}
                         alt="Header Avatar"
                     />
-                    <span className="d-none d-md-inline-block ms-1">{'Admin'}</span>
+                    <span className="d-none d-md-inline-block ms-1">{sessionState.actionAdmin?.name}</span>
                     <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
 
                 </DropdownToggle>

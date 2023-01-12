@@ -12,6 +12,6 @@ export const PublicRouter = ({children}:Props): any => {
     const {token} = useSelector((state:RootState)=>state.auth);const isLogged = false
 
     return token
-        ? <Navigate to={'/admin'}/>
+        ? <Navigate to={'/admin/dashboard'}/>
         : children
 }

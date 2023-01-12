@@ -1,6 +1,5 @@
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
-//importamos yup
 import * as Yup from 'yup';
 
 // import images
@@ -12,6 +11,7 @@ import {useFormik} from "formik";
 import {useAuthStore} from "../../store/auth/useAuthStore";
 import {useUiStore} from "../../store/ui/useUiStore";
 import {LoginForm} from "../interface/LoginFormInterface";
+import {useSessionStore} from "../../store/session/useSessionStore";
 
 
 export const Login = () => {
@@ -26,8 +26,8 @@ export const Login = () => {
         appLoaded
     } = useUiStore();
 
+    const {getSessionAction} = useSessionStore()
     const navigate = useNavigate();
-
 
     const loginInitialForm:LoginForm ={
         email: '',
@@ -39,10 +39,15 @@ export const Login = () => {
         onSubmit: async (values:LoginForm) => {
             appLoading();
             const loginSuccess:boolean = await loginAction({email:values.email,password:values.password});
-            appLoaded();
             if(loginSuccess){
-                navigate('/admin');
+                const sessionSuccess:boolean = await getSessionAction();
+                if(loginSuccess && sessionSuccess){
+                    appLoaded();
+                    navigate('/admin/dashboard');
+                }
             }
+            appLoaded();
+
         },
 
         validationSchema: Yup.object({

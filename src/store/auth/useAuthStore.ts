@@ -4,13 +4,13 @@ import {getEnv} from "../../shared/utils/getEnv";
 import {authApi} from "../../shared/api/preventool/authApi";
 import {AxiosError, AxiosResponse} from "axios";
 import {clearErrorMessage, clearToken, onLoginSuccess, setErrorMessage} from "./authSlice";
+import {useSessionStore} from "../session/useSessionStore";
 
 export const useAuthStore = () => {
 
     const { token, errorMessage } = useSelector( (state: RootState)=> state.auth );
+    const {clearSessionAction} = useSessionStore();
     const dispatch = useDispatch();
-
-
 
     const loginAction = async({ email, password }:{email:string,password:string}):Promise<boolean> => {
 
@@ -49,6 +49,7 @@ export const useAuthStore = () => {
     const logOutAction = ():void =>{
         dispatch(clearToken());
         localStorage.removeItem('token');
+        clearSessionAction();
     }
 
     return {
