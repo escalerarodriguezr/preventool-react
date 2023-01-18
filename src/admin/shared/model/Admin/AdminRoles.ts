@@ -1,3 +1,4 @@
 export const AdminRoles = {
-    ROOT: 'ROOT'
+    ROOT: 'ROOT',
+    ADMIN: 'ADMIN'
 }

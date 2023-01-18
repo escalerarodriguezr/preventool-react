@@ -17,7 +17,7 @@ export const DashboardPage = () => {
                 <Container fluid>
                     {/* Render Breadcrumbs */}
                     {/*<Breadcrumbs title="Jobs" breadcrumbItem="Job Categories" />*/}
-                    <Breadcrumbs />
+                    {/*<Breadcrumbs />*/}
 
                     <Row className="justify-content-center text-center">
                         <Col xl={4}>

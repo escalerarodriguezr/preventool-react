@@ -43,7 +43,10 @@ export const Login = () => {
                 const sessionSuccess:boolean = await getSessionAction();
                 if(loginSuccess && sessionSuccess){
                     appLoaded();
-                    navigate('/admin/dashboard');
+                    // navigate('/admin/dashboard');
+                    //
+                    // window.location.href = 'http://localhost:5173/admin/dashboard'
+                    window.location.reload();
                 }
             }
             appLoaded();
