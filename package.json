@@ -20,6 +20,7 @@
     "react-router-dom": "^6.4.3",
     "react-select": "^5.7.0",
     "react-spinner-overlay": "^0.1.33",
+    "react-toastify": "^9.1.1",
     "reactstrap": "^9.1.5",
     "simplebar-react": "^2.4.3",
     "yup": "^0.32.11"

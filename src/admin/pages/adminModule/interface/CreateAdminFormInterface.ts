@@ -3,5 +3,6 @@ export interface CreateAdminFormInterface{
     lastName: string
     role: string
     email: string;
-    password:string
+    password:string;
+    password2:string;
 }

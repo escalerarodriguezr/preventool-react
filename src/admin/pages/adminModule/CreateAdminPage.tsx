@@ -6,6 +6,17 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import {CreateAdminFormInterface} from "./interface/CreateAdminFormInterface";
 import {AdminRoles} from "../../shared/model/Admin/AdminRoles";
+import {AxiosError, AxiosResponse} from "axios";
+import preventoolApi from "../../../shared/api/preventool/preventoolApi";
+
+import {useUiStore} from "../../../store/ui/useUiStore";
+
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {CreateSuccessResponse} from "../../shared/interface/CreateSuccessResponse";
+import {MessagesHttpResponse} from "../../shared/utils/MessagesHttpResponse";
+import {MesseagesFormValidations} from "../../shared/utils/MesseagesFormValidations";
+
 
 export const CreateAdminPage = () => {
     const {getSessionAction} = useSessionStore();
@@ -18,13 +29,19 @@ export const CreateAdminPage = () => {
         { label: "Admin", value: AdminRoles.ADMIN }
     );
 
+    const {
+        appLoading,
+        appLoaded
+    } = useUiStore();
+
 
     const creatAdminForm:CreateAdminFormInterface={
         name: '',
         lastName: '',
         role: selectRole.value,
         email: '',
-        password: ''
+        password: '',
+        password2: '',
     }
 
     const roleOptionGroup = [
@@ -47,35 +64,58 @@ export const CreateAdminPage = () => {
         formik.setFieldTouched('role');
     }
 
+    const createAdminRequest = async (admin:any ) => {
+
+        try {
+            const response:AxiosResponse = await preventoolApi.post('/admin', admin);
+            const data = response.data as CreateSuccessResponse;
+            toast.success(MessagesHttpResponse.SuccessCreatedResponse);
+            return data.uuid;
+
+        }catch (error){
+
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 409 && data.class.includes('AdminAlreadyExistsException') )
+            {
+                toast.info(MessagesHttpResponse.AdminAlreadyExistsException);
+            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+
+            return false;
+        }
+
+    }
+
     const formik = useFormik({
         initialValues: creatAdminForm,
-        onSubmit: (values:CreateAdminFormInterface) => {
-            console.log(values);
-            // appLoading();
-            // const loginSuccess:boolean = await loginAction({email:values.email,password:values.password});
-            // if(loginSuccess){
-            //     const sessionSuccess:boolean = await getSessionAction();
-            //     if(loginSuccess && sessionSuccess){
-            //         appLoaded();
-            //         navigate('/admin/dashboard');
-            //     }
-            // }
-            // appLoaded();
-
+        onSubmit: async (values:CreateAdminFormInterface) => {
+            appLoading();
+            await createAdminRequest(values);
+            appLoaded();
         },
 
         validationSchema: Yup.object({
             name: Yup.string()
-                .required('Requerido'),
+                .required(MesseagesFormValidations.Required),
             lastName: Yup.string()
-                .required('Requerido'),
+                .required(MesseagesFormValidations.Required),
             role: Yup.string()
-                .required('Requerido').oneOf(['ROOT', 'ADMIN'], 'El Rol tiene que se ROOT o ADMIN'),
+                .required(MesseagesFormValidations.Required).oneOf([AdminRoles.ROOT, AdminRoles.ADMIN], MesseagesFormValidations.InvalidValue),
             password: Yup.string()
-                .required('Requerido'),
+                .required(MesseagesFormValidations.Required),
+            password2: Yup.string()
+                .oneOf([Yup.ref('password'), null], MesseagesFormValidations.NotMatchConfirmPassword),
             email: Yup.string()
-                .email('El email no tiene un formato válido')
-                .required('Requerido'),
+                .email(MesseagesFormValidations.Email)
+                .required(MesseagesFormValidations.Required),
         })
     });
 
@@ -87,13 +127,13 @@ export const CreateAdminPage = () => {
                     <Row className="justify-content-start text-start">
                         <Col xl={4}>
                             <div className="mb-4">
-                                <h2>Registrar Administrador</h2>
+                                <h2>Crear Administrador</h2>
                             </div>
                         </Col>
                     </Row>
 
                     <Row >
-                        <Col lg={6}>
+                        <Col lg={12}>
                             <Card>
                                 <CardBody>
                                     <CardTitle className="mb-4">Datos de registro</CardTitle>
@@ -101,7 +141,7 @@ export const CreateAdminPage = () => {
                                     <Form
                                         onSubmit={formik.handleSubmit}
                                     >
-                                        <div className="mb-3">
+                                        <div className="mb-3 w-50">
                                             <Label htmlFor="name">Nombre</Label>
                                             <Input
                                                 type="text"
@@ -122,7 +162,7 @@ export const CreateAdminPage = () => {
                                             </div>
                                         </div>
 
-                                        <div className="mb-3">
+                                        <div className="mb-3 w-50">
                                             <Label htmlFor="lastName">Apéllidos</Label>
                                             <Input
                                                 type="text"
@@ -143,7 +183,7 @@ export const CreateAdminPage = () => {
                                             </div>
                                         </div>
 
-                                        <div className="mb-3 select2-container">
+                                        <div className="mb-3 select2-container w-25">
                                             <Label>Rol</Label>
                                             <Select
                                                 value={selectedRoleGroup}
@@ -183,14 +223,13 @@ export const CreateAdminPage = () => {
                                                         {formik.errors.email}
                                                     </div>
                                                 </div>
-                                            </Col>
-                                            <Col md={6}>
+                                           
                                                 <div className="mb-3">
-                                                    <Label htmlFor="password">Password</Label>
+                                                    <Label htmlFor="password">Contraseña</Label>
                                                     <Input
                                                         type="password"
                                                         id="password"
-                                                        placeholder="Password"
+                                                        placeholder="Contraseña"
                                                         value={formik.values.password}
                                                         onChange={formik.handleChange}
                                                         onBlur={ formik.handleBlur }
@@ -203,6 +242,26 @@ export const CreateAdminPage = () => {
                                                     />
                                                     <div className="invalid-feedback">
                                                         {formik.errors.password}
+                                                    </div>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <Label htmlFor="password2">Confirmar contraseña</Label>
+                                                    <Input
+                                                        type="password"
+                                                        id="password2"
+                                                        placeholder="Confirmar contraseña"
+                                                        value={formik.values.password2}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={ formik.handleBlur }
+                                                        className={
+                                                            "form-control" +
+                                                            (formik.errors.password2 && formik.touched.password2
+                                                                ? " is-invalid"
+                                                                : "")
+                                                        }
+                                                    />
+                                                    <div className="invalid-feedback">
+                                                        {formik.errors.password2}
                                                     </div>
                                                 </div>
                                             </Col>
@@ -220,6 +279,7 @@ export const CreateAdminPage = () => {
                     </Row>
                 </Container>
             </div>
+
         </>
     )
 }

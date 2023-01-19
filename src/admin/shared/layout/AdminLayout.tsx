@@ -5,6 +5,7 @@ import {Footer} from "./Footer";
 import {Outlet, useNavigate} from "react-router-dom";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useAuthStore} from "../../../store/auth/useAuthStore";
+import {ToastContainer} from "react-toastify";
 
 export const AdminLayout = (): ReactElement => {
 
@@ -13,7 +14,6 @@ export const AdminLayout = (): ReactElement => {
     const navigate = useNavigate();
 
     useEffect(()=>{
-
        if(sessionState.sessionError){
            logOutAction();
            navigate('auth/login')
@@ -28,6 +28,18 @@ export const AdminLayout = (): ReactElement => {
                 <Sidebar/>
                 <div className="main-content">
                     <Outlet/>
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={2000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
                 </div>
                 <Footer/>
             </div>
