@@ -48,7 +48,7 @@ export const SideBarContent = () => {
 
                                 <li>
                                     <a className="has-arrow">
-                                        <i className="bx bx-home-circle" />
+                                        <i className="bx bxs-user-detail" />
                                         <span>{"Administradores"}</span>
                                     </a>
                                     <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>
@@ -57,7 +57,15 @@ export const SideBarContent = () => {
                                                 to="/admin/createAdmin"
                                                 className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                             >
-                                                {"Crear Administrador"}
+                                                {"Crear"}
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
+                                                to="/admin/administradores"
+                                                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                            >
+                                                {"Listado"}
                                             </NavLink>
                                         </li>
                                         {/*<li>*/}
