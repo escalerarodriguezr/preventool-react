@@ -1,62 +1,60 @@
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, Row, Table} from "reactstrap";
-import {SearchAdminServiceHook} from "./hook/SearchAdminServiceHook";
+import {UseSearchAdminService} from "./hook/UseSearchAdminService";
+
 
 export const SearchAdminPage = () => {
+
+    const urlParams = new URLSearchParams(window.location.search);
     const {getSessionAction} = useSessionStore();
-    const {admins, searchAdminAction} = SearchAdminServiceHook();
+    const {admins, searchAdminAction} = UseSearchAdminService();
+
+    const [orderBy, setOrderBy] = useState('createdAt');
+    const [orderByDirection, setOrderByDirection] = useState('DESC');
 
     useEffect(()=>{
         getSessionAction();
         searchAdminAction();
-
     },[]);
-
-    useEffect(()=>{
-        console.log(admins);
-    },[admins]);
-
-
-    const [orderBy, setOrderBy] = useState({
-        orderByCreatedAt: 'DESC',
-        orderByEmail : null,
-
-    });
-
+    
     const handleOrderByEmail = () => {
 
-        // @ts-ignore
-        setOrderBy((prevState)=>{
-            if(prevState.orderByEmail === null){
-                return{
-                    orderByCreatedAt: null,
-                    orderByEmail: 'ASC'
-                }
+        setOrderBy('email');
+        setOrderByDirection((prevState)=>{
+            if(prevState === 'ASC'){
+                return 'DESC';
             }
-
-            if(prevState.orderByEmail === 'ASC'){
-                return {
-                    orderByCreatedAt: null,
-                    orderByEmail: 'DESC'
-                }
+            if(prevState === 'DESC'){
+                return 'ASC';
             }
+            return prevState;
+        })
+    }
 
-            if(prevState.orderByEmail === 'DESC'){
-                return {
-                    orderByCreatedAt: null,
-                    orderByEmail: 'ASC'
-                }
+    const handleOrderByCreatedAt = () => {
+
+        setOrderBy('createdAt');
+        setOrderByDirection((prevState)=>{
+            if(prevState === 'ASC'){
+                return 'DESC';
+            }
+            if(prevState === 'DESC'){
+                return 'ASC';
             }
             return prevState;
         })
     }
 
     useEffect(()=>{
-        console.log(orderBy)
-    },[orderBy]);
+        urlParams.set('orderBy', orderBy);
+        urlParams.set('orderDirection', orderByDirection);
+        searchAdminAction('?'+urlParams.toString())
+
+    },[orderBy, orderByDirection]);
 
     
+    // @ts-ignore
     return(
         <>
             <div className="page-content">
@@ -80,13 +78,11 @@ export const SearchAdminPage = () => {
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th><span className="cursor-pointer"
-                                                          onClick={handleOrderByEmail}
-                                                >Email</span></th>
+                                                <th><span className="cursor-pointer" onClick={handleOrderByEmail}>Email</span></th>
                                                 <th>Nombre completo</th>
                                                 <th>Tipo</th>
                                                 <th>Rol</th>
-                                                <th>Fecha creación</th>
+                                                <th><span className="cursor-pointer" onClick={handleOrderByCreatedAt}>Creado</span></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -99,14 +95,14 @@ export const SearchAdminPage = () => {
                                                             >
                                                                 <th scope="row">{index+1}</th>
                                                                 <td>{admin.email}</td>
-                                                                <td>{admin.email + admin.lastName}</td>
+                                                                <td>{admin.name + ' ' + admin.lastName}</td>
                                                                 <td>{admin.type}</td>
                                                                 <td>{admin.role}</td>
                                                                 <td>{new Date(admin.createdAt).toLocaleDateString()}</td>
                                                             </tr>
                                                         )
                                                 )
-                                                : <span>No hay administradores registrados </span>
+                                                : <tr><td colSpan={6} className={'text-center'}>No hay administradores registrados </td></tr>
 
                                             }
 
