@@ -16,7 +16,6 @@ export const UseSearchAdminService = () =>{
         try {
             const sessionResponse:AxiosResponse = await preventoolApi.get('/admin'+urlQueryString);
             const data = sessionResponse.data as SearchAdminResponseInterface;
-
             setCurrentPage(data.currentPage);
             setTotal(data.total);
             setPages(data.pages);
@@ -24,12 +23,8 @@ export const UseSearchAdminService = () =>{
 
         }catch (error){
             console.log(error);
-
         }
-
         return true;
-
-
     }
 
     return{

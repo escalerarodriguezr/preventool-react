@@ -4,22 +4,21 @@ import {Card, CardBody, CardTitle, Col, Container, Row, Table} from "reactstrap"
 import {UseSearchAdminService} from "./hook/UseSearchAdminService";
 
 
+
 export const SearchAdminPage = () => {
 
-    const urlParams = new URLSearchParams(window.location.search);
     const {getSessionAction} = useSessionStore();
-    const {admins, searchAdminAction} = UseSearchAdminService();
+    const {admins,total, currentPage, pages, searchAdminAction} = UseSearchAdminService();
 
     const [orderBy, setOrderBy] = useState('createdAt');
     const [orderByDirection, setOrderByDirection] = useState('DESC');
 
     useEffect(()=>{
         getSessionAction();
-        searchAdminAction();
+        searchAdminAction('?'+'pageSize=5');
     },[]);
-    
-    const handleOrderByEmail = () => {
 
+    const handleOrderByEmail = () => {
         setOrderBy('email');
         setOrderByDirection((prevState)=>{
             if(prevState === 'ASC'){
@@ -29,11 +28,11 @@ export const SearchAdminPage = () => {
                 return 'ASC';
             }
             return prevState;
-        })
+        });
+
     }
 
     const handleOrderByCreatedAt = () => {
-
         setOrderBy('createdAt');
         setOrderByDirection((prevState)=>{
             if(prevState === 'ASC'){
@@ -43,17 +42,21 @@ export const SearchAdminPage = () => {
                 return 'ASC';
             }
             return prevState;
-        })
+        });
+
     }
 
     useEffect(()=>{
-        urlParams.set('orderBy', orderBy);
-        urlParams.set('orderDirection', orderByDirection);
-        searchAdminAction('?'+urlParams.toString())
+        searchAdminAction(
+            '?'
+            +'pageSize=5'
+            +'&orderBy='+orderBy
+            +'&orderDirection='+orderByDirection
+        );
+    },[orderBy,orderByDirection])
 
-    },[orderBy, orderByDirection]);
 
-    
+
     // @ts-ignore
     return(
         <>
@@ -108,9 +111,60 @@ export const SearchAdminPage = () => {
 
                                             </tbody>
                                         </Table>
+
+
+
+
+
+
+
+
+
+
+
+
                                     </div>
                                 </CardBody>
                             </Card>
+                        </Col>
+                    </Row>
+
+
+                    <Row>
+                        <Col xl={12}>
+
+                            <p className="card-title-desc">Total: {total} | Viendo página {currentPage} de {pages} </p>
+                            <nav aria-label="Page navigation example">
+                                <ul className="pagination">
+                                    <li className="page-item">
+                                        <span className="page-link cursor-pointer" >
+                                            Previous
+                                        </span>
+                                    </li>
+
+                                    {
+                                        Array.from(Array(pages).keys()).map((cPage) =>{
+                                            return (
+                                                    <li className="page-item cursor-pointer"
+                                                        key={cPage+1}
+                                                    >
+                                                <span className="page-link" >
+                                                    {cPage+1}
+                                                </span>
+                                                    </li>
+                                                );
+                                        }
+                                        )
+                                    }
+                                    <li className="page-item cursor-pointer">
+                                        <span className="page-link">
+                                            Next
+                                        </span>
+                                    </li>
+                                </ul>
+                            </nav>
+
+
                         </Col>
                     </Row>
 
