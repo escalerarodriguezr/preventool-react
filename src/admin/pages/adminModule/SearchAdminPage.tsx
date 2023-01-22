@@ -3,20 +3,30 @@ import {useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, Row, Table} from "reactstrap";
 import {UseSearchAdminService} from "./hook/UseSearchAdminService";
 
-
-
 export const SearchAdminPage = () => {
+
+    const [orderBy, setOrderBy] = useState('createdAt');
+    const [orderByDirection, setOrderByDirection] = useState('DESC');
+    const [requiredPage, setRequiredPage] = useState(1);
+
 
     const {getSessionAction} = useSessionStore();
     const {admins,total, currentPage, pages, searchAdminAction} = UseSearchAdminService();
 
-    const [orderBy, setOrderBy] = useState('createdAt');
-    const [orderByDirection, setOrderByDirection] = useState('DESC');
 
     useEffect(()=>{
         getSessionAction();
-        searchAdminAction('?'+'pageSize=5');
     },[]);
+
+    useEffect(()=>{
+        searchAdminAction(
+            '?'
+            +'pageSize=1'
+            +'&orderBy='+orderBy
+            +'&orderDirection='+orderByDirection
+            +'&currentPage='+requiredPage
+        );
+    },[orderBy,orderByDirection, requiredPage])
 
     const handleOrderByEmail = () => {
         setOrderBy('email');
@@ -29,7 +39,25 @@ export const SearchAdminPage = () => {
             }
             return prevState;
         });
+    }
 
+    const handleNextPage = () =>{
+
+        if(currentPage === pages){
+            return currentPage;
+        }
+        setRequiredPage(currentPage+1);
+    }
+
+    const handlePreviousPage = () =>{
+        if(currentPage === 1){
+            return currentPage
+        }
+        setRequiredPage(currentPage-1);
+    }
+
+    const handleTargetPage = (targetPage:number) => {
+        setRequiredPage(targetPage);
     }
 
     const handleOrderByCreatedAt = () => {
@@ -46,14 +74,7 @@ export const SearchAdminPage = () => {
 
     }
 
-    useEffect(()=>{
-        searchAdminAction(
-            '?'
-            +'pageSize=5'
-            +'&orderBy='+orderBy
-            +'&orderDirection='+orderByDirection
-        );
-    },[orderBy,orderByDirection])
+
 
 
 
@@ -134,35 +155,68 @@ export const SearchAdminPage = () => {
                         <Col xl={12}>
 
                             <p className="card-title-desc">Total: {total} | Viendo página {currentPage} de {pages} </p>
-                            <nav aria-label="Page navigation example">
-                                <ul className="pagination">
-                                    <li className="page-item">
+                            
+                            {
+                                pages != 1 &&
+                                <nav aria-label="Page navigation example">
+                                    <ul className="pagination">
+
+
+                                        <li className="page-item"
+                                            onClick={handlePreviousPage}
+                                        >
+
+
                                         <span className="page-link cursor-pointer" >
                                             Previous
                                         </span>
-                                    </li>
+                                        </li>
 
-                                    {
-                                        Array.from(Array(pages).keys()).map((cPage) =>{
-                                            return (
-                                                    <li className="page-item cursor-pointer"
-                                                        key={cPage+1}
-                                                    >
-                                                <span className="page-link" >
-                                                    {cPage+1}
-                                                </span>
-                                                    </li>
-                                                );
+                                        {
+                                            Array.from(Array(pages).keys()).map((cPage) =>{
+
+                                                if((cPage+1 == currentPage) ||
+                                                    (cPage+1) == currentPage+1 ||
+                                                    (cPage+1) == currentPage+2 ||
+                                                    (cPage+1) == currentPage-1 ||
+                                                    (cPage+1) == currentPage-2 ||
+                                                    (cPage+1) == 1 ||
+                                                    (cPage+1) == pages
+                                                ) {
+                                                    return (
+                                                        <li
+                                                            key={cPage+1}
+                                                            className={
+                                                                'page-item cursor-pointer'
+                                                                +
+                                                                ((cPage+1)===currentPage
+                                                                    ? " active"
+                                                                    : "")
+                                                            }
+                                                            onClick={()=>handleTargetPage(cPage+1)}
+                                                        >
+                                                            <span className="page-link" >
+                                                                {cPage+1}
+                                                            </span>
+                                                        </li>
+                                                    );
+                                                }
+
+                                                }
+                                            )
                                         }
-                                        )
-                                    }
-                                    <li className="page-item cursor-pointer">
+                                        <li className="page-item cursor-pointer"
+                                            onClick={handleNextPage}
+                                        >
                                         <span className="page-link">
                                             Next
                                         </span>
-                                    </li>
-                                </ul>
-                            </nav>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+
+
 
 
                         </Col>
