@@ -13,6 +13,7 @@ export const TablePaginator = (props:TablePaginatorPros)=>{
 
     return (
         <>
+
             <p className="card-title-desc">Total: {total} | Viendo página {currentPage} de {pages} </p>
 
             {

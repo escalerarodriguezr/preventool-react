@@ -1,6 +1,6 @@
 import {useSessionStore} from "../../../store/session/useSessionStore";
-import {useEffect, useState} from "react";
-import {Card, CardBody, CardTitle, Col, Container, Row, Table} from "reactstrap";
+import {SyntheticEvent, useEffect, useState} from "react";
+import {Card, CardBody, CardTitle, Col, Container, Input, Label, Row, Table} from "reactstrap";
 import {UseSearchAdminService} from "./hook/UseSearchAdminService";
 import {TablePaginator} from "../../shared/component/TablePaginator";
 
@@ -10,9 +10,15 @@ export const SearchAdminPage = () => {
     const [orderByDirection, setOrderByDirection] = useState('DESC');
     const [requiredPage, setRequiredPage] = useState(1);
 
-    //Servivio de session y admins
+    const pageSize:number = 5;
+
+    //Servicio de session y admins
     const {getSessionAction} = useSessionStore();
     const {admins,total, currentPage, pages, searchAdminAction} = UseSearchAdminService();
+
+    //filtros
+    const [filterByEmail, setFilterByEmail] = useState('');
+    const [filterQuery, setFilterQuery] = useState('');
 
 
     useEffect(()=>{
@@ -22,12 +28,13 @@ export const SearchAdminPage = () => {
     useEffect(()=>{
         searchAdminAction(
             '?'
-            +'pageSize=1'
+            +'pageSize='+pageSize
             +'&orderBy='+orderBy
             +'&orderDirection='+orderByDirection
             +'&currentPage='+requiredPage
+            +filterQuery
         );
-    },[orderBy,orderByDirection, requiredPage])
+    },[orderBy,orderByDirection, requiredPage, filterQuery])
 
 
     const handleNextPage = () =>{
@@ -75,8 +82,24 @@ export const SearchAdminPage = () => {
         });
     }
 
+    const handleFilterByEmail = (event:SyntheticEvent) => {
+        // @ts-ignore
+        const {value} = event.nativeEvent.target;
+        setFilterByEmail(value);
+    }
+
+    const handleFilterAction = (event:SyntheticEvent) => {
+
+        let filterQuery:string = '&';
+        if(filterByEmail.length > 0) {
+            filterQuery += 'filterByEmail='+filterByEmail
+        }
+        filterQuery !== '&' ? setFilterQuery(filterQuery) : setFilterQuery('');
+        setRequiredPage(1);
+    }
 
 
+    
     // @ts-ignore
     return(
         <>
@@ -87,6 +110,39 @@ export const SearchAdminPage = () => {
                             <div className="mb-4">
                                 <h2>Listado de Administradores</h2>
                             </div>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={12}>
+                            <Card>
+                                <CardBody>
+                                    <div className="row gy-2 gx-3 align-items-center">
+                                        <div className="col-sm-auto">
+                                            <Label className="" htmlFor="filterByEmail">Email</Label>
+                                            <Input
+                                                className="form-control"
+                                                type="text"
+                                                id="filterByEmail"
+                                                placeholder="info@preventool.com"
+                                                name="filterByEmail"
+                                                onChange={handleFilterByEmail}
+                                            />
+                                        </div>
+
+                                    </div>
+
+
+                                    <div className="row mt-2 justify-content-end">
+                                        <div className="col-sm-auto ">
+                                            <button type="button" className="btn btn-primary w-md"
+                                                    onClick={handleFilterAction}
+                                            >Buscar</button>
+                                        </div>
+                                    </div>
+                                </CardBody>
+
+                            </Card>
                         </Col>
                     </Row>
 
@@ -139,17 +195,22 @@ export const SearchAdminPage = () => {
 
                     <Row>
                         <Col xl={12}>
-                            <TablePaginator
-                                total={total}
-                                currentPage={currentPage}
-                                pages={pages}
-                                handlePreviousPage={handlePreviousPage}
-                                handleNextPage={handleNextPage}
-                                handleTargetPage={handleTargetPage}
-                            />
+
+                            {
+                                total > 0 &&
+                                <TablePaginator
+                                    total={total}
+                                    currentPage={currentPage}
+                                    pages={pages}
+                                    handlePreviousPage={handlePreviousPage}
+                                    handleNextPage={handleNextPage}
+                                    handleTargetPage={handleTargetPage}
+                                />
+                            }
+
                         </Col>
                     </Row>
-                    
+
                 </Container>
             </div>
 
