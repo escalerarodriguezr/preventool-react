@@ -170,6 +170,7 @@ export const SearchAdminPage = () => {
                                                 <th>Rol</th>
                                                 <th><span className="cursor-pointer" onClick={handleOrderByCreatedAt}>Creado</span></th>
                                                 <th>Activo</th>
+                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -199,6 +200,18 @@ export const SearchAdminPage = () => {
                                                                     checked={admin.active}
                                                                     disabled={true}
                                                                 /></td>
+                                                                <td>
+                                                                    <div className="btn-group" >
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-default"
+                                                                            title="Editar elemento"
+                                                                        >
+                                                                            <i className="fas fa-edit"></i>
+                                                                        </button>
+
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                         )
                                                 )
