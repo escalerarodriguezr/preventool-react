@@ -1,7 +1,7 @@
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {SyntheticEvent, useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, Input, Label, Row, Table} from "reactstrap";
-import {UseSearchAdminService} from "./hook/UseSearchAdminService";
+import {UseSearchAdminService} from "./hook/searchAdminService/UseSearchAdminService";
 import {TablePaginator} from "../../shared/component/TablePaginator";
 import Switch from "react-switch"
 import { OffSymbol } from "../../shared/component/OffSymbol";
@@ -103,10 +103,6 @@ export const SearchAdminPage = () => {
 
 
 
-
-
-
-
     // @ts-ignore
     return(
         <>
@@ -115,7 +111,7 @@ export const SearchAdminPage = () => {
                     <Row className="justify-content-start text-start">
                         <Col xl={4}>
                             <div className="mb-4">
-                                <h2>Listado de Administradores</h2>
+                                <h2>Administradores</h2>
                             </div>
                         </Col>
                     </Row>
@@ -139,7 +135,6 @@ export const SearchAdminPage = () => {
 
                                     </div>
 
-
                                     <div className="row mt-2 justify-content-end">
                                         <div className="col-sm-auto ">
                                             <button type="button" className="btn btn-primary w-md"
@@ -157,7 +152,7 @@ export const SearchAdminPage = () => {
                         <Col md={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Listado de Administradores</CardTitle>
+                                    {/*<CardTitle className="h4">Listado de Administradores</CardTitle>*/}
 
                                     <div className="table-responsive">
                                         <Table className="table mb-0">
@@ -194,7 +189,7 @@ export const SearchAdminPage = () => {
                                                                     onColor="#02a499"
                                                                     onChange={(checked, event, id) =>{
                                                                         if(checked = false){
-                                                                            console.log(checked)
+                                                                            // console.log(checked)
                                                                         }
                                                                     }}
                                                                     checked={admin.active}
@@ -241,15 +236,12 @@ export const SearchAdminPage = () => {
                                     handleTargetPage={handleTargetPage}
                                 />
                             }
-
                         </Col>
                     </Row>
-
                 </Container>
             </div>
 
         </>
     )
-
 
 }

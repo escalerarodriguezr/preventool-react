@@ -1,9 +1,10 @@
 import {useState} from "react";
-import {AxiosResponse} from "axios/index";
-import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
-import {SessionState} from "../../../../store/session/sessionSlice";
+import {AxiosError, AxiosResponse} from "axios";
+import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
 import {SearchAdminResponseInterface} from "./SearchAdminResponseInterface";
-import {useUiStore} from "../../../../store/ui/useUiStore";
+import {useUiStore} from "../../../../../store/ui/useUiStore";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../shared/utils/MessagesHttpResponse";
 
 export const UseSearchAdminService = () =>{
 
@@ -29,13 +30,25 @@ export const UseSearchAdminService = () =>{
             setAdmins(data.items);
             appLoaded();
 
-            console.log(data.items);
-
+           return true;
 
         }catch (error){
-            console.log(error);
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+
+            appLoaded();
+            return false;
         }
-        return true;
+
     }
 
     return{
