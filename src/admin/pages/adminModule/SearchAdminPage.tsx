@@ -2,14 +2,15 @@ import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, Row, Table} from "reactstrap";
 import {UseSearchAdminService} from "./hook/UseSearchAdminService";
+import {TablePaginator} from "../../shared/component/TablePaginator";
 
 export const SearchAdminPage = () => {
-
+    //Estados para gestionar el paginador y la ordenación
     const [orderBy, setOrderBy] = useState('createdAt');
     const [orderByDirection, setOrderByDirection] = useState('DESC');
     const [requiredPage, setRequiredPage] = useState(1);
 
-
+    //Servivio de session y admins
     const {getSessionAction} = useSessionStore();
     const {admins,total, currentPage, pages, searchAdminAction} = UseSearchAdminService();
 
@@ -28,18 +29,6 @@ export const SearchAdminPage = () => {
         );
     },[orderBy,orderByDirection, requiredPage])
 
-    const handleOrderByEmail = () => {
-        setOrderBy('email');
-        setOrderByDirection((prevState)=>{
-            if(prevState === 'ASC'){
-                return 'DESC';
-            }
-            if(prevState === 'DESC'){
-                return 'ASC';
-            }
-            return prevState;
-        });
-    }
 
     const handleNextPage = () =>{
 
@@ -71,10 +60,20 @@ export const SearchAdminPage = () => {
             }
             return prevState;
         });
-
     }
 
-
+    const handleOrderByEmail = () => {
+        setOrderBy('email');
+        setOrderByDirection((prevState)=>{
+            if(prevState === 'ASC'){
+                return 'DESC';
+            }
+            if(prevState === 'DESC'){
+                return 'ASC';
+            }
+            return prevState;
+        });
+    }
 
 
 
@@ -95,7 +94,7 @@ export const SearchAdminPage = () => {
                         <Col md={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Listado de Administrodres</CardTitle>
+                                    <CardTitle className="h4">Listado de Administradores</CardTitle>
 
                                     <div className="table-responsive">
                                         <Table className="table mb-0">
@@ -129,20 +128,8 @@ export const SearchAdminPage = () => {
                                                 : <tr><td colSpan={6} className={'text-center'}>No hay administradores registrados </td></tr>
 
                                             }
-
                                             </tbody>
                                         </Table>
-
-
-
-
-
-
-
-
-
-
-
 
                                     </div>
                                 </CardBody>
@@ -150,94 +137,19 @@ export const SearchAdminPage = () => {
                         </Col>
                     </Row>
 
-
                     <Row>
                         <Col xl={12}>
-
-                            <p className="card-title-desc">Total: {total} | Viendo página {currentPage} de {pages} </p>
-                            
-                            {
-                                pages != 1 &&
-                                <nav aria-label="Page navigation example">
-                                    <ul className="pagination">
-
-
-                                        <li className="page-item"
-                                            onClick={handlePreviousPage}
-                                        >
-
-
-                                        <span className="page-link cursor-pointer" >
-                                            Previous
-                                        </span>
-                                        </li>
-
-                                        {
-                                            Array.from(Array(pages).keys()).map((cPage) =>{
-
-                                                if((cPage+1 == currentPage) ||
-                                                    (cPage+1) == currentPage+1 ||
-                                                    (cPage+1) == currentPage+2 ||
-                                                    (cPage+1) == currentPage-1 ||
-                                                    (cPage+1) == currentPage-2 ||
-                                                    (cPage+1) == 1 ||
-                                                    (cPage+1) == pages
-                                                ) {
-                                                    return (
-                                                        <li
-                                                            key={cPage+1}
-                                                            className={
-                                                                'page-item cursor-pointer'
-                                                                +
-                                                                ((cPage+1)===currentPage
-                                                                    ? " active"
-                                                                    : "")
-                                                            }
-                                                            onClick={()=>handleTargetPage(cPage+1)}
-                                                        >
-                                                            <span className="page-link" >
-                                                                {cPage+1}
-                                                            </span>
-                                                        </li>
-                                                    );
-                                                }
-
-                                                }
-                                            )
-                                        }
-                                        <li className="page-item cursor-pointer"
-                                            onClick={handleNextPage}
-                                        >
-                                        <span className="page-link">
-                                            Next
-                                        </span>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            }
-
-
-
-
+                            <TablePaginator
+                                total={total}
+                                currentPage={currentPage}
+                                pages={pages}
+                                handlePreviousPage={handlePreviousPage}
+                                handleNextPage={handleNextPage}
+                                handleTargetPage={handleTargetPage}
+                            />
                         </Col>
                     </Row>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    
                 </Container>
             </div>
 
