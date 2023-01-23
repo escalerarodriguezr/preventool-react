@@ -3,6 +3,9 @@ import {SyntheticEvent, useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, Input, Label, Row, Table} from "reactstrap";
 import {UseSearchAdminService} from "./hook/UseSearchAdminService";
 import {TablePaginator} from "../../shared/component/TablePaginator";
+import Switch from "react-switch"
+import { OffSymbol } from "../../shared/component/OffSymbol";
+import { OnSymbol } from "../../shared/component/OnSymbol";
 
 export const SearchAdminPage = () => {
     //Estados para gestionar el paginador y la ordenación
@@ -99,7 +102,11 @@ export const SearchAdminPage = () => {
     }
 
 
-    
+
+
+
+
+
     // @ts-ignore
     return(
         <>
@@ -162,6 +169,7 @@ export const SearchAdminPage = () => {
                                                 <th>Tipo</th>
                                                 <th>Rol</th>
                                                 <th><span className="cursor-pointer" onClick={handleOrderByCreatedAt}>Creado</span></th>
+                                                <th>Activo</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -178,6 +186,19 @@ export const SearchAdminPage = () => {
                                                                 <td>{admin.type}</td>
                                                                 <td>{admin.role}</td>
                                                                 <td>{new Date(admin.createdAt).toLocaleDateString()}</td>
+                                                                <td><Switch
+                                                                    uncheckedIcon={<OffSymbol />}
+                                                                    className="me-1 mb-sm-8 mb-2"
+                                                                    checkedIcon={<OnSymbol />}
+                                                                    onColor="#02a499"
+                                                                    onChange={(checked, event, id) =>{
+                                                                        if(checked = false){
+                                                                            console.log(checked)
+                                                                        }
+                                                                    }}
+                                                                    checked={admin.active}
+                                                                    disabled={true}
+                                                                /></td>
                                                             </tr>
                                                         )
                                                 )

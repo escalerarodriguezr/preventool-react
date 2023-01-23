@@ -29,6 +29,8 @@ export const UseSearchAdminService = () =>{
             setAdmins(data.items);
             appLoaded();
 
+            console.log(data.items);
+
 
         }catch (error){
             console.log(error);
