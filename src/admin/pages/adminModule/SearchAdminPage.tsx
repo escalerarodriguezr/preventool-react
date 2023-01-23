@@ -6,8 +6,12 @@ import {TablePaginator} from "../../shared/component/TablePaginator";
 import Switch from "react-switch"
 import { OffSymbol } from "../../shared/component/OffSymbol";
 import { OnSymbol } from "../../shared/component/OnSymbol";
+import {useNavigate} from "react-router-dom";
 
 export const SearchAdminPage = () => {
+
+    const navigate = useNavigate();
+
     //Estados para gestionar el paginador y la ordenación
     const [orderBy, setOrderBy] = useState('createdAt');
     const [orderByDirection, setOrderByDirection] = useState('DESC');
@@ -99,6 +103,10 @@ export const SearchAdminPage = () => {
         }
         filterQuery !== '&' ? setFilterQuery(filterQuery) : setFilterQuery('');
         setRequiredPage(1);
+    }
+
+    const handleNavigateEdit = (id:string) => {
+        navigate('/admin/administrador/'+id);
     }
 
 
@@ -201,6 +209,7 @@ export const SearchAdminPage = () => {
                                                                             type="button"
                                                                             className="btn btn-default"
                                                                             title="Editar elemento"
+                                                                            onClick={()=>handleNavigateEdit(admin.id)}
                                                                         >
                                                                             <i className="fas fa-edit"></i>
                                                                         </button>
