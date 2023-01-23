@@ -1,8 +1,5 @@
 import axios from 'axios';
 import {getEnv} from "../../utils/getEnv";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../store/store";
-
 
 const preventoolApi = axios.create({
     baseURL: getEnv().VITE_API_PREVENTOOL_URL
