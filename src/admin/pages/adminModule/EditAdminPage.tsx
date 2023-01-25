@@ -4,12 +4,17 @@ import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useEffect, useState} from "react";
 import {UseEditAdminService} from "./hook/editAdminService/UseEditAdminService";
 import {useFormik} from "formik";
-import {CreateAdminFormInterface} from "./interface/CreateAdminFormInterface";
 import * as Yup from "yup";
 import {MesseagesFormValidations} from "../../shared/utils/MesseagesFormValidations";
 import {AdminRoles} from "../../shared/model/Admin/AdminRoles";
 import Select from "react-select";
 import {useUiStore} from "../../../store/ui/useUiStore";
+import {AxiosError, AxiosResponse} from "axios";
+import preventoolApi from "../../../shared/api/preventool/preventoolApi";
+import {CreateSuccessResponse} from "../../shared/interface/CreateSuccessResponse";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../shared/utils/MessagesHttpResponse";
+import {EditAdminFormInterface} from "./interface/EditAdminFormInterface";
 
 
 
@@ -20,8 +25,6 @@ export const EditAdminPage = () => {
         { label: "Admin", value: AdminRoles.ADMIN }
     );
 
-
-
     const {getSessionAction} = useSessionStore();
 
     const {
@@ -30,7 +33,6 @@ export const EditAdminPage = () => {
     } = useUiStore();
 
     const {admin, getAdminByIdAction} = UseEditAdminService();
-
 
 
     useEffect(()=>{
@@ -76,10 +78,7 @@ export const EditAdminPage = () => {
     }
 
 
-
-
-
-    const editAdminForm = {
+    const editAdminForm: EditAdminFormInterface = {
         name: admin?.name ? admin.name : '',
         lastName: admin?.lastName ? admin.lastName : '',
         role: selectedRole.value,
@@ -90,8 +89,10 @@ export const EditAdminPage = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: editAdminForm,
-        onSubmit: async (values:any) => {
-           console.log(values);
+        onSubmit: async (values:EditAdminFormInterface) => {
+            appLoading();
+            await editAdminRequest(values);
+            appLoaded()
         },
 
         validationSchema: Yup.object({
@@ -107,11 +108,38 @@ export const EditAdminPage = () => {
         })
     });
 
+    const editAdminRequest = async (adminData:EditAdminFormInterface ) => {
+
+        try {
+            const response:AxiosResponse = await preventoolApi.put('/admin/'+id, adminData);
+            const data = response.data as CreateSuccessResponse;
+            toast.success(MessagesHttpResponse.SuccessEditResponse);
+            return true;
+
+        }catch (error){
+
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 409 &&
+                (data.class.includes('AdminAlreadyExistsException') || data.class.includes('UserAlreadyExistsException') ) )
+            {
+                toast.info(MessagesHttpResponse.AdminAlreadyExistsException);
+            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+
+            return false;
+        }
+
+    }
 
 
-
-    // @ts-ignore
-    // @ts-ignore
     return(
         <>
             <div className="page-content">
@@ -119,17 +147,15 @@ export const EditAdminPage = () => {
                     <Row className="justify-content-start text-start">
                         <Col xl={4}>
                             <div className="mb-4">
-                                <h2>Editar Administrador {id}</h2>
+                                <h2>Editar Administrador</h2>
                             </div>
                         </Col>
                     </Row>
-
-
                     <Row >
                         <Col lg={6}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="mb-4">Datos del Admin</CardTitle>
+                                    <CardTitle className="mb-4">Datos generales</CardTitle>
 
                                     <Form
                                         onSubmit={formik.handleSubmit}
@@ -215,36 +241,21 @@ export const EditAdminPage = () => {
                                                     </div>
                                                 </div>
 
-
-
-                                                <Row className="justify-content-end mt-2">
-
-                                                        <button type="submit" className="btn btn-primary col-1">
-                                                            Editar
-                                                        </button>
-
-                                                    
-                                                </Row>
-
-
-
-
                                             </Col>
-
 
                                         </Row>
 
+                                        <Row className="justify-content-end mt-2">
+                                            <button type="submit" className="btn btn-primary col-2">
+                                                Editar
+                                            </button>
+                                        </Row>
                                     </Form>
                                 </CardBody>
                             </Card>
                         </Col>
                     </Row>
-
-
-
-
-
-
+                    
                 </Container>
             </div>
         </>
