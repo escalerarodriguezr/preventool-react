@@ -3,6 +3,8 @@ export const MessagesHttpResponse = {
     ActionNotAllowedException :'Permisos insuficientes.',
     AccessDeniedException : 'Acceso denegado.',
     InternalError : 'Servicio no disponible.',
-    SuccessCreatedResponse: 'Registro completado.'
+    SuccessCreatedResponse: 'Registro completado.',
+    SuccessEditResponse: 'Editado con éxito.',
+    AdminNotFoundException :'El administrador no existe en el sistema.',
 
 }
