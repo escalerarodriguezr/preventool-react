@@ -1,6 +1,10 @@
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {SyntheticEvent, useEffect, useState} from "react";
-import {Card, CardBody, CardTitle, Col, Container, Input, Label, Row, Table} from "reactstrap";
+import {Card, CardBody, CardTitle, Col, Container, FormGroup, Input, InputGroup, Label, Row, Table} from "reactstrap";
+// @ts-ignore
+import "flatpickr/dist/themes/material_blue.css"
+// @ts-ignore
+import Flatpickr from "react-flatpickr"
 import {UseSearchAdminService} from "./hook/searchAdminService/UseSearchAdminService";
 import {TablePaginator} from "../../shared/component/TablePaginator";
 import Switch from "react-switch"
@@ -25,6 +29,8 @@ export const SearchAdminPage = () => {
 
     //filtros
     const [filterByEmail, setFilterByEmail] = useState('');
+    const [filterByCreatedAtFrom, setFilterByCreatedAtFrom] = useState('');
+    const [filterByCreatedAtTo, setFilterByCreatedAtTo] = useState('');
     const [filterQuery, setFilterQuery] = useState('');
 
 
@@ -95,12 +101,31 @@ export const SearchAdminPage = () => {
         setFilterByEmail(value);
     }
 
+    const handleFilterByCreatedAtFrom = (data:Date) => {
+        const date = new Date(data);
+        date.setDate(date.getDate() - 1);
+        setFilterByCreatedAtFrom(date.toISOString());
+    }
+
+    const handleFilterByCreatedAtTo = (data:Date) => {
+        const date = new Date(data);
+        date.setDate(date.getDate() + 1);
+        setFilterByCreatedAtTo( date.toISOString() );
+    }
+
     const handleFilterAction = (event:SyntheticEvent) => {
 
         let filterQuery:string = '&';
         if(filterByEmail.length > 0) {
             filterQuery += 'filterByEmail='+filterByEmail
         }
+        if(filterByCreatedAtFrom.length > 0) {
+            filterQuery += '&filterByCreatedAtFrom='+filterByCreatedAtFrom
+        }
+        if(filterByCreatedAtTo.length > 0) {
+            filterQuery += '&filterByCreatedAtTo='+filterByCreatedAtTo
+        }
+
         filterQuery !== '&' ? setFilterQuery(filterQuery) : setFilterQuery('');
         setRequiredPage(1);
     }
@@ -108,9 +133,7 @@ export const SearchAdminPage = () => {
     const handleNavigateEdit = (id:string) => {
         navigate('/admin/administrador/'+id);
     }
-
-
-
+    
     // @ts-ignore
     return(
         <>
@@ -139,6 +162,39 @@ export const SearchAdminPage = () => {
                                                 name="filterByEmail"
                                                 onChange={handleFilterByEmail}
                                             />
+                                        </div>
+
+                                        <div className="col-sm-auto">
+
+                                            <Label className="">Fecha de creación:</Label>
+                                            <Flatpickr
+                                                className="form-control d-block"
+                                                placeholder = "Desde"
+                                                options={{
+                                                    altInput: true,
+                                                    altFormat: "Y-m-d",
+                                                    dateFormat: "Y-m-d"
+                                                }}
+                                                onChange={handleFilterByCreatedAtFrom}
+                                            />
+                                        </div>
+
+                                        <div className="col-sm-auto">
+
+                                            <Label className="">Fecha de creación</Label>
+
+
+                                            <Flatpickr
+                                                className="form-control d-block"
+                                                placeholder = "Hasta"
+                                                options={{
+                                                    altInput: true,
+                                                    altFormat: "Y-m-d",
+                                                    dateFormat: "Y-m-d"
+                                                }}
+                                                onChange={handleFilterByCreatedAtTo}
+                                            />
+
                                         </div>
 
                                     </div>
