@@ -39,7 +39,7 @@ export const EditAdminPage = () => {
                                 <CardBody>
                                     <CardTitle className="h4">Perfil de usuario</CardTitle>
                                     <p className="card-title-desc">
-                                        Aquí puedes  editar los datos de tu usuarios Administrador
+                                        Editar usuarios administradores
                                     </p>
 
                                     <Nav tabs>
@@ -78,7 +78,11 @@ export const EditAdminPage = () => {
                                         <TabPane tabId="1">
                                             <Row>
                                                 <Col sm="12">
-                                                    {activeTab == '1' && <EditAdminGeneralData id={id} sessionState={sessionState}/>}
+                                                    {activeTab == '1' && <EditAdminGeneralData
+                                                        id={id}
+                                                        sessionState={sessionState}
+                                                        fromProfile={false}
+                                                    />}
                                                 </Col>
                                             </Row>
                                         </TabPane>
