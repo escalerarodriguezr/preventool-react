@@ -18,17 +18,12 @@ import {useEffect, useState} from "react";
 import {EditAdminGeneralData} from "./component/EditAdminGeneralData";
 import {useParams} from "react-router-dom";
 import {useSessionStore} from "../../../store/session/useSessionStore";
-import {useUiStore} from "../../../store/ui/useUiStore";
+
 
 export const ProfileAdminPage = () => {
 
     const {id} = useParams();
     const [activeTab, setActiveTab] = useState("1");
-
-    const {
-        appLoading,
-        appLoaded
-    } = useUiStore();
 
     const {getSessionAction, sessionState} = useSessionStore();
 
@@ -37,12 +32,9 @@ export const ProfileAdminPage = () => {
     },[]);
 
 
-
     return(
-
         <div className="page-content">
             <Container fluid>
-
                 <Row>
                     <Col lg={12}>
                         <Card>
@@ -88,7 +80,7 @@ export const ProfileAdminPage = () => {
                                     <TabPane tabId="1">
                                         <Row>
                                             <Col sm="12">
-                                                <EditAdminGeneralData id={id} sessionState={sessionState}/>
+                                                {activeTab == '1' && <EditAdminGeneralData id={id} sessionState={sessionState}/>}
                                             </Col>
                                         </Row>
                                     </TabPane>
@@ -106,10 +98,6 @@ export const ProfileAdminPage = () => {
                         </Card>
                     </Col>
                 </Row>
-
-
-
-
             </Container>
         </div>
 

@@ -1,261 +1,102 @@
-import {Card, CardBody, CardTitle, Col, Container, Form, Input, Label, Row} from "reactstrap";
+import {
+    Card,
+    CardBody, CardText,
+    CardTitle,
+    Col,
+    Container,
+    Nav,
+    NavItem,
+    NavLink,
+    Row,
+    TabContent, TabPane
+} from "reactstrap";
 import {useParams} from "react-router-dom";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useEffect, useState} from "react";
-import {UseEditAdminService} from "./hook/editAdminService/UseEditAdminService";
-import {useFormik} from "formik";
-import * as Yup from "yup";
-import {MesseagesFormValidations} from "../../shared/utils/MesseagesFormValidations";
-import {AdminRoles} from "../../shared/model/Admin/AdminRoles";
-import Select from "react-select";
-import {useUiStore} from "../../../store/ui/useUiStore";
-import {AxiosError, AxiosResponse} from "axios";
-import preventoolApi from "../../../shared/api/preventool/preventoolApi";
-import {CreateSuccessResponse} from "../../shared/interface/CreateSuccessResponse";
-import {toast} from "react-toastify";
-import {MessagesHttpResponse} from "../../shared/utils/MessagesHttpResponse";
-import {EditAdminFormInterface} from "./interface/EditAdminFormInterface";
-
+import classnames from "classnames";
+import {EditAdminGeneralData} from "./component/EditAdminGeneralData";
 
 
 export const EditAdminPage = () => {
 
     const {id} = useParams();
-    const [selectedRole, setSelectedRole] = useState<any>(
-        { label: "Admin", value: AdminRoles.ADMIN }
-    );
+    const [activeTab, setActiveTab] = useState("1");
 
-    const {getSessionAction} = useSessionStore();
-
-    const {
-        appLoading,
-        appLoaded
-    } = useUiStore();
-
-    const {admin, getAdminByIdAction} = UseEditAdminService();
-
+    const {getSessionAction, sessionState} = useSessionStore();
 
     useEffect(()=>{
-        appLoading()
         getSessionAction();
     },[]);
-
-    useEffect(()=>{
-        if(id){
-            getAdminByIdAction(id).then(()=>appLoaded());
-        }
-    },[])
-
-
-    useEffect(()=>{
-        if(admin){
-            if(admin.role == AdminRoles.ADMIN){
-                setSelectedRole({ label: "Administrador", value: AdminRoles.ADMIN })
-            }
-            if(admin.role == AdminRoles.ROOT){
-                setSelectedRole({ label: "Root", value: AdminRoles.ROOT })
-            }
-        }
-
-    },[admin]);
-
-
-    const roleOptionGroup = [
-        {
-            label: "Roles",
-            options: [
-                { label: "Root", value: AdminRoles.ROOT },
-                { label: "Administrador", value: AdminRoles.ADMIN }
-            ]
-        },
-
-    ];
-
-    const handleSelectRoleGroup = (selectedGroup: any) => {
-        setSelectedRole(selectedGroup);
-        formik.setFieldValue('role', selectedGroup.value);
-        formik.setFieldTouched('role');
-    }
-
-
-    const editAdminForm: EditAdminFormInterface = {
-        name: admin?.name ? admin.name : '',
-        lastName: admin?.lastName ? admin.lastName : '',
-        role: selectedRole.value,
-        email: admin?.email ? admin.email : '',
-    }
-
-
-    const formik = useFormik({
-        enableReinitialize: true,
-        initialValues: editAdminForm,
-        onSubmit: async (values:EditAdminFormInterface) => {
-            appLoading();
-            await editAdminRequest(values);
-            appLoaded()
-        },
-
-        validationSchema: Yup.object({
-            name: Yup.string()
-                .required(MesseagesFormValidations.Required),
-            lastName: Yup.string()
-                .required(MesseagesFormValidations.Required),
-            role: Yup.string()
-                .required(MesseagesFormValidations.Required).oneOf([AdminRoles.ROOT, AdminRoles.ADMIN], MesseagesFormValidations.InvalidValue),
-            email: Yup.string()
-                .email(MesseagesFormValidations.Email)
-                .required(MesseagesFormValidations.Required),
-        })
-    });
-
-    const editAdminRequest = async (adminData:EditAdminFormInterface ) => {
-
-        try {
-            const response:AxiosResponse = await preventoolApi.put('/admin/'+id, adminData);
-            const data = response.data as CreateSuccessResponse;
-            toast.success(MessagesHttpResponse.SuccessEditResponse);
-            return true;
-
-        }catch (error){
-
-            const axiosError = error as AxiosError;
-            const {status, data} = axiosError.response as AxiosResponse ;
-
-            if( status === 409 &&
-                (data.class.includes('AdminAlreadyExistsException') || data.class.includes('UserAlreadyExistsException') ) )
-            {
-                toast.info(MessagesHttpResponse.AdminAlreadyExistsException);
-            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
-                toast.info(MessagesHttpResponse.ActionNotAllowedException);
-            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
-                toast.info(MessagesHttpResponse.AccessDeniedException);
-
-            }else{
-                toast.error(MessagesHttpResponse.InternalError);
-            }
-
-            return false;
-        }
-
-    }
 
 
     return(
         <>
             <div className="page-content">
                 <Container fluid>
-                    <Row className="justify-content-start text-start">
-                        <Col xl={4}>
-                            <div className="mb-4">
-                                <h2>Editar Administrador</h2>
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row >
-                        <Col lg={6}>
+                    <Row>
+                        <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="mb-4">Datos generales</CardTitle>
+                                    <CardTitle className="h4">Perfil de usuario</CardTitle>
+                                    <p className="card-title-desc">
+                                        Aquí puedes  editar los datos de tu usuarios Administrador
+                                    </p>
 
-                                    <Form
-                                        onSubmit={formik.handleSubmit}
+                                    <Nav tabs>
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "1",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("1");
+                                                }}
+                                            >
+                                                Datos generales
+                                            </NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "2",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("2");
+                                                }}
+                                            >
+                                                Credenciales
+                                            </NavLink>
+                                        </NavItem>
+                                    </Nav>
+
+                                    <TabContent
+                                        activeTab={activeTab}
+                                        className="p-3 text-muted"
                                     >
-                                        <Row>
-                                            <Col lg={12}>
-                                                <div className="mb-3">
-                                                    <Label htmlFor="name">Nombre</Label>
-                                                    <Input
-                                                        type="text"
-                                                        id="name"
-                                                        value={formik.values.name}
-                                                        onChange={formik.handleChange}
-                                                        onBlur={ formik.handleBlur }
-                                                        className={
-                                                            "form-control" +
-                                                            (formik.errors.name && formik.touched.name
-                                                                ? " is-invalid"
-                                                                : "")
-                                                        }
-                                                    />
-                                                    <div className="invalid-feedback">
-                                                        {formik.errors.name}
-                                                    </div>
-                                                </div>
-
-                                                <div className="mb-3">
-                                                    <Label htmlFor="lastName">Apéllidos</Label>
-                                                    <Input
-                                                        type="text"
-                                                        id="lastName"
-                                                        value={formik.values.lastName}
-                                                        onChange={formik.handleChange}
-                                                        onBlur={ formik.handleBlur }
-                                                        className={
-                                                            "form-control" +
-                                                            (formik.errors.lastName && formik.touched.lastName
-                                                                ? " is-invalid"
-                                                                : "")
-                                                        }
-                                                    />
-                                                    <div className="invalid-feedback">
-                                                        {formik.errors.lastName}
-                                                    </div>
-                                                </div>
-
-                                                <div className="mb-3 select2-container">
-                                                    <Label>Rol</Label>
-                                                    <Select
-                                                        value={selectedRole}
-                                                        onChange={handleSelectRoleGroup}
-                                                        options={roleOptionGroup}
-                                                        className={
-                                                            "select2-selection" +
-                                                            (formik.errors.role && formik.touched.role
-                                                                ? " is-invalid"
-                                                                : "")
-                                                        }
-                                                    />
-                                                    <div className="invalid-feedback">
-                                                        {formik.errors.role}
-                                                    </div>
-                                                </div>
-
-                                                <div className="mb-3">
-                                                    <Label htmlFor="email">Email</Label>
-                                                    <Input
-                                                        type="email"
-                                                        id="email"
-                                                        placeholder="Email"
-                                                        value={formik.values.email}
-                                                        onChange={formik.handleChange}
-                                                        onBlur={ formik.handleBlur }
-                                                        className={
-                                                            "form-control" +
-                                                            (formik.errors.email && formik.touched.email
-                                                                ? " is-invalid"
-                                                                : "")
-                                                        }
-                                                    />
-                                                    <div className="invalid-feedback">
-                                                        {formik.errors.email}
-                                                    </div>
-                                                </div>
-
-                                            </Col>
-
-                                        </Row>
-
-                                        <Row className="justify-content-end mt-2">
-                                            <button type="submit" className="btn btn-primary col-2">
-                                                Editar
-                                            </button>
-                                        </Row>
-                                    </Form>
+                                        <TabPane tabId="1">
+                                            <Row>
+                                                <Col sm="12">
+                                                    {activeTab == '1' && <EditAdminGeneralData id={id} sessionState={sessionState}/>}
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
+                                        <TabPane tabId="2">
+                                            <Row>
+                                                <Col sm="12">
+                                                    <CardText className="mb-0">
+                                                        Editar contraseña pendiente de implementar...
+                                                    </CardText>
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
+                                    </TabContent>
                                 </CardBody>
                             </Card>
                         </Col>
                     </Row>
-                    
+
                 </Container>
             </div>
         </>

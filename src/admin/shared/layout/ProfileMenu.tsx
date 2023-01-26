@@ -45,7 +45,11 @@ export const ProfileMenu = () => {
 
                 </DropdownToggle>
                 <DropdownMenu className="dropdown-menu-end">
-                    <DropdownItem tag="b" onClick={onProfile}>
+                    <DropdownItem
+                        tag="b"
+                        onClick={onProfile}
+                        className="cursor-pointer"
+                    >
                         <i className="bx bx-user font-size-16 align-middle ms-1" />
                         {"Profile"}
                     </DropdownItem>
