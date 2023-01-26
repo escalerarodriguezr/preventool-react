@@ -3,6 +3,7 @@ import {CreateAdminPage, DashboardPage} from "../pages";
 import {AdminLayout} from "../shared";
 import {SearchAdminPage} from "../pages/adminModule/SearchAdminPage";
 import {EditAdminPage} from "../pages/adminModule/EditAdminPage";
+import {ProfileAdminPage} from "../pages/adminModule/ProfileAdminPage";
 
 export const AdminRouter = () => {
 
@@ -13,6 +14,7 @@ export const AdminRouter = () => {
                 <Route path="createAdmin" element={<CreateAdminPage />} />
                 <Route path="administradores" element={<SearchAdminPage />} />
                 <Route path="administrador/:id" element={<EditAdminPage />} />
+                <Route path="perfil/:id" element={<ProfileAdminPage />} />
                 <Route path="*" element={<DashboardPage />} />
             </Route>
         </Routes>
