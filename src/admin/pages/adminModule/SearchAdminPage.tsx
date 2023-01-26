@@ -25,7 +25,7 @@ export const SearchAdminPage = () => {
     const pageSize:number = 5;
 
     //Servicio de session y admins
-    const {getSessionAction} = useSessionStore();
+    const {getSessionAction, sessionState} = useSessionStore();
     const {admins,total, currentPage, pages, searchAdminAction} = UseSearchAdminService();
 
     //filtros
@@ -264,14 +264,20 @@ export const SearchAdminPage = () => {
                                                                 /></td>
                                                                 <td>
                                                                     <div className="btn-group" >
-                                                                        <button
-                                                                            type="button"
-                                                                            className="btn btn-default"
-                                                                            title="Editar elemento"
-                                                                            onClick={()=>handleNavigateEdit(admin.id)}
-                                                                        >
-                                                                            <i className="fas fa-edit"></i>
-                                                                        </button>
+
+                                                                        {sessionState.actionAdmin?.id != admin.id &&
+                                                                            (
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-default"
+                                                                                    title="Editar elemento"
+                                                                                    onClick={()=>handleNavigateEdit(admin.id)}
+                                                                                >
+                                                                                    <i className="fas fa-edit"></i>
+                                                                                </button>
+                                                                            )
+                                                                        }
+
 
                                                                     </div>
                                                                 </td>
