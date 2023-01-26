@@ -2,9 +2,10 @@ import {useSessionStore} from "../../../store/session/useSessionStore";
 import {SyntheticEvent, useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, FormGroup, Input, InputGroup, Label, Row, Table} from "reactstrap";
 // @ts-ignore
-import "flatpickr/dist/themes/material_blue.css"
+import "flatpickr/dist/themes/material_blue.css";
 // @ts-ignore
-import Flatpickr from "react-flatpickr"
+import Flatpickr from "react-flatpickr";
+import { Spanish } from 'flatpickr/dist/l10n/es.js';
 import {UseSearchAdminService} from "./hook/searchAdminService/UseSearchAdminService";
 import {TablePaginator} from "../../shared/component/TablePaginator";
 import Switch from "react-switch"
@@ -133,7 +134,7 @@ export const SearchAdminPage = () => {
     const handleNavigateEdit = (id:string) => {
         navigate('/admin/administrador/'+id);
     }
-    
+
     // @ts-ignore
     return(
         <>
@@ -171,8 +172,9 @@ export const SearchAdminPage = () => {
                                                 className="form-control d-block"
                                                 placeholder = "Desde"
                                                 options={{
+                                                    locale: Spanish,
                                                     altInput: true,
-                                                    altFormat: "Y-m-d",
+                                                    altFormat: "d-m-Y",
                                                     dateFormat: "Y-m-d"
                                                 }}
                                                 onChange={handleFilterByCreatedAtFrom}
@@ -188,8 +190,9 @@ export const SearchAdminPage = () => {
                                                 className="form-control d-block"
                                                 placeholder = "Hasta"
                                                 options={{
+                                                    locale: Spanish,
                                                     altInput: true,
-                                                    altFormat: "Y-m-d",
+                                                    altFormat: "d-m-Y",
                                                     dateFormat: "Y-m-d"
                                                 }}
                                                 onChange={handleFilterByCreatedAtTo}
