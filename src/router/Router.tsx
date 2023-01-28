@@ -29,6 +29,12 @@ export const Router = () => {
                         <AdminRouter/>
                     </PrivateRouter>
                 } />
+
+                <Route path="/*" element={
+                    <PublicRouter>
+                        <AuthRouter/>
+                    </PublicRouter>
+                } />
             </Routes>
         </>
 
