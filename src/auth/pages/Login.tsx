@@ -42,7 +42,7 @@ export const Login = () => {
                 const sessionSuccess:boolean = await getSessionAction();
                 if(loginSuccess && sessionSuccess){
                     appLoaded();
-                    redirect('/admin/dashboard');
+                    redirect('/');
                     // window.location.reload();
                 }
             }
