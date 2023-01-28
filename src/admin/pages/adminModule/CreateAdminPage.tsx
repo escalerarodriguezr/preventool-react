@@ -163,7 +163,7 @@ export const CreateAdminPage = () => {
                                         </div>
 
                                         <div className="mb-3 w-50">
-                                            <Label htmlFor="lastName">Apéllidos</Label>
+                                            <Label htmlFor="lastName">Apellidos</Label>
                                             <Input
                                                 type="text"
                                                 id="lastName"
@@ -269,7 +269,7 @@ export const CreateAdminPage = () => {
 
                                         <div>
                                             <button type="submit" className="btn btn-primary w-md">
-                                                Submit
+                                                Registrar
                                             </button>
                                         </div>
                                     </Form>

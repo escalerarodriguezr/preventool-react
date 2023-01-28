@@ -13,16 +13,16 @@ export const Header = () => {
             <header id="page-topbar">
                 <div className="navbar-header">
                     <div className="d-flex">
-                        <NavBarBrand/>
+                        {/*<NavBarBrand/>*/}
                         <ToggleSideBarButton/>
-                        <SearchForm/>
-                        <MegaMenu/>
+                        {/*<SearchForm/>*/}
+                        {/*<MegaMenu/>*/}
                     </div>
 
                     <div className="d-flex">
-                        <SocialMenu/>
+                        {/*<SocialMenu/>*/}
                         <ButtonFullScreen/>
-                        <NotificationDropdown />
+                        {/*<NotificationDropdown />*/}
                         <ProfileMenu />
                     </div>
                 </div>

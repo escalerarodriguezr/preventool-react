@@ -51,25 +51,25 @@ export const ProfileMenu = () => {
                         className="cursor-pointer"
                     >
                         <i className="bx bx-user font-size-16 align-middle ms-1" />
-                        {"Profile"}
+                        {"Perfil"}
                     </DropdownItem>
-                    <DropdownItem tag="a" href="#">
-                        <i className="bx bx-wallet font-size-16 align-middle me-1" />
-                        {"My Wallet"}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="#">
-                        <span className="badge bg-success float-end">11</span>
-                        <i className="bx bx-wrench font-size-17 align-middle me-1" />
-                        {"Settings"}
-                    </DropdownItem>
-                    <DropdownItem tag="a" href="#">
-                        <i className="bx bx-lock-open font-size-16 align-middle me-1" />
-                        {"Lock screen"}
-                    </DropdownItem>
-                    <Link to="/logout" className="dropdown-item">
-                        <i className="bx bx-lock-open font-size-16 align-middle me-1" />
-                        <span>{"Logout"}</span>
-                    </Link>
+                    {/*<DropdownItem tag="a" href="#">*/}
+                    {/*    <i className="bx bx-wallet font-size-16 align-middle me-1" />*/}
+                    {/*    {"My Wallet"}*/}
+                    {/*</DropdownItem>*/}
+                    {/*<DropdownItem tag="a" href="#">*/}
+                    {/*    <span className="badge bg-success float-end">11</span>*/}
+                    {/*    <i className="bx bx-wrench font-size-17 align-middle me-1" />*/}
+                    {/*    {"Settings"}*/}
+                    {/*</DropdownItem>*/}
+                    {/*<DropdownItem tag="a" href="#">*/}
+                    {/*    <i className="bx bx-lock-open font-size-16 align-middle me-1" />*/}
+                    {/*    {"Lock screen"}*/}
+                    {/*</DropdownItem>*/}
+                    {/*<Link to="/logout" className="dropdown-item">*/}
+                    {/*    <i className="bx bx-lock-open font-size-16 align-middle me-1" />*/}
+                    {/*    <span>{"Logout"}</span>*/}
+                    {/*</Link>*/}
                     <div className="dropdown-divider" />
                     <button
                         className="dropdown-item"

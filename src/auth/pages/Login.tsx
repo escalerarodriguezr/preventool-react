@@ -1,7 +1,6 @@
-import {Link, Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
 import * as Yup from 'yup';
-
 // import images
 // @ts-ignore
 import profile from "../../assets/images/profile-img.png";
@@ -12,6 +11,7 @@ import {useAuthStore} from "../../store/auth/useAuthStore";
 import {useUiStore} from "../../store/ui/useUiStore";
 import {LoginForm} from "../interface/LoginFormInterface";
 import {useSessionStore} from "../../store/session/useSessionStore";
+import {MesseagesFormValidations} from "../../admin/shared/utils/MesseagesFormValidations";
 
 
 export const Login = () => {
@@ -27,7 +27,6 @@ export const Login = () => {
     } = useUiStore();
 
     const {getSessionAction} = useSessionStore()
-    const navigate = useNavigate();
 
     const loginInitialForm:LoginForm ={
         email: '',
@@ -44,26 +43,22 @@ export const Login = () => {
                 if(loginSuccess && sessionSuccess){
                     appLoaded();
                     // navigate('/admin/dashboard');
-                    //
-                    // window.location.href = 'http://localhost:5173/admin/dashboard'
                     window.location.reload();
                 }
             }
             appLoaded();
-
         },
 
         validationSchema: Yup.object({
             password: Yup.string()
-                .required('Requerido'),
+                .required(MesseagesFormValidations.Required),
             email: Yup.string()
-                .email('El correo no tiene un formato válido')
-                .required('Requerido'),
+                .required(MesseagesFormValidations.Required)
+                .email(MesseagesFormValidations.Email),
         })
     });
 
     const {handleChange,values,handleSubmit, touched, errors, handleBlur} = formik;
-
 
     return(
         <>
@@ -77,8 +72,8 @@ export const Login = () => {
                                     <Row>
                                         <Col className="col-7">
                                             <div className="text-primary p-4">
-                                                <h5 className="text-primary">Welcome Back !</h5>
-                                                <p>Sign in to continue to Preventool.</p>
+                                                <h5 className="text-primary">PREVENTOOL</h5>
+                                                <p>Introduce tus credenciales para iniciar sesión</p>
                                             </div>
                                         </Col>
                                         <Col className="col-5 align-self-end">
@@ -87,27 +82,25 @@ export const Login = () => {
                                     </Row>
                                 </div>
                                 <CardBody className="pt-0">
-                                    <div className="auth-logo">
-                                            <div className="avatar-md profile-user-wid mb-4">
-                                                <span className="avatar-title rounded-circle bg-light">
-                                                    <img
-                                                        src={logo}
-                                                        alt=""
-                                                        className="rounded-circle"
-                                                        height="34"
-                                                    />
-                                                </span>
-                                            </div>
-                                    </div>
+                                    {/*<div className="auth-logo">*/}
+                                    {/*        <div className="avatar-md profile-user-wid mb-4">*/}
+                                    {/*            <span className="avatar-title rounded-circle bg-light">*/}
+                                    {/*                <img*/}
+                                    {/*                    src={logo}*/}
+                                    {/*                    alt=""*/}
+                                    {/*                    className="rounded-circle"*/}
+                                    {/*                    height="34"*/}
+                                    {/*                />*/}
+                                    {/*            </span>*/}
+                                    {/*        </div>*/}
+                                    {/*</div>*/}
 
                                     <div className="p-2">
-
                                         <form
                                             noValidate
                                             className="form-horizontal"
                                             onSubmit={handleSubmit}
                                         >
-
                                             <div className="mb-3">
                                                 <label htmlFor="email" className="form-label">
                                                     Email
@@ -127,7 +120,7 @@ export const Login = () => {
                                                     }
                                                 />
                                                 <div className="invalid-feedback">
-                                                    Email invalido..
+                                                    {errors.email}
                                                 </div>
 
                                                 <div className="mb-3 mt-2">
@@ -167,7 +160,7 @@ export const Login = () => {
                                                         className="btn btn-primary btn-block"
                                                         type="submit"
                                                     >
-                                                        Log In
+                                                        Iniciar
                                                     </button>
                                                 </div>
                                             </div>

@@ -17,9 +17,10 @@ import Select from "react-select";
 
 interface EditAdminGeneralDataProps{
     id:string|undefined,
-    sessionState:SessionState|undefined
+    sessionState:SessionState|undefined,
+    fromProfile:boolean
 }
-export const EditAdminGeneralData = ({id, sessionState}:EditAdminGeneralDataProps) => {
+export const EditAdminGeneralData = ({id, sessionState, fromProfile}:EditAdminGeneralDataProps) => {
 
     const [selectedRole, setSelectedRole] = useState<any>(
         { label: "Admin", value: AdminRoles.ADMIN }
@@ -169,7 +170,7 @@ export const EditAdminGeneralData = ({id, sessionState}:EditAdminGeneralDataProp
                                                 </div>
 
                                                 <div className="mb-3">
-                                                    <Label htmlFor="lastName">Apéllidos</Label>
+                                                    <Label htmlFor="lastName">Apellidos</Label>
                                                     <Input
                                                         type="text"
                                                         id="lastName"
@@ -200,6 +201,7 @@ export const EditAdminGeneralData = ({id, sessionState}:EditAdminGeneralDataProp
                                                                 ? " is-invalid"
                                                                 : "")
                                                         }
+                                                       isDisabled={fromProfile}
                                                     />
                                                     <div className="invalid-feedback">
                                                         {formik.errors.role}

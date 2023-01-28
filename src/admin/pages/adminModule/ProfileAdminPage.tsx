@@ -41,7 +41,7 @@ export const ProfileAdminPage = () => {
                             <CardBody>
                                 <CardTitle className="h4">Perfil de usuario</CardTitle>
                                 <p className="card-title-desc">
-                                    Aquí puedes  editar los datos de tu usuarios Administrador
+                                    Editar datos
                                 </p>
 
                                 <Nav tabs>
@@ -58,19 +58,19 @@ export const ProfileAdminPage = () => {
                                             Datos generales
                                         </NavLink>
                                     </NavItem>
-                                    <NavItem>
-                                        <NavLink
-                                            style={{ cursor: "pointer" }}
-                                            className={classnames({
-                                                active: activeTab === "2",
-                                            })}
-                                            onClick={() => {
-                                                setActiveTab("2");
-                                            }}
-                                        >
-                                            Credenciales
-                                        </NavLink>
-                                    </NavItem>
+                                    {/*<NavItem>*/}
+                                    {/*    <NavLink*/}
+                                    {/*        style={{ cursor: "pointer" }}*/}
+                                    {/*        className={classnames({*/}
+                                    {/*            active: activeTab === "2",*/}
+                                    {/*        })}*/}
+                                    {/*        onClick={() => {*/}
+                                    {/*            setActiveTab("2");*/}
+                                    {/*        }}*/}
+                                    {/*    >*/}
+                                    {/*        Credenciales*/}
+                                    {/*    </NavLink>*/}
+                                    {/*</NavItem>*/}
                                 </Nav>
 
                                 <TabContent
@@ -80,19 +80,24 @@ export const ProfileAdminPage = () => {
                                     <TabPane tabId="1">
                                         <Row>
                                             <Col sm="12">
-                                                {activeTab == '1' && <EditAdminGeneralData id={id} sessionState={sessionState}/>}
+                                                {activeTab == '1' && <EditAdminGeneralData
+                                                    id={id}
+                                                    sessionState={sessionState}
+                                                    fromProfile={true}
+                                                    />
+                                                }
                                             </Col>
                                         </Row>
                                     </TabPane>
-                                    <TabPane tabId="2">
-                                        <Row>
-                                            <Col sm="12">
-                                                <CardText className="mb-0">
-                                                    Editar contraseña pendiente de implementar...
-                                                </CardText>
-                                            </Col>
-                                        </Row>
-                                    </TabPane>
+                                    {/*<TabPane tabId="2">*/}
+                                    {/*    <Row>*/}
+                                    {/*        <Col sm="12">*/}
+                                    {/*            <CardText className="mb-0">*/}
+                                    {/*                Editar contraseña pendiente de implementar...*/}
+                                    {/*            </CardText>*/}
+                                    {/*        </Col>*/}
+                                    {/*    </Row>*/}
+                                    {/*</TabPane>*/}
                                 </TabContent>
                             </CardBody>
                         </Card>
