@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import {redirect, useNavigate} from "react-router-dom";
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
 import * as Yup from 'yup';
 // import images
@@ -42,8 +42,8 @@ export const Login = () => {
                 const sessionSuccess:boolean = await getSessionAction();
                 if(loginSuccess && sessionSuccess){
                     appLoaded();
-                    // navigate('/admin/dashboard');
-                    window.location.reload();
+                    redirect('/admin/dashboard');
+                    // window.location.reload();
                 }
             }
             appLoaded();
