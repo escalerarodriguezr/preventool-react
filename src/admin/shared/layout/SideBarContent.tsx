@@ -20,7 +20,7 @@ export const SideBarContent = () => {
         })
 
 
-    },[])
+    });
 
     const {sessionState} = useSessionStore();
 
