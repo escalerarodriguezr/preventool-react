@@ -1,6 +1,6 @@
 import SimpleBar from "simplebar-react"
 import {Link, NavLink} from "react-router-dom";
-import {useEffect, useRef} from "react";
+import {useEffect, useLayoutEffect, useRef} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {AdminRoles} from "../model/Admin/AdminRoles";
 
@@ -8,7 +8,7 @@ export const SideBarContent = () => {
 
     const simpleBar = useRef<any>(undefined);
 
-    useEffect(()=>{
+    useLayoutEffect(()=>{
         const sideUlMenu:HTMLUListElement = simpleBar.current
         const items = sideUlMenu.getElementsByTagName("a");
         const arrows:HTMLAnchorElement[] = Array.from(items).filter(item => item.classList.contains('has-arrow'));
