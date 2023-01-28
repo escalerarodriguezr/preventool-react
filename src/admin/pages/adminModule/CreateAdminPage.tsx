@@ -112,7 +112,8 @@ export const CreateAdminPage = () => {
             password: Yup.string()
                 .required(MesseagesFormValidations.Required),
             password2: Yup.string()
-                .oneOf([Yup.ref('password'), null], MesseagesFormValidations.NotMatchConfirmPassword),
+                .required(MesseagesFormValidations.Required)
+                .oneOf([Yup.ref('password'),null], MesseagesFormValidations.NotMatchConfirmPassword),
             email: Yup.string()
                 .email(MesseagesFormValidations.Email)
                 .required(MesseagesFormValidations.Required),
