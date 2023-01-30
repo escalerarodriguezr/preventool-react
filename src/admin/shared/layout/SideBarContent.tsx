@@ -1,22 +1,35 @@
 import SimpleBar from "simplebar-react"
 import {Link, NavLink} from "react-router-dom";
-import {useEffect, useLayoutEffect, useRef} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {AdminRoles} from "../model/Admin/AdminRoles";
 
 export const SideBarContent = () => {
 
     const simpleBar = useRef<any>(undefined);
+    const [displayAdmin, setDisplayAdmin] = useState(false);
 
-    useLayoutEffect(()=>{
+
+
+    useEffect(()=>{
+
         const sideUlMenu:HTMLUListElement = simpleBar.current
         const items = sideUlMenu.getElementsByTagName("a");
         const arrows:HTMLAnchorElement[] = Array.from(items).filter(item => item.classList.contains('has-arrow'));
         arrows.forEach((element:HTMLElement)=>{
             const subMenu:any = element.closest('li')?.querySelector('ul');
-            element.addEventListener('click',()=>{
-                subMenu.style.display === 'none' ? subMenu.style.display='' : subMenu.style.display='none';
-            })
+            
+            if(subMenu.dataset.menu === 'admin-module'){
+                element.onclick = ()=>{
+                    if( displayAdmin == false ){
+                        subMenu.style.display = '';
+                        setDisplayAdmin(true);
+                    }else{
+                        subMenu.style.display = 'none';
+                        setDisplayAdmin(false);
+                    }
+                };
+            }
         })
 
 
@@ -51,7 +64,9 @@ export const SideBarContent = () => {
                                         <i className="bx bxs-user-detail" />
                                         <span>{"Administradores"}</span>
                                     </a>
-                                    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>
+                                    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                        data-menu="admin-module"
+                                    >
                                         <li>
                                             <NavLink
                                                 to="/admin/createAdmin"
