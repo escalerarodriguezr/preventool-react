@@ -42,7 +42,6 @@ export const EditAdminGeneralData = ({id, sessionState, fromProfile}:EditAdminGe
 
     useEffect(()=>{
 
-        console.log(admin);
         if(admin){
             if(admin.role == AdminRoles.ADMIN){
                 setSelectedRole({ label: "Administrador", value: AdminRoles.ADMIN })
@@ -233,11 +232,13 @@ export const EditAdminGeneralData = ({id, sessionState, fromProfile}:EditAdminGe
 
                                         </Row>
 
-                                        <Row className="justify-content-end mt-2">
-                                            <button type="submit" className="btn btn-primary col-2">
+                                        <div>
+                                            <button type="submit" className="btn btn-primary w-md">
                                                 Editar
                                             </button>
-                                        </Row>
+                                        </div>
+
+
                                     </Form>
                                 </CardBody>
                             </Card>

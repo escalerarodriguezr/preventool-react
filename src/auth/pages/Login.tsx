@@ -70,12 +70,6 @@ export const Login = () => {
                             <Card className="overflow-hidden">
                                 <div className="bg-primary bg-soft">
                                     <Row>
-                                        <Col className="col-7">
-                                            <div className="text-primary p-4">
-                                                <h5 className="text-primary">PREVENTOOL</h5>
-                                                <p>Introduce tus credenciales para iniciar sesión</p>
-                                            </div>
-                                        </Col>
                                         <Col className="col-5 align-self-end">
                                             <img src={profile} alt="" className="img-fluid" />
                                         </Col>
