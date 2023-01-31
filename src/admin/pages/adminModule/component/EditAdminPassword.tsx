@@ -7,7 +7,7 @@ import {EditAdminFormInterface} from "../interface/EditAdminFormInterface";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {MesseagesFormValidations} from "../../../shared/utils/MesseagesFormValidations";
-import {AxiosError, AxiosResponse, valueOf} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
 import {CreateSuccessResponse} from "../../../shared/interface/CreateSuccessResponse";
 import {toast} from "react-toastify";
