@@ -15,6 +15,7 @@ import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useEffect, useState} from "react";
 import classnames from "classnames";
 import {EditAdminGeneralData} from "./component/EditAdminGeneralData";
+import {EditAdminPassword} from "./component/EditAdminPassword";
 
 
 export const EditAdminPage = () => {
@@ -89,9 +90,11 @@ export const EditAdminPage = () => {
                                         <TabPane tabId="2">
                                             <Row>
                                                 <Col sm="12">
-                                                    <CardText className="mb-0">
-                                                        Editar contraseña pendiente de implementar...
-                                                    </CardText>
+                                                    {activeTab == '2' && <EditAdminPassword
+                                                        id={id}
+                                                        sessionState={sessionState}
+                                                        fromProfile={false}
+                                                    />}
                                                 </Col>
                                             </Row>
                                         </TabPane>

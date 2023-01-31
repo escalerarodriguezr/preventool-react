@@ -18,6 +18,7 @@ import {useEffect, useState} from "react";
 import {EditAdminGeneralData} from "./component/EditAdminGeneralData";
 import {useParams} from "react-router-dom";
 import {useSessionStore} from "../../../store/session/useSessionStore";
+import {EditAdminPassword} from "./component/EditAdminPassword";
 
 
 export const ProfileAdminPage = () => {
@@ -58,19 +59,19 @@ export const ProfileAdminPage = () => {
                                             Datos generales
                                         </NavLink>
                                     </NavItem>
-                                    {/*<NavItem>*/}
-                                    {/*    <NavLink*/}
-                                    {/*        style={{ cursor: "pointer" }}*/}
-                                    {/*        className={classnames({*/}
-                                    {/*            active: activeTab === "2",*/}
-                                    {/*        })}*/}
-                                    {/*        onClick={() => {*/}
-                                    {/*            setActiveTab("2");*/}
-                                    {/*        }}*/}
-                                    {/*    >*/}
-                                    {/*        Credenciales*/}
-                                    {/*    </NavLink>*/}
-                                    {/*</NavItem>*/}
+                                    <NavItem>
+                                        <NavLink
+                                            style={{ cursor: "pointer" }}
+                                            className={classnames({
+                                                active: activeTab === "2",
+                                            })}
+                                            onClick={() => {
+                                                setActiveTab("2");
+                                            }}
+                                        >
+                                            Credenciales
+                                        </NavLink>
+                                    </NavItem>
                                 </Nav>
 
                                 <TabContent
@@ -89,15 +90,17 @@ export const ProfileAdminPage = () => {
                                             </Col>
                                         </Row>
                                     </TabPane>
-                                    {/*<TabPane tabId="2">*/}
-                                    {/*    <Row>*/}
-                                    {/*        <Col sm="12">*/}
-                                    {/*            <CardText className="mb-0">*/}
-                                    {/*                Editar contraseña pendiente de implementar...*/}
-                                    {/*            </CardText>*/}
-                                    {/*        </Col>*/}
-                                    {/*    </Row>*/}
-                                    {/*</TabPane>*/}
+                                    <TabPane tabId="2">
+                                        <Row>
+                                            <Col sm="12">
+                                                {activeTab == '2' && <EditAdminPassword
+                                                    id={id}
+                                                    sessionState={sessionState}
+                                                    fromProfile={false}
+                                                />}
+                                            </Col>
+                                        </Row>
+                                    </TabPane>
                                 </TabContent>
                             </CardBody>
                         </Card>
