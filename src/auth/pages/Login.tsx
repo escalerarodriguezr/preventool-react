@@ -1,4 +1,4 @@
-import {useNavigate} from "react-router-dom";
+import {redirect, useNavigate} from "react-router-dom";
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
 import * as Yup from 'yup';
 // import images
@@ -42,8 +42,8 @@ export const Login = () => {
                 const sessionSuccess:boolean = await getSessionAction();
                 if(loginSuccess && sessionSuccess){
                     appLoaded();
-                    // navigate('/admin/dashboard');
-                    window.location.reload();
+                    redirect('/');
+                    // window.location.reload();
                 }
             }
             appLoaded();
@@ -70,12 +70,6 @@ export const Login = () => {
                             <Card className="overflow-hidden">
                                 <div className="bg-primary bg-soft">
                                     <Row>
-                                        <Col className="col-7">
-                                            <div className="text-primary p-4">
-                                                <h5 className="text-primary">PREVENTOOL</h5>
-                                                <p>Introduce tus credenciales para iniciar sesión</p>
-                                            </div>
-                                        </Col>
                                         <Col className="col-5 align-self-end">
                                             <img src={profile} alt="" className="img-fluid" />
                                         </Col>

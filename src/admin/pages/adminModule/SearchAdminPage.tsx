@@ -256,7 +256,7 @@ export const SearchAdminPage = () => {
                                                                     onColor="#02a499"
                                                                     onChange={(checked, event, id) =>{
                                                                         if(checked = false){
-                                                                            // console.log(checked)
+
                                                                         }
                                                                     }}
                                                                     checked={admin.active}
