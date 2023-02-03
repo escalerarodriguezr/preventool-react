@@ -8,6 +8,7 @@ export const SideBarContent = () => {
 
     const simpleBar = useRef<any>(undefined);
     const [displayAdmin, setDisplayAdmin] = useState(false);
+    const [displayCompany, setDisplayCompany] = useState(false);
 
 
 
@@ -27,6 +28,18 @@ export const SideBarContent = () => {
                     }else{
                         subMenu.style.display = 'none';
                         setDisplayAdmin(false);
+                    }
+                };
+            }
+
+            if(subMenu.dataset.menu === 'company-module'){
+                element.onclick = ()=>{
+                    if( displayCompany == false ){
+                        subMenu.style.display = '';
+                        setDisplayCompany(true);
+                    }else{
+                        subMenu.style.display = 'none';
+                        setDisplayCompany(false);
                     }
                 };
             }
@@ -98,8 +111,41 @@ export const SideBarContent = () => {
                                         {/*</li>*/}
                                     </ul>
                                 </li>
+
+                                {/*Company*/}
+
+                                <li>
+                                    <a className="has-arrow">
+                                        <i className="fas fa-city" />
+                                        <span>{"Empresas"}</span>
+                                    </a>
+                                    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                        data-menu="company-module"
+                                    >
+                                        <li>
+                                            <NavLink
+                                                to="/admin/createCompany"
+                                                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                            >
+                                                {"Crear"}
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            {/*<NavLink*/}
+                                            {/*    to="/admin/administradores"*/}
+                                            {/*    className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
+                                            {/*>*/}
+                                            {/*    {"Listado"}*/}
+                                            {/*</NavLink>*/}
+                                        </li>
+                                    </ul>
+                                </li>
                             </>
                         }
+
+
+
+
 
 
 
