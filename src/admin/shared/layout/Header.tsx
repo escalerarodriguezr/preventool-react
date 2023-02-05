@@ -21,7 +21,7 @@ export const Header = () => {
 
                     <div className="d-flex">
                         {/*<SocialMenu/>*/}
-                        <ButtonFullScreen/>
+                        {/*<ButtonFullScreen/>*/}
                         {/*<NotificationDropdown />*/}
                         <ProfileMenu />
                     </div>

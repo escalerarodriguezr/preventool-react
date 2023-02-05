@@ -14,17 +14,15 @@ import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../shared/utils/MessagesHttpResponse";
 import {Card, CardBody, CardTitle, Col, Container, Form, Input, Label, Row} from "reactstrap";
 import Select from "react-select";
+import {EditAdminPasswordFormInterface} from "../interface/EditAdminPasswordFormInterface";
 
-interface EditAdminGeneralDataProps{
+interface EditAdminPasswordProps{
     id:string|undefined,
     sessionState:SessionState|undefined,
     fromProfile:boolean
 }
-export const EditAdminGeneralData = ({id, sessionState, fromProfile}:EditAdminGeneralDataProps) => {
+export const EditAdminPassword = ({id, sessionState, fromProfile}:EditAdminPasswordProps) => {
 
-    const [selectedRole, setSelectedRole] = useState<any>(
-        { label: "Admin", value: AdminRoles.ADMIN }
-    );
 
     const {
         appLoading,
@@ -40,85 +38,52 @@ export const EditAdminGeneralData = ({id, sessionState, fromProfile}:EditAdminGe
         }
     },[]);
 
-    useEffect(()=>{
 
-        if(admin){
-            if(admin.role == AdminRoles.ADMIN){
-                setSelectedRole({ label: "Administrador", value: AdminRoles.ADMIN })
-            }
-            if(admin.role == AdminRoles.ROOT){
-                setSelectedRole({ label: "Root", value: AdminRoles.ROOT })
-            }
-        }
-
-    },[admin]);
-
-    const roleOptionGroup = [
-        {
-            label: "Roles",
-            options: [
-                { label: "Root", value: AdminRoles.ROOT },
-                { label: "Administrador", value: AdminRoles.ADMIN }
-            ]
-        },
-
-    ];
-
-    const handleSelectRoleGroup = (selectedGroup: any) => {
-        setSelectedRole(selectedGroup);
-        formik.setFieldValue('role', selectedGroup.value);
-        formik.setFieldTouched('role');
-    }
-
-
-    const editAdminForm: EditAdminFormInterface = {
-        name: admin?.name ? admin.name : '',
-        lastName: admin?.lastName ? admin.lastName : '',
-        role: selectedRole.value,
-        email: admin?.email ? admin.email : '',
+    const editAdminPasswordForm: EditAdminPasswordFormInterface = {
+        currentPassword: '',
+        password: '',
+        confirmPassword: ''
     }
 
 
     const formik = useFormik({
         enableReinitialize: true,
-        initialValues: editAdminForm,
-        onSubmit: async (values:EditAdminFormInterface) => {
+        initialValues: editAdminPasswordForm,
+        onSubmit: async (values:EditAdminPasswordFormInterface) => {
             appLoading();
-            await editAdminRequest(values);
+            await editAdminPasswordRequest(values);
             appLoaded()
         },
 
         validationSchema: Yup.object({
-            name: Yup.string()
+            currentPassword: Yup.string()
                 .required(MesseagesFormValidations.Required),
-            lastName: Yup.string()
+            password: Yup.string()
                 .required(MesseagesFormValidations.Required),
-            role: Yup.string()
-                .required(MesseagesFormValidations.Required).oneOf([AdminRoles.ROOT, AdminRoles.ADMIN], MesseagesFormValidations.InvalidValue),
-            email: Yup.string()
-                .email(MesseagesFormValidations.Email)
-                .required(MesseagesFormValidations.Required),
+            confirmPassword: Yup.string()
+                .required(MesseagesFormValidations.Required)
+                .oneOf([Yup.ref('password'),null], MesseagesFormValidations.NotMatchConfirmPassword),
         })
     });
 
 
-    const editAdminRequest = async (adminData:EditAdminFormInterface ) => {
+    const editAdminPasswordRequest = async (adminData:EditAdminPasswordFormInterface ) => {
 
         try {
-            const response:AxiosResponse = await preventoolApi.put('/admin/'+id, adminData);
+            const response:AxiosResponse = await preventoolApi.put('/admin/'+id+'/password', adminData);
             const data = response.data as CreateSuccessResponse;
             toast.success(MessagesHttpResponse.SuccessEditResponse);
             return true;
 
         }catch (error){
-
             const axiosError = error as AxiosError;
             const {status, data} = axiosError.response as AxiosResponse ;
 
             if( status === 409 &&
-                (data.class.includes('AdminAlreadyExistsException') || data.class.includes('UserAlreadyExistsException') ) )
+                data.class.includes('AdminInvalidCurrentPasswordException')
+            )
             {
-                toast.info(MessagesHttpResponse.AdminAlreadyExistsException);
+                toast.info(MessagesHttpResponse.AdminInvalidCurrentPasswordException);
             }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
                 toast.info(MessagesHttpResponse.ActionNotAllowedException);
             }else if( status === 403 && data.class.includes('AccessDeniedException') ){
@@ -134,8 +99,6 @@ export const EditAdminGeneralData = ({id, sessionState, fromProfile}:EditAdminGe
     }
 
 
-
-
     return(
         <>
                 <Container fluid>
@@ -149,82 +112,62 @@ export const EditAdminGeneralData = ({id, sessionState, fromProfile}:EditAdminGe
                                         <Row>
                                             <Col lg={12}>
                                                 <div className="mb-3">
-                                                    <Label htmlFor="name">Nombre</Label>
+                                                    <Label htmlFor="currentPassword">Introduce tu contraseña actual</Label>
                                                     <Input
-                                                        type="text"
-                                                        id="name"
-                                                        value={formik.values.name}
+                                                        type="password"
+                                                        id="currentPassword"
+                                                        value={formik.values.currentPassword}
                                                         onChange={formik.handleChange}
                                                         onBlur={ formik.handleBlur }
                                                         className={
                                                             "form-control" +
-                                                            (formik.errors.name && formik.touched.name
+                                                            (formik.errors.currentPassword && formik.touched.currentPassword
                                                                 ? " is-invalid"
                                                                 : "")
                                                         }
                                                     />
                                                     <div className="invalid-feedback">
-                                                        {formik.errors.name}
+                                                        {formik.errors.currentPassword}
                                                     </div>
                                                 </div>
 
                                                 <div className="mb-3">
-                                                    <Label htmlFor="lastName">Apellidos</Label>
+                                                    <Label htmlFor="password">Nueva Contraseña</Label>
                                                     <Input
-                                                        type="text"
-                                                        id="lastName"
-                                                        value={formik.values.lastName}
+                                                        type="password"
+                                                        id="password"
+                                                        value={formik.values.password}
                                                         onChange={formik.handleChange}
                                                         onBlur={ formik.handleBlur }
                                                         className={
                                                             "form-control" +
-                                                            (formik.errors.lastName && formik.touched.lastName
+                                                            (formik.errors.password && formik.touched.password
                                                                 ? " is-invalid"
                                                                 : "")
                                                         }
                                                     />
                                                     <div className="invalid-feedback">
-                                                        {formik.errors.lastName}
-                                                    </div>
-                                                </div>
-
-                                                <div className="mb-3 select2-container">
-                                                    <Label>Rol</Label>
-                                                    <Select
-                                                        value={selectedRole}
-                                                        onChange={handleSelectRoleGroup}
-                                                        options={roleOptionGroup}
-                                                        className={
-                                                            "select2-selection" +
-                                                            (formik.errors.role && formik.touched.role
-                                                                ? " is-invalid"
-                                                                : "")
-                                                        }
-                                                       isDisabled={fromProfile}
-                                                    />
-                                                    <div className="invalid-feedback">
-                                                        {formik.errors.role}
+                                                        {formik.errors.password}
                                                     </div>
                                                 </div>
 
                                                 <div className="mb-3">
-                                                    <Label htmlFor="email">Email</Label>
+                                                    <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
                                                     <Input
-                                                        type="email"
-                                                        id="email"
-                                                        placeholder="Email"
-                                                        value={formik.values.email}
+                                                        type="password"
+                                                        id="confirmPassword"
+                                                        value={formik.values.confirmPassword}
                                                         onChange={formik.handleChange}
                                                         onBlur={ formik.handleBlur }
                                                         className={
                                                             "form-control" +
-                                                            (formik.errors.email && formik.touched.email
+                                                            (formik.errors.confirmPassword && formik.touched.confirmPassword
                                                                 ? " is-invalid"
                                                                 : "")
                                                         }
                                                     />
                                                     <div className="invalid-feedback">
-                                                        {formik.errors.email}
+                                                        {formik.errors.confirmPassword}
                                                     </div>
                                                 </div>
 
@@ -234,10 +177,9 @@ export const EditAdminGeneralData = ({id, sessionState, fromProfile}:EditAdminGe
 
                                         <div>
                                             <button type="submit" className="btn btn-primary w-md">
-                                                Editar
+                                                Cambiar
                                             </button>
                                         </div>
-
 
                                     </Form>
                                 </CardBody>

@@ -1,26 +1,11 @@
-import {
-    Card,
-    CardBody, CardText,
-    CardTitle,
-    Col,
-    Container,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    TabContent, TabPane
-} from "reactstrap";
-import {useParams} from "react-router-dom";
-import {useSessionStore} from "../../../store/session/useSessionStore";
+import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import {useEffect, useState} from "react";
 import classnames from "classnames";
-import {EditAdminGeneralData} from "./component/EditAdminGeneralData";
-import {EditAdminPassword} from "./component/EditAdminPassword";
+import {CreateCompanyGeneralData} from "./component/CreateCompanyGeneralData";
+import {useSessionStore} from "../../../store/session/useSessionStore";
 
+export const CreateCompanyPage = () => {
 
-export const EditAdminPage = () => {
-
-    const {id} = useParams();
     const [activeTab, setActiveTab] = useState("1");
 
     const {getSessionAction, sessionState} = useSessionStore();
@@ -28,7 +13,6 @@ export const EditAdminPage = () => {
     useEffect(()=>{
         getSessionAction();
     },[]);
-
 
     return(
         <>
@@ -38,11 +22,10 @@ export const EditAdminPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Perfil de usuario</CardTitle>
+                                    <CardTitle className="h4">Crear empresa</CardTitle>
                                     <p className="card-title-desc">
-                                        Editar usuarios administradores
+                                        Registrar una nueva empresa en el sistema
                                     </p>
-
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
@@ -57,19 +40,6 @@ export const EditAdminPage = () => {
                                                 Datos generales
                                             </NavLink>
                                         </NavItem>
-                                        <NavItem>
-                                            <NavLink
-                                                style={{ cursor: "pointer" }}
-                                                className={classnames({
-                                                    active: activeTab === "2",
-                                                })}
-                                                onClick={() => {
-                                                    setActiveTab("2");
-                                                }}
-                                            >
-                                                Credenciales
-                                            </NavLink>
-                                        </NavItem>
                                     </Nav>
 
                                     <TabContent
@@ -79,21 +49,8 @@ export const EditAdminPage = () => {
                                         <TabPane tabId="1">
                                             <Row>
                                                 <Col sm="12">
-                                                    {activeTab == '1' && <EditAdminGeneralData
-                                                        id={id}
+                                                    {activeTab == '1' && <CreateCompanyGeneralData
                                                         sessionState={sessionState}
-                                                        fromProfile={false}
-                                                    />}
-                                                </Col>
-                                            </Row>
-                                        </TabPane>
-                                        <TabPane tabId="2">
-                                            <Row>
-                                                <Col sm="12">
-                                                    {activeTab == '2' && <EditAdminPassword
-                                                        id={id}
-                                                        sessionState={sessionState}
-                                                        fromProfile={false}
                                                     />}
                                                 </Col>
                                             </Row>
@@ -103,7 +60,6 @@ export const EditAdminPage = () => {
                             </Card>
                         </Col>
                     </Row>
-
                 </Container>
             </div>
         </>

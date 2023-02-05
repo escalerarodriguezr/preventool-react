@@ -1,26 +1,52 @@
 import SimpleBar from "simplebar-react"
 import {Link, NavLink} from "react-router-dom";
-import {useEffect, useRef} from "react";
+import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {AdminRoles} from "../model/Admin/AdminRoles";
 
 export const SideBarContent = () => {
 
     const simpleBar = useRef<any>(undefined);
+    const [displayAdmin, setDisplayAdmin] = useState(false);
+    const [displayCompany, setDisplayCompany] = useState(false);
+
+
 
     useEffect(()=>{
+
         const sideUlMenu:HTMLUListElement = simpleBar.current
         const items = sideUlMenu.getElementsByTagName("a");
         const arrows:HTMLAnchorElement[] = Array.from(items).filter(item => item.classList.contains('has-arrow'));
         arrows.forEach((element:HTMLElement)=>{
             const subMenu:any = element.closest('li')?.querySelector('ul');
-            element.addEventListener('click',()=>{
-                subMenu.style.display === 'none' ? subMenu.style.display='' : subMenu.style.display='none';
-            })
+            
+            if(subMenu.dataset.menu === 'admin-module'){
+                element.onclick = ()=>{
+                    if( displayAdmin == false ){
+                        subMenu.style.display = '';
+                        setDisplayAdmin(true);
+                    }else{
+                        subMenu.style.display = 'none';
+                        setDisplayAdmin(false);
+                    }
+                };
+            }
+
+            if(subMenu.dataset.menu === 'company-module'){
+                element.onclick = ()=>{
+                    if( displayCompany == false ){
+                        subMenu.style.display = '';
+                        setDisplayCompany(true);
+                    }else{
+                        subMenu.style.display = 'none';
+                        setDisplayCompany(false);
+                    }
+                };
+            }
         })
 
 
-    },[])
+    });
 
     const {sessionState} = useSessionStore();
 
@@ -51,7 +77,9 @@ export const SideBarContent = () => {
                                         <i className="bx bxs-user-detail" />
                                         <span>{"Administradores"}</span>
                                     </a>
-                                    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>
+                                    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                        data-menu="admin-module"
+                                    >
                                         <li>
                                             <NavLink
                                                 to="/admin/createAdmin"
@@ -83,8 +111,41 @@ export const SideBarContent = () => {
                                         {/*</li>*/}
                                     </ul>
                                 </li>
+
+                                {/*Company*/}
+
+                                <li>
+                                    <a className="has-arrow">
+                                        <i className="fas fa-city" />
+                                        <span>{"Empresas"}</span>
+                                    </a>
+                                    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                        data-menu="company-module"
+                                    >
+                                        <li>
+                                            <NavLink
+                                                to="/admin/empresa"
+                                                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                            >
+                                                {"Crear"}
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
+                                                to="/admin/empresas"
+                                                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                            >
+                                                {"Listado"}
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                                </li>
                             </>
                         }
+
+
+
+
 
 
 
