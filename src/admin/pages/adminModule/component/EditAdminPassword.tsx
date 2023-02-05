@@ -38,15 +38,6 @@ export const EditAdminPassword = ({id, sessionState, fromProfile}:EditAdminPassw
         }
     },[]);
 
-    useEffect(()=>{
-
-
-
-    },[admin]);
-
-
-
-
 
     const editAdminPasswordForm: EditAdminPasswordFormInterface = {
         currentPassword: '',
@@ -108,8 +99,6 @@ export const EditAdminPassword = ({id, sessionState, fromProfile}:EditAdminPassw
     }
 
 
-
-
     return(
         <>
                 <Container fluid>
@@ -123,7 +112,7 @@ export const EditAdminPassword = ({id, sessionState, fromProfile}:EditAdminPassw
                                         <Row>
                                             <Col lg={12}>
                                                 <div className="mb-3">
-                                                    <Label htmlFor="currentPassword">Contraseña actual</Label>
+                                                    <Label htmlFor="currentPassword">Introduce tu contraseña actual</Label>
                                                     <Input
                                                         type="password"
                                                         id="currentPassword"

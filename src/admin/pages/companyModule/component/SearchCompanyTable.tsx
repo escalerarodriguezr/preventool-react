@@ -105,9 +105,9 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
         setRequiredPage(1);
     }
 
-    // const handleNavigateEdit = (id:string) => {
-    //     navigate('/admin/administrador/'+id);
-    // }
+    const handleNavigateEdit = (id:string) => {
+        navigate('/admin/empresa/'+id);
+    }
 
 
 
@@ -162,7 +162,7 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                 <th>Sector</th>
                                                 <th><span className="cursor-pointer" onClick={handleOrderByCreatedAt}>Creado</span></th>
                                                 <th>Activo</th>
-                                                {/*<th></th>*/}
+                                                <th></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -193,23 +193,16 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                                 disabled={true}
                                                             /></td>
                                                             <td>
-                                                                {/*<div className="btn-group" >*/}
-
-                                                                {/*    {sessionState.actionAdmin?.id != admin.id &&*/}
-                                                                {/*        (*/}
-                                                                {/*            <button*/}
-                                                                {/*                type="button"*/}
-                                                                {/*                className="btn btn-default"*/}
-                                                                {/*                title="Editar elemento"*/}
-                                                                {/*                onClick={()=>handleNavigateEdit(admin.id)}*/}
-                                                                {/*            >*/}
-                                                                {/*                <i className="fas fa-edit"></i>*/}
-                                                                {/*            </button>*/}
-                                                                {/*        )*/}
-                                                                {/*    }*/}
-
-
-                                                                {/*</div>*/}
+                                                                <div className="btn-group" >
+                                                                    {/*<button*/}
+                                                                    {/*    type="button"*/}
+                                                                    {/*    className="btn btn-default"*/}
+                                                                    {/*    title="Editar elemento"*/}
+                                                                    {/*    onClick={()=>handleNavigateEdit(company.id)}*/}
+                                                                    {/*>*/}
+                                                                    {/*    <i className="fas fa-edit"></i>*/}
+                                                                    {/*</button>*/}
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     )
