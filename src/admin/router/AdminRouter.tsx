@@ -5,6 +5,8 @@ import {SearchAdminPage} from "../pages/adminModule/SearchAdminPage";
 import {EditAdminPage} from "../pages/adminModule/EditAdminPage";
 import {ProfileAdminPage} from "../pages/adminModule/ProfileAdminPage";
 import {CreateCompanyPage} from "../pages/companyModule/CreateCompanyPage";
+import {SearchCompanyPage} from "../pages/companyModule/SearchCompanyPage";
+import {EditCompanyPage} from "../pages/companyModule/EditCompanyPage";
 
 export const AdminRouter = () => {
 
@@ -19,7 +21,9 @@ export const AdminRouter = () => {
                 <Route path="perfil/:id" element={<ProfileAdminPage />} />
 
                 {/*Company*/}
-                <Route path="createCompany" element={<CreateCompanyPage />} />
+                <Route path="empresa" element={<CreateCompanyPage />} />
+                <Route path="empresas" element={<SearchCompanyPage />} />
+                <Route path="empresa/:id" element={<EditCompanyPage />} />
 
                 <Route path="*" element={<DashboardPage />} />
             </Route>
