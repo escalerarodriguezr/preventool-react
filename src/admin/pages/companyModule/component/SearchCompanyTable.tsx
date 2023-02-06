@@ -8,6 +8,7 @@ import Switch from "react-switch";
 import {OffSymbol} from "../../../shared/component/OffSymbol";
 import {OnSymbol} from "../../../shared/component/OnSymbol";
 import {TablePaginator} from "../../../shared/component/TablePaginator";
+import {AdminRoles} from "../../../shared/model/Admin/AdminRoles";
 
 interface SearchCompanyTableProps{
     sessionState:SessionState|undefined,
@@ -194,14 +195,17 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                             /></td>
                                                             <td>
                                                                 <div className="btn-group" >
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-default"
-                                                                        title="Editar elemento"
-                                                                        onClick={()=>handleNavigateEdit(company.id)}
-                                                                    >
-                                                                        <i className="fas fa-edit"></i>
-                                                                    </button>
+                                                                    {sessionState?.actionAdmin?.role == AdminRoles.ROOT &&
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-default"
+                                                                            title="Editar elemento"
+                                                                            onClick={()=>handleNavigateEdit(company.id)}
+                                                                        >
+                                                                            <i className="fas fa-edit"></i>
+                                                                        </button>
+                                                                    }
+
                                                                 </div>
                                                             </td>
                                                         </tr>
