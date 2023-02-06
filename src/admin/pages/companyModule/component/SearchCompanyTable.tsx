@@ -194,14 +194,14 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                             /></td>
                                                             <td>
                                                                 <div className="btn-group" >
-                                                                    {/*<button*/}
-                                                                    {/*    type="button"*/}
-                                                                    {/*    className="btn btn-default"*/}
-                                                                    {/*    title="Editar elemento"*/}
-                                                                    {/*    onClick={()=>handleNavigateEdit(company.id)}*/}
-                                                                    {/*>*/}
-                                                                    {/*    <i className="fas fa-edit"></i>*/}
-                                                                    {/*</button>*/}
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-default"
+                                                                        title="Editar elemento"
+                                                                        onClick={()=>handleNavigateEdit(company.id)}
+                                                                    >
+                                                                        <i className="fas fa-edit"></i>
+                                                                    </button>
                                                                 </div>
                                                             </td>
                                                         </tr>

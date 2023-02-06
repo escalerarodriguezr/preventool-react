@@ -13,5 +13,6 @@ export const MessagesHttpResponse = {
 
     //Company
     CompanyAlreadyExistsException: 'Ya existe un Empresa con el mismo RUC.',
+    CompanyNotFoundException :'La empresa no existe en el sistema.',
 
 }
