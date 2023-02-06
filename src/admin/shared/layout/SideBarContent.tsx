@@ -96,21 +96,11 @@ export const SideBarContent = () => {
                                                 {"Listado"}
                                             </NavLink>
                                         </li>
-                                        {/*<li>*/}
-                                        {/*    <Link to="#">{"Saas"}</Link>*/}
-                                        {/*</li>*/}
-                                        {/*<li>*/}
-                                        {/*    <Link to="#">*/}
-                                        {/*      <span*/}
-                                        {/*          className="badge rounded-pill text-bg-success float-end"*/}
-                                        {/*          key="t-new"*/}
-                                        {/*      >*/}
-                                        {/*        New*/}
-                                        {/*      </span>{"Jobs"}*/}
-                                        {/*    </Link>*/}
-                                        {/*</li>*/}
                                     </ul>
                                 </li>
+                            </>
+                        }
+
 
                                 {/*Company*/}
 
@@ -122,6 +112,9 @@ export const SideBarContent = () => {
                                     <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
                                         data-menu="company-module"
                                     >
+
+                                    {(sessionState.actionAdmin?.role === AdminRoles.ROOT) &&
+
                                         <li>
                                             <NavLink
                                                 to="/admin/empresa"
@@ -130,6 +123,8 @@ export const SideBarContent = () => {
                                                 {"Crear"}
                                             </NavLink>
                                         </li>
+                                    }
+
                                         <li>
                                             <NavLink
                                                 to="/admin/empresas"
@@ -140,105 +135,6 @@ export const SideBarContent = () => {
                                         </li>
                                     </ul>
                                 </li>
-                            </>
-                        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        {/*<li>*/}
-                        {/*    <a className="has-arrow">*/}
-                        {/*        <i className="bx bx-home-circle" />*/}
-                        {/*        <span>{"Dashboards"}</span>*/}
-                        {/*    </a>*/}
-                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>*/}
-                        {/*        <li>*/}
-                        {/*            <Link to="/dashboard">{"Default"}</Link>*/}
-                        {/*        </li>*/}
-                        {/*        <li>*/}
-                        {/*            <Link to="#">{"Saas"}</Link>*/}
-                        {/*        </li>*/}
-                        {/*        <li>*/}
-                        {/*            <Link to="#">*/}
-                        {/*              <span*/}
-                        {/*                  className="badge rounded-pill text-bg-success float-end"*/}
-                        {/*                  key="t-new"*/}
-                        {/*              >*/}
-                        {/*                New*/}
-                        {/*              </span>{"Jobs"}*/}
-                        {/*            </Link>*/}
-                        {/*        </li>*/}
-                        {/*    </ul>*/}
-                        {/*</li>*/}
-
-                        {/*<li className="menu-title">{"Apps"}</li>*/}
-
-                        {/*<li>*/}
-                        {/*    <Link to="#" className="">*/}
-                        {/*        <i className="bx bx-calendar" />*/}
-                        {/*        <span>{"Calendar"}</span>*/}
-                        {/*    </Link>*/}
-                        {/*</li>*/}
-
-                        {/*<li>*/}
-                        {/*    <Link to="#" className="">*/}
-                        {/*        <i className="bx bx-chat" />*/}
-                        {/*        <span>{"Chat"}</span>*/}
-                        {/*    </Link>*/}
-                        {/*</li>*/}
-                        {/*<li>*/}
-                        {/*    <Link to="#" className="">*/}
-                        {/*        <i className="bx bx-file" />*/}
-                        {/*        <span>{"File Manager"}</span>*/}
-                        {/*    </Link>*/}
-                        {/*</li>*/}
-
-                        {/*<li>*/}
-                        {/*    <a className="has-arrow">*/}
-                        {/*        <i className="bx bx-store" />*/}
-                        {/*        <span>{"Ecommerce"}</span>*/}
-                        {/*    </a>*/}
-                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>*/}
-                        {/*        <li>*/}
-                        {/*            <Link to="#">{"Products"}</Link>*/}
-                        {/*        </li>*/}
-                        {/*        <li>*/}
-                        {/*            <Link to="#">{"Product Details"}</Link>*/}
-                        {/*        </li>*/}
-
-                        {/*    </ul>*/}
-                        {/*</li>*/}
-
-
-                        {/*<li>*/}
-                        {/*    <a className="has-arrow">*/}
-                        {/*        <i className="bx bx-envelope"></i>*/}
-                        {/*        <span>{"Email"}</span>*/}
-                        {/*    </a>*/}
-                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}>*/}
-                        {/*        <li>*/}
-                        {/*            <Link to="#">{"Inbox"}</Link>*/}
-                        {/*        </li>*/}
-                        {/*        <li>*/}
-                        {/*            <Link to="#">{"Read Email"} </Link>*/}
-                        {/*        </li>*/}
-
-                        {/*    </ul>*/}
-                        {/*</li>*/}
 
                     </ul>
                 </div>
