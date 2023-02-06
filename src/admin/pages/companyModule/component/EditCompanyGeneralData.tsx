@@ -210,7 +210,7 @@ export const EditCompanyGeneralData = ({id,sessionState}:EditCompanyGeneralDataP
 
                 <div>
                     <button type="submit" className="btn btn-primary w-md">
-                        Registrar
+                        Guardar
                     </button>
                 </div>
             </Form>
