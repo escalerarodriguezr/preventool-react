@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
+import {EditCompanyGeneralData} from "./component/EditCompanyGeneralData";
 
 export const EditCompanyPage = () => {
 
@@ -13,7 +14,6 @@ export const EditCompanyPage = () => {
 
     useEffect(()=>{
         getSessionAction();
-        console.log(id);
     },[]);
 
     return(
@@ -53,11 +53,10 @@ export const EditCompanyPage = () => {
                                         <TabPane tabId="1">
                                             <Row>
                                                 <Col sm="12">
-                                                    {/*{activeTab == '1' && <EditAdminGeneralData*/}
-                                                    {/*    id={id}*/}
-                                                    {/*    sessionState={sessionState}*/}
-                                                    {/*    fromProfile={false}*/}
-                                                    {/*/>}*/}
+                                                    {activeTab == '1' && <EditCompanyGeneralData
+                                                        id={id}
+                                                        sessionState={sessionState}
+                                                    />}
                                                 </Col>
                                             </Row>
                                         </TabPane>
@@ -66,7 +65,6 @@ export const EditCompanyPage = () => {
                             </Card>
                         </Col>
                     </Row>
-
                 </Container>
             </div>
         </>
