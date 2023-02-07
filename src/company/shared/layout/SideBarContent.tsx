@@ -7,8 +7,8 @@ import {useCompanySessionStore} from "../../../store/compnay/useCompanySessionSt
 export const SideBarContent = () => {
 
     const simpleBar = useRef<any>(undefined);
-    const [displayAdmin, setDisplayAdmin] = useState(false);
-    const [displayCompany, setDisplayCompany] = useState(false);
+    const [displayWorkplace, setDisplayWorkplace] = useState(false);
+
 
 
 
@@ -20,29 +20,18 @@ export const SideBarContent = () => {
         arrows.forEach((element:HTMLElement)=>{
             const subMenu:any = element.closest('li')?.querySelector('ul');
             
-            if(subMenu.dataset.menu === 'admin-module'){
+            if(subMenu.dataset.menu === 'workplace-module'){
                 element.onclick = ()=>{
-                    if( displayAdmin == false ){
+                    if( displayWorkplace == false ){
                         subMenu.style.display = '';
-                        setDisplayAdmin(true);
+                        setDisplayWorkplace(true);
                     }else{
                         subMenu.style.display = 'none';
-                        setDisplayAdmin(false);
+                        setDisplayWorkplace(false);
                     }
                 };
             }
 
-            if(subMenu.dataset.menu === 'company-module'){
-                element.onclick = ()=>{
-                    if( displayCompany == false ){
-                        subMenu.style.display = '';
-                        setDisplayCompany(true);
-                    }else{
-                        subMenu.style.display = 'none';
-                        setDisplayCompany(false);
-                    }
-                };
-            }
         })
 
 
@@ -66,6 +55,36 @@ export const SideBarContent = () => {
                                 <i className="bx bx-home-circle" />
                                 <span>{"Dashboard"}</span>
                             </NavLink>
+                        </li>
+
+
+                        <li className="menu-title">{"Administración"}</li>
+
+                        <li>
+                            <a className="has-arrow">
+                                <i className="fas fa-tools" />
+                                <span>{"Centros de trabajo"}</span>
+                            </a>
+                            <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                data-menu="workplace-module"
+                            >
+                                <li>
+                                    <NavLink
+                                        to="/empresa/crear-centro-trabajo"
+                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                    >
+                                        {"Crear"}
+                                    </NavLink>
+                                </li>
+                                {/*<li>*/}
+                                {/*    <NavLink*/}
+                                {/*        to="/admin/administradores"*/}
+                                {/*        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
+                                {/*    >*/}
+                                {/*        {"Listado"}*/}
+                                {/*    </NavLink>*/}
+                                {/*</li>*/}
+                            </ul>
                         </li>
 
                     </ul>
