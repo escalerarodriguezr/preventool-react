@@ -202,7 +202,7 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                                         <button
                                                                             type="button"
                                                                             className="btn btn-default"
-                                                                            title="Editar elemento"
+                                                                            title="Editar"
                                                                             onClick={()=>handleNavigateEdit(company.id)}
                                                                         >
                                                                             <i className="fas fa-edit"></i>
@@ -212,7 +212,7 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                                     <button
                                                                         type="button"
                                                                         className="btn btn-default"
-                                                                        title="Gestionat elemento"
+                                                                        title="Gestionar empresa"
                                                                         onClick={()=>handleNavigateToCompanyLayout(company.id)}
                                                                     >
                                                                         <i className="fas fa-city" />

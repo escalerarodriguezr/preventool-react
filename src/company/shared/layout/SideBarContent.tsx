@@ -2,6 +2,7 @@ import SimpleBar from "simplebar-react"
 import {Link, NavLink} from "react-router-dom";
 import {useEffect, useLayoutEffect, useRef, useState} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
+import {useCompanySessionStore} from "../../../store/compnay/useCompanySessionStore";
 
 export const SideBarContent = () => {
 
@@ -48,11 +49,13 @@ export const SideBarContent = () => {
     });
 
     const {sessionState} = useSessionStore();
+    const {companySessionState} = useCompanySessionStore();
 
     return(
         <>
             <SimpleBar className="h-100">
                 <div id="sidebar-menu">
+                    <h4 className="text-center">{companySessionState.actionCompany?.name}</h4>
                     <ul className="metismenu list-unstyled" id="side-menu"  ref={simpleBar}>
                         {/*DashBoard*/}
                         <li>

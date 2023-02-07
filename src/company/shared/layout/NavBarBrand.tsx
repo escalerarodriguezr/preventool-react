@@ -5,11 +5,10 @@ import logo from "../../../assets/images/logo.svg";
 import logoDark from "../../../assets/images/logo-dark.png";
 
 export const NavBarBrand = () => {
-
     return(
         <>
             <div className="navbar-brand-box">
-                <Link to="/admin/dashboard" className="logo logo-dark">
+                <Link to="/empresa/dashboard" className="logo logo-dark">
                     <span className="logo-sm">
                       <img src={logo} alt="" height="22" />
                     </span>
