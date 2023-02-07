@@ -5,6 +5,7 @@ import {PrivateRouter} from "./PrivateRouter";
 import {AdminRouter} from "../admin";
 import {CircleSpinnerOverlay} from "react-spinner-overlay";
 import {useUiStore} from "../store/ui/useUiStore";
+import {CompanyRouter} from "../company/router/CompanyRouter";
 
 export const Router = () => {
 
@@ -27,6 +28,12 @@ export const Router = () => {
                 <Route path="/admin/*" element={
                     <PrivateRouter>
                         <AdminRouter/>
+                    </PrivateRouter>
+                } />
+
+                <Route path="/empresa/*" element={
+                    <PrivateRouter>
+                        <CompanyRouter/>
                     </PrivateRouter>
                 } />
 

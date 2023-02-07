@@ -110,7 +110,10 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
         navigate('/admin/empresa/'+id);
     }
 
-
+    const handleNavigateToCompanyLayout = (id:string) => {
+        localStorage.setItem('companyId', id );
+        navigate('/empresa/dashboard');
+    }
 
     return(
         <>
@@ -205,6 +208,15 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                                             <i className="fas fa-edit"></i>
                                                                         </button>
                                                                     }
+
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-default"
+                                                                        title="Gestionat elemento"
+                                                                        onClick={()=>handleNavigateToCompanyLayout(company.id)}
+                                                                    >
+                                                                        <i className="fas fa-city" />
+                                                                    </button>
 
                                                                 </div>
                                                             </td>
