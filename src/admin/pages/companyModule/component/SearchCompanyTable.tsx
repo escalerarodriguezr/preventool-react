@@ -110,7 +110,10 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
         navigate('/admin/empresa/'+id);
     }
 
-
+    const handleNavigateToCompanyLayout = (id:string) => {
+        localStorage.setItem('companyId', id );
+        navigate('/empresa/dashboard');
+    }
 
     return(
         <>
@@ -199,12 +202,21 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                                         <button
                                                                             type="button"
                                                                             className="btn btn-default"
-                                                                            title="Editar elemento"
+                                                                            title="Editar"
                                                                             onClick={()=>handleNavigateEdit(company.id)}
                                                                         >
                                                                             <i className="fas fa-edit"></i>
                                                                         </button>
                                                                     }
+
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-default"
+                                                                        title="Gestionar empresa"
+                                                                        onClick={()=>handleNavigateToCompanyLayout(company.id)}
+                                                                    >
+                                                                        <i className="fas fa-city" />
+                                                                    </button>
 
                                                                 </div>
                                                             </td>
