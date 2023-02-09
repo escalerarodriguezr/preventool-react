@@ -17,7 +17,7 @@ export const ProfileMenu = () => {
 
     const onLogout = () => {
         logOutAction();
-        navigate('/auth');
+        navigate('/');
     }
     const onProfile = () => {
         navigate('/admin/perfil/'+sessionState.actionAdmin?.id);
