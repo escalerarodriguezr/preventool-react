@@ -29,8 +29,7 @@ export const DashboardPage = () => {
                     <Row className="justify-content-start text-start">
                         <Col xl={12}>
                             <div className="mb-4">
-                                <h2>{companySessionState.actionCompany?.legalName} - {companySessionState.actionCompany?.legalDocument}
-                                    - {companySessionState.actionCompany?.sector}
+                                <h2>{companySessionState.actionCompany?.legalName}
                                 </h2>
                             </div>
                         </Col>

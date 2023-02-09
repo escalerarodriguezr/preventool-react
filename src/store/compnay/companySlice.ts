@@ -34,7 +34,6 @@ export const companySlice = createSlice({
     reducers: {
         setCompanySession: (state: CompanySessionState, action: PayloadAction<CompanySessionResponse>) => {
             state.companyError = false;
-            console.log(action.payload);
             state.actionCompany = action.payload.actionCompany
         },
         clearCompanySession: (state:CompanySessionState) => {
@@ -47,7 +46,6 @@ export const companySlice = createSlice({
     }
 
 });
-
 
 // Action creators are generated for each case reducer function
 export const {

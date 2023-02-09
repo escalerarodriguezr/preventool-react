@@ -18,7 +18,6 @@ export const SocialMenu = () => {
     const {clearCompanySessionAction} = useCompanySessionStore();
     const handleNavigateToAdminLayout = () => {
         clearCompanySessionAction();
-        console.log("llega");
         navigate('/admin/dashboard');
 
     }
