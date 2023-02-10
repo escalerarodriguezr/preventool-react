@@ -3,6 +3,10 @@ import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useEffect} from "react";
 import {useCompanySessionStore} from "../../../store/compnay/useCompanySessionStore";
 import {useUiStore} from "../../../store/ui/useUiStore";
+import {AdminRoles} from "../../../admin/shared/model/Admin/AdminRoles";
+import {RootDashboardPanel} from "../../../admin/pages/dashboard/rootDashboard/RootDashboardPanel";
+import {AdminDashboardPanel} from "../../../admin/pages/dashboard/adminDashboard/AdminDashboardPanel";
+import {GeneralDashboardPanel} from "./component/GeneralDashboardPanel";
 
 export const DashboardPage = () => {
 
@@ -26,14 +30,7 @@ export const DashboardPage = () => {
         <>
             <div className="page-content">
                 <Container fluid>
-                    <Row className="justify-content-start text-start">
-                        <Col xl={12}>
-                            <div className="mb-4">
-                                <h2>{companySessionState.actionCompany?.legalName}
-                                </h2>
-                            </div>
-                        </Col>
-                    </Row>
+                    <GeneralDashboardPanel sessionState={sessionState} companySessionState={companySessionState} />
                 </Container>
             </div>
         </>

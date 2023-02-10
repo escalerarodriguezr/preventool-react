@@ -1,23 +1,32 @@
-import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import {useEffect, useState} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
-import {useCompanySessionStore} from "../../../store/compnay/useCompanySessionStore";
+import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
-import {CreateCompanyGeneralData} from "../../../admin/pages/companyModule/component/CreateCompanyGeneralData";
-import {CreateWorkplaceGeneralData} from "./component/CreateWorkplaceGeneralData";
+import {useCompanySessionStore} from "../../../store/compnay/useCompanySessionStore";
+import {SearchWorkplaceTable} from "./component/SearchWorkplaceTable";
+import {useUiStore} from "../../../store/ui/useUiStore";
 
 
-export const CreateWorkplacePage = () => {
-
+export const SearchWorkplacePage = () => {
     const [activeTab, setActiveTab] = useState("1");
 
     const {getSessionAction, sessionState} = useSessionStore();
-    const {getCompanySessionAction, companySessionState} = useCompanySessionStore();
+    const {getCompanySessionAction,companySessionState} = useCompanySessionStore();
+
+    const {
+        appLoading,
+        appLoaded
+    } = useUiStore();
 
     useEffect(()=>{
+        appLoading();
         getSessionAction();
-        // getCompanySessionAction();
+        getCompanySessionAction();
+        appLoaded();
+
     },[]);
+
+
     return(
         <>
             <div className="page-content">
@@ -26,9 +35,9 @@ export const CreateWorkplacePage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Crear Centro de trabajo</CardTitle>
+                                    <CardTitle className="h4">Centros de trabajo</CardTitle>
                                     <p className="card-title-desc">
-                                        Registrar un Centro de trabajo para la empresa {companySessionState.actionCompany?.name}
+                                        Centros de trabajo de {companySessionState.actionCompany?.name}
                                     </p>
                                     <Nav tabs>
                                         <NavItem>
@@ -41,7 +50,7 @@ export const CreateWorkplacePage = () => {
                                                     setActiveTab("1");
                                                 }}
                                             >
-                                                Datos generales
+                                                Listado
                                             </NavLink>
                                         </NavItem>
                                     </Nav>
@@ -53,12 +62,10 @@ export const CreateWorkplacePage = () => {
                                         <TabPane tabId="1">
                                             <Row>
                                                 <Col sm="12">
-                                                    {activeTab == '1' &&
-                                                        <CreateWorkplaceGeneralData
-                                                            sessionState={sessionState}
-                                                            companySessionState={companySessionState}
-                                                        />
-                                                    }
+                                                    {activeTab == '1' && <SearchWorkplaceTable
+                                                        sessionState={sessionState}
+                                                        companySessionState={companySessionState}
+                                                    />}
                                                 </Col>
                                             </Row>
                                         </TabPane>
