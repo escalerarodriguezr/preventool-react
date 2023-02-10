@@ -44,7 +44,6 @@ export const SideBarContent = () => {
         <>
             <SimpleBar className="h-100">
                 <div id="sidebar-menu">
-                    <h4 className="text-center">{companySessionState.actionCompany?.name}</h4>
                     <ul className="metismenu list-unstyled" id="side-menu"  ref={simpleBar}>
                         {/*DashBoard*/}
                         <li>
@@ -53,7 +52,7 @@ export const SideBarContent = () => {
                                 className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                             >
                                 <i className="bx bx-home-circle" />
-                                <span>{"Dashboard"}</span>
+                                <span>{companySessionState.actionCompany?.name}</span>
                             </NavLink>
                         </li>
 
@@ -76,14 +75,14 @@ export const SideBarContent = () => {
                                         {"Crear"}
                                     </NavLink>
                                 </li>
-                                {/*<li>*/}
-                                {/*    <NavLink*/}
-                                {/*        to="/admin/administradores"*/}
-                                {/*        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
-                                {/*    >*/}
-                                {/*        {"Listado"}*/}
-                                {/*    </NavLink>*/}
-                                {/*</li>*/}
+                                <li>
+                                    <NavLink
+                                        to="/empresa/centros-de-trabajo"
+                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                    >
+                                        {"Listado"}
+                                    </NavLink>
+                                </li>
                             </ul>
                         </li>
 
