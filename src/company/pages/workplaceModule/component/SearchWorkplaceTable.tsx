@@ -116,9 +116,9 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
     // }
 
     const handleNavigateEdit = (id:string) => {
-        // navigate('/admin/empresa/'+id);
-        console.log(id);
+        navigate('/empresa/centro-trabajo/' + id);
     }
+
 
 
     return(
@@ -171,15 +171,15 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
                                                                     <td>
                                                                         <div className="btn-group" >
 
-                                                                            {/*<button*/}
-                                                                            {/*    type="button"*/}
-                                                                            {/*    className="btn btn-default"*/}
-                                                                            {/*    title="Editar"*/}
-                                                                            {/*    onClick={()=>handleNavigateEdit(workplace.id)}*/}
-                                                                            {/*   */}
-                                                                            {/*>*/}
-                                                                            {/*    <i className="fas fa-edit"></i>*/}
-                                                                            {/*</button>*/}
+                                                                            <button
+                                                                                type="button"
+                                                                                className="btn btn-default"
+                                                                                title="Editar"
+                                                                                onClick={()=>handleNavigateEdit(workplace.id)}
+
+                                                                            >
+                                                                                <i className="fas fa-edit"></i>
+                                                                            </button>
 
 
                                                                             {/*<button*/}
