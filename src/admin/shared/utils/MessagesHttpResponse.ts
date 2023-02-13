@@ -15,8 +15,9 @@ export const MessagesHttpResponse = {
     CompanyAlreadyExistsException: 'Ya existe un Empresa con el mismo RUC.',
     CompanyNotFoundException :'La empresa no existe en el sistema.',
 
-    //Company
+    //Workplace
     WorkplaceAlreadyExistsException: 'Ya existe un Centro de trabajo con el mismo nombre.',
+    WorkplaceNotBelongToCompanyException: 'La empresa del centro de trabajo que intenmtas actualizar no existe.',
 
 
 }

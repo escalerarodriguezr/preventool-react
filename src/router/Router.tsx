@@ -19,11 +19,11 @@ export const Router = () => {
                 overlayColor="rgba(0,153,255,0.1)"
             />
             <Routes>
-                <Route path="/auth/*" element={
-                    <PublicRouter>
-                        <AuthRouter/>
-                    </PublicRouter>
-                } />
+                {/*<Route path="/auth/*" element={*/}
+                {/*    <PublicRouter>*/}
+                {/*        <AuthRouter/>*/}
+                {/*    </PublicRouter>*/}
+                {/*} />*/}
 
                 <Route path="/admin/*" element={
                     <PrivateRouter>
