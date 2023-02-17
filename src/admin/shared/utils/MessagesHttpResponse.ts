@@ -19,5 +19,8 @@ export const MessagesHttpResponse = {
     WorkplaceAlreadyExistsException: 'Ya existe un Centro de trabajo con el mismo nombre.',
     WorkplaceNotBelongToCompanyException: 'La empresa del centro de trabajo que intenmtas actualizar no existe.',
 
+    //HealthAndSafetyPolicy
+    HealthAndSafetyNotFoundException: 'La política de la seguridad y salud de la empresa no existe en el sistema.',
+
 
 }
