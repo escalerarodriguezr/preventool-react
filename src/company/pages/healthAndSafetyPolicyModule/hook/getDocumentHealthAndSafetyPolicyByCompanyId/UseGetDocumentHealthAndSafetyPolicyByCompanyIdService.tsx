@@ -34,9 +34,12 @@ export const UseGetDocumentHealthAndSafetyPolicyByCompanyIdService = () => {
 
     }
 
+
+
     return{
         documentUrl,
-        getPolicyDocumentByCompanyIdAction
+        getPolicyDocumentByCompanyIdAction,
+        setDocumentUrl
     }
 
 

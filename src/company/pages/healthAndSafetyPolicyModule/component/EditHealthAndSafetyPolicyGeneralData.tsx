@@ -10,6 +10,7 @@ import {
     UseGetDocumentHealthAndSafetyPolicyByCompanyIdService
 } from "../hook/getDocumentHealthAndSafetyPolicyByCompanyId/UseGetDocumentHealthAndSafetyPolicyByCompanyIdService";
 import {UploadPdfDocument} from "../../../../shared/component/UploadPdfDocument";
+import {redirect, useNavigate} from "react-router-dom";
 
 interface EditHealthAndSafetyPolicyGeneralDataProps{
     sessionState:SessionState
@@ -25,17 +26,22 @@ export const EditHealthAndSafetyPolicyGeneralData = (
 
     const {appLoading, appLoaded} = useUiStore();
 
+    const navigate = useNavigate();
+
     const {
         policy,
         getPolicyByCompanyIdAction
     } = UseGetHealthAndSafetyPolicyByCompanyIdService();
 
-    const {getPolicyDocumentByCompanyIdAction, documentUrl} = UseGetDocumentHealthAndSafetyPolicyByCompanyIdService();
+    const {getPolicyDocumentByCompanyIdAction, documentUrl, setDocumentUrl} = UseGetDocumentHealthAndSafetyPolicyByCompanyIdService();
 
     useEffect(()=>{
         if(sessionState.actionAdmin && companySessionState.actionCompany?.id){
             appLoading();
-            getPolicyByCompanyIdAction(companySessionState.actionCompany.id).then();
+            getPolicyByCompanyIdAction(companySessionState.actionCompany.id);
+            if(!policy?.documentResource){
+                appLoaded();
+            }
         }
 
     },[companySessionState]);
@@ -51,7 +57,7 @@ export const EditHealthAndSafetyPolicyGeneralData = (
             getPolicyDocumentByCompanyIdAction(companySessionState.actionCompany?.id).then(appLoaded);
 
         }
-    },[policy,uploadedFile]);
+    },[policy]);
 
     useEffect(()=>{
         if(documentUrl){
@@ -76,7 +82,12 @@ export const EditHealthAndSafetyPolicyGeneralData = (
 
     const handleOnSuccessUploadFile = (file:File):void => {
         //dispara la recarga de la politica
-        setUploadFile(file)
+
+        setUploadFile(file);
+
+        setDocumentUrl(file);
+
+        // redirect('/empresa/politica-seguridad-y-salud');
     }
 
     const handleSelectedChange = (event:SyntheticEvent) => {
