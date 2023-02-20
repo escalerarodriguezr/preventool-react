@@ -9,7 +9,7 @@ import {AxiosError} from "axios/index";
 interface UploadPdfDocumentProps {
     uploadEndpoint: string,
     maxFileSize:number
-    onSuccessAction: (file:File)=>{}
+    onSuccessAction: any
 }
 export const UploadPdfDocument = ({uploadEndpoint, maxFileSize, onSuccessAction}:UploadPdfDocumentProps) => {
 
