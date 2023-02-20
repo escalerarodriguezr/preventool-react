@@ -86,6 +86,29 @@ export const SideBarContent = () => {
                             </ul>
                         </li>
 
+
+                        <li className="menu-title">{"Sistema de Gestión SST"}</li>
+
+                        <li>
+                            <a className="has-arrow">
+                                <i className="fas fa-people-carry" />
+                                <span>{"Política SS"}</span>
+                            </a>
+                            <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                data-menu="workplace-module"
+                            >
+                                <li>
+                                    <NavLink
+                                        to="/empresa/politica-seguridad-y-salud"
+                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                    >
+                                        {"Editar"}
+                                    </NavLink>
+                                </li>
+
+                            </ul>
+                        </li>
+
                     </ul>
                 </div>
             </SimpleBar>

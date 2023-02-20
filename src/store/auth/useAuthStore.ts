@@ -54,7 +54,6 @@ export const useAuthStore = () => {
         //State
         errorMessage,
         token,
-
         //Actions
         loginAction,
         logOutAction
