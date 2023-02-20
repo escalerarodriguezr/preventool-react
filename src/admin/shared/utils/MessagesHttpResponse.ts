@@ -5,6 +5,9 @@ export const MessagesHttpResponse = {
     InternalError : 'Servicio no disponible.',
     SuccessCreatedResponse: 'Registro completado.',
     SuccessEditResponse: 'Editado con éxito.',
+    SuccessUploadDocumentResponse: 'Documento guardado.',
+    ErrorUploadDocumentResponse: 'El documento no se ha podido guardar.',
+    ErrorUploadDocumentInvalidFormatResponse: 'El archivo no tiene el formato y/o tamaño adecuado.',
 
     //Admin
     AdminAlreadyExistsException: 'Ya existe un Administrador con el email introducido.',

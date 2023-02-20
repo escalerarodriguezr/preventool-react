@@ -9,6 +9,7 @@ import {Col, Row} from "reactstrap";
 import {
     UseGetDocumentHealthAndSafetyPolicyByCompanyIdService
 } from "../hook/getDocumentHealthAndSafetyPolicyByCompanyId/UseGetDocumentHealthAndSafetyPolicyByCompanyIdService";
+import {UploadPdfDocument} from "../../../../shared/component/UploadPdfDocument";
 
 interface EditHealthAndSafetyPolicyGeneralDataProps{
     sessionState:SessionState
@@ -19,18 +20,17 @@ export const EditHealthAndSafetyPolicyGeneralData = (
     {sessionState,companySessionState}:EditHealthAndSafetyPolicyGeneralDataProps
 ) =>
 {
-    const {appLoading, appLoaded, loading} = useUiStore();
+    const [status, setStatus] = useState<string>('DRAFT');
+    const [uploadedFile, setUploadFile] = useState<File|null>(null);
+
+    const {appLoading, appLoaded} = useUiStore();
 
     const {
         policy,
         getPolicyByCompanyIdAction
     } = UseGetHealthAndSafetyPolicyByCompanyIdService();
 
-    const [status, setStatus] = useState<string>('DRAFT');
-
-    const {getPolicyDocumentByCompanyIdAction, documentUrl} = UseGetDocumentHealthAndSafetyPolicyByCompanyIdService()
-
-
+    const {getPolicyDocumentByCompanyIdAction, documentUrl} = UseGetDocumentHealthAndSafetyPolicyByCompanyIdService();
 
     useEffect(()=>{
         if(sessionState.actionAdmin && companySessionState.actionCompany?.id){
@@ -51,20 +51,10 @@ export const EditHealthAndSafetyPolicyGeneralData = (
             getPolicyDocumentByCompanyIdAction(companySessionState.actionCompany?.id).then(appLoaded);
 
         }
-    },[policy]);
+    },[policy,uploadedFile]);
 
     useEffect(()=>{
         if(documentUrl){
-            console.log(documentUrl);
-            //Forzar descarga
-            // const link = document.createElement('a');
-            // link.href = window.URL.createObjectURL(documentUrl);
-            // link.download = `uno-${+new Date()}.pdf`;
-            // console.log(link);
-            // link.click();
-            //
-
-
             const file = window.URL.createObjectURL(documentUrl);
             const iframe = document.querySelector("iframe");
             if (iframe?.src) iframe.src = file;
@@ -73,32 +63,34 @@ export const EditHealthAndSafetyPolicyGeneralData = (
                 window.URL.revokeObjectURL(file);
             }
 
+            //Forzar descarga
+            // const link = document.createElement('a');
+            // link.href = window.URL.createObjectURL(documentUrl);
+            // link.download = `uno-${+new Date()}.pdf`;
+            // console.log(link);
+            // link.click();
+            //
         }
     },[documentUrl])
 
 
-    const isSelected = (option:string) => {
-
-        return status === option
-
+    const handleOnSuccessUploadFile = (file:File):void => {
+        //dispara la recarga de la politica
+        setUploadFile(file)
     }
 
     const handleSelectedChange = (event:SyntheticEvent) => {
-
         // @ts-ignore
         const statusValue = event.nativeEvent.target.value
         setStatus(statusValue);
     }
 
-
-
-
+    // @ts-ignore
     return(
         <>
             <Row>
                 <Col lg={2} className={'order-lg-2'} >
                     <div className="mb-3 row">
-
                         <div className="text-center">
                             <label className="col-form-label">Estado del Documento</label>
                         </div>
@@ -128,6 +120,15 @@ export const EditHealthAndSafetyPolicyGeneralData = (
                         </div>
                     </div>
 
+                    <div className="mt-5 row">
+                        <UploadPdfDocument
+                            uploadEndpoint={`/company/${companySessionState.actionCompany?.id}/upload-health-and-safety-policy`}
+                            onSuccessAction={(file:File)=>handleOnSuccessUploadFile(file)}
+                            maxFileSize={10}
+                        />
+
+                    </div>
+
                 </Col>
 
                 <Col lg={10} className={'order-lg-1'}>
@@ -143,8 +144,6 @@ export const EditHealthAndSafetyPolicyGeneralData = (
                     }
 
                 </Col>
-
-
 
             </Row>
         </>
