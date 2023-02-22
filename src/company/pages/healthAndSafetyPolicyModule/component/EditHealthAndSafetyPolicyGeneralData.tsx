@@ -11,6 +11,12 @@ import {
 } from "../hook/getDocumentHealthAndSafetyPolicyByCompanyId/UseGetDocumentHealthAndSafetyPolicyByCompanyIdService";
 import {UploadPdfDocument} from "../../../../shared/component/UploadPdfDocument";
 import {redirect, useNavigate} from "react-router-dom";
+import {AxiosResponse} from "axios";
+import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
+import {AxiosError} from "axios/index";
+import {bool} from "yup";
 
 interface EditHealthAndSafetyPolicyGeneralDataProps{
     sessionState:SessionState
@@ -22,11 +28,10 @@ export const EditHealthAndSafetyPolicyGeneralData = (
 ) =>
 {
     const [status, setStatus] = useState<string>('DRAFT');
-    const [uploadedFile, setUploadFile] = useState<File|null>(null);
-
     const {appLoading, appLoaded} = useUiStore();
 
-    const navigate = useNavigate();
+    const [fileUploaded, setFileUploaded] = useState<boolean>(false);
+
 
     const {
         policy,
@@ -53,7 +58,8 @@ export const EditHealthAndSafetyPolicyGeneralData = (
         }
 
         if(policy?.documentResource && companySessionState.actionCompany?.id){
-            appLoading()
+            appLoading();
+            setFileUploaded(true);
             getPolicyDocumentByCompanyIdAction(companySessionState.actionCompany?.id).then(appLoaded);
 
         }
@@ -83,9 +89,12 @@ export const EditHealthAndSafetyPolicyGeneralData = (
     const handleOnSuccessUploadFile = (file:File):void => {
         //dispara la recarga de la politica
 
-        setUploadFile(file);
+        // setUploadFile(file);
 
         setDocumentUrl(file);
+
+        setFileUploaded(true);
+
 
         // redirect('/empresa/politica-seguridad-y-salud');
     }
@@ -96,40 +105,97 @@ export const EditHealthAndSafetyPolicyGeneralData = (
         setStatus(statusValue);
     }
 
+    const handleStatusSaveAction = async (): Promise<void> => {
+
+        try{
+            const response:AxiosResponse = await preventoolApi.put(
+                `/company/${companySessionState.actionCompany?.id}/approve-health-and-safety-policy`
+            )
+            toast.info(MessagesHttpResponse.HealthAndSafetyStatusChangedSuccess);
+
+        }catch (error) {
+
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 409 && data.class.includes('CompanyNotFoundException') )
+            {
+                toast.info(MessagesHttpResponse.CompanyNotFoundException);
+            }else if( status === 409 && data.class.includes('HealthAndSafetyPolicyOfCompanyNotHasDocumentAssignedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            } else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+
+        }
+
+
+
+
+    }
+
     // @ts-ignore
     return(
         <>
             <Row>
                 <Col lg={2} className={'order-lg-2'} >
-                    <div className="mb-3 row">
-                        <div className="text-center">
-                            <label className="col-form-label">Estado del Documento</label>
+                    {
+                        fileUploaded &&
+                        <div className="mb-3 row">
+                            <div className="text-center">
+                                <label className="col-form-label">Estado del Documento</label>
+                            </div>
+
+                            <div className="">
+                                <select className="form-select"
+                                        value={status}
+                                        onChange={handleSelectedChange}
+                                        disabled={!policy?.documentResource}
+                                >
+
+                                    {
+                                        !documentUrl &&
+                                        <option
+                                            value={'PENDING'}
+                                            // selected={isSelected('PENDING')}
+                                        >Pendiente</option>
+
+                                    }
+
+                                    {
+                                        documentUrl  &&
+                                        <>
+                                            <option
+                                                value={'DRAFT'}
+                                                // selected={isSelected('DRAFT')}
+                                            >Borrador</option>
+                                            <option
+                                                value={'APPROVED'}
+                                                // selected={isSelected('APPROVED')}
+                                            >Aprobado</option>
+                                        </>
+
+                                    }
+
+
+                                </select>
+                            </div>
+
+                            <div className="mt-2 text-center">
+                                <button type="button" className="btn btn-primary w-md"
+                                        disabled={!documentUrl}
+                                        onClick={()=>handleStatusSaveAction()}
+                                >
+                                    Guardar
+                                </button>
+                            </div>
                         </div>
-                        <div className="">
-                            <select className="form-select"
-                                    value={status}
-                                    onChange={handleSelectedChange}
-                            >
-                                <option
-                                    value={'PENDING'}
-                                    // selected={isSelected('PENDING')}
-                                >Pendiente</option>
-                                <option
-                                    value={'DRAFT'}
-                                    // selected={isSelected('DRAFT')}
-                                >Borrador</option>
-                                <option
-                                    value={'APPROVED'}
-                                    // selected={isSelected('APPROVED')}
-                                >Aprobado</option>
-                            </select>
-                        </div>
-                        <div className="mt-2 text-center">
-                            <button type="button" className="btn btn-primary w-md">
-                                Guardar
-                            </button>
-                        </div>
-                    </div>
+                    }
 
                     <div className="mt-5 row">
                         <UploadPdfDocument
