@@ -47,7 +47,7 @@ export const CreateCompanyGeneralData = ({sessionState}:CreateCompanyGeneralData
 
             if( status === 409 && data.class.includes('CompanyAlreadyExistsException') )
             {
-                toast.info(MessagesHttpResponse.AdminAlreadyExistsException);
+                toast.info(MessagesHttpResponse.CompanyAlreadyExistsException);
             }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
                 toast.info(MessagesHttpResponse.ActionNotAllowedException);
             }else if( status === 403 && data.class.includes('AccessDeniedException') ){
