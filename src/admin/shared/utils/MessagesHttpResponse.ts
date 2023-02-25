@@ -17,6 +17,7 @@ export const MessagesHttpResponse = {
     //Company
     CompanyAlreadyExistsException: 'Ya existe un Empresa con el mismo RUC.',
     CompanyNotFoundException :'La empresa no existe en el sistema.',
+    HealthAndSafetyPolicyOfCompanyNotHasDocumentAssignedException :'La empresa no tienen el documento de politíca de seguridad y salud en el trabajo asignado.',
 
     //Workplace
     WorkplaceAlreadyExistsException: 'Ya existe un Centro de trabajo con el mismo nombre.',
@@ -24,6 +25,7 @@ export const MessagesHttpResponse = {
 
     //HealthAndSafetyPolicy
     HealthAndSafetyNotFoundException: 'La política de la seguridad y salud de la empresa no existe en el sistema.',
+    HealthAndSafetyStatusChangedSuccess: 'Estado de la política de la seguridad y salud actualizado',
 
 
 }
