@@ -28,4 +28,8 @@ export const MessagesHttpResponse = {
     HealthAndSafetyStatusChangedSuccess: 'Estado de la política de la seguridad y salud actualizado',
 
 
+    //AuditType
+    //Company
+    AuditTypeAlreadyExistsException: 'Ya existe un tipo de Auditoria con el mismo nombre',
+
 }

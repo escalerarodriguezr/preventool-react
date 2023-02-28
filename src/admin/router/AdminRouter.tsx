@@ -7,6 +7,7 @@ import {ProfileAdminPage} from "../pages/adminModule/ProfileAdminPage";
 import {CreateCompanyPage} from "../pages/companyModule/CreateCompanyPage";
 import {SearchCompanyPage} from "../pages/companyModule/SearchCompanyPage";
 import {EditCompanyPage} from "../pages/companyModule/EditCompanyPage";
+import {CreateAuditTypePage} from "../pages/auditTypeModule/CreateAuditTypePage";
 
 export const AdminRouter = () => {
 
@@ -24,6 +25,9 @@ export const AdminRouter = () => {
                 <Route path="empresa" element={<CreateCompanyPage />} />
                 <Route path="empresas" element={<SearchCompanyPage />} />
                 <Route path="empresa/:id" element={<EditCompanyPage />} />
+
+                {/*AuditType*/}
+                <Route path="tipo-auditoria" element={<CreateAuditTypePage/>}/>
 
                 <Route path="*" element={<DashboardPage />} />
             </Route>
