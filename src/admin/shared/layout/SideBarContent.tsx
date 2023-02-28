@@ -152,10 +152,12 @@ export const SideBarContent = () => {
 
                         {/*AuditType*/}
 
+                        <li className="menu-title">{"Configuración SST"}</li>
+
                         <li>
                             <a className="has-arrow">
-                                <i className="fas fa-city" />
-                                <span>{"Configuración SST"}</span>
+                                <i className="fas fa-check-square" />
+                                <span>{"Auditorías"}</span>
                             </a>
                             <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
                                 data-menu="audit-type-module"
