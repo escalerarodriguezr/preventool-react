@@ -8,6 +8,7 @@ import {SessionState} from "../../../../store/session/sessionSlice";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {UseSearchAuditTypeService} from "../hook/searchAuditTypeService/UseSearchAuditTypeService";
+import {useTablePaginator} from "../../../../shared/hook/useTablePaginator";
 
 interface SearchCompanyTableProps{
     sessionState:SessionState,
@@ -19,7 +20,6 @@ export const SearchAuditTypeTable = ({sessionState}:SearchCompanyTableProps) => 
 
     const [orderBy, setOrderBy] = useState('createdAt');
     const [orderByDirection, setOrderByDirection] = useState('DESC');
-    const [requiredPage, setRequiredPage] = useState(1);
 
     const pageSize:number = 10;
 
@@ -31,6 +31,14 @@ export const SearchAuditTypeTable = ({sessionState}:SearchCompanyTableProps) => 
         auditTypes
     } = UseSearchAuditTypeService();
 
+    const {
+        requiredPage,
+        handleTargetPage,
+        handlePreviousPage,
+        handleNextPage
+    } = useTablePaginator({currentPage,pages});
+
+
     useEffect(()=>{
         searchAuditTypeAction(
             '?'
@@ -41,26 +49,7 @@ export const SearchAuditTypeTable = ({sessionState}:SearchCompanyTableProps) => 
         );
     },[orderBy,orderByDirection, requiredPage]);
 
-    //Paginator
-    const handleNextPage = () =>{
-
-        if(currentPage === pages){
-            return currentPage;
-        }
-        setRequiredPage(currentPage+1);
-    }
-
-    const handlePreviousPage = () =>{
-        if(currentPage === 1){
-            return currentPage
-        }
-        setRequiredPage(currentPage-1);
-    }
-
-    const handleTargetPage = (targetPage:number) => {
-        setRequiredPage(targetPage);
-    }
-
+    
     //Orders
     const handleOrderByCreatedAt = () => {
         setOrderBy('createdAt');
