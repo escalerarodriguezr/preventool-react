@@ -170,6 +170,12 @@ export const SideBarContent = () => {
                                     >
                                         {"Crear"}
                                     </NavLink>
+                                    <NavLink
+                                        to="/admin/tipo-auditoria-listado"
+                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                    >
+                                        {"Listado"}
+                                    </NavLink>
                                 </li>
 
 
