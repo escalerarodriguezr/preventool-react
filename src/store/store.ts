@@ -3,13 +3,15 @@ import {authSlice} from "./auth/authSlice";
 import {uiSlice} from "./ui/uiSlice";
 import {sessionSlice} from "./session/sessionSlice";
 import {companySlice} from "./compnay/companySlice";
+import {workplaceSlice} from "./workplace/workplaceSlice";
 
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
         ui: uiSlice.reducer,
         session: sessionSlice.reducer,
-        company: companySlice.reducer
+        company: companySlice.reducer,
+        workplace: workplaceSlice.reducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false
