@@ -30,7 +30,7 @@ export const useWorkplaceSessionStore = () => {
             const data = workplaceSessionResponse.data;
             if(data){
                 dispatch(setWorkplaceSession(data))
-                localStorage.setItem('companySession', JSON.stringify(data));
+                localStorage.setItem('workplaceSession', JSON.stringify(data));
                 return true;
             }
             return false;

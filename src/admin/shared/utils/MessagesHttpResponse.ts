@@ -22,6 +22,7 @@ export const MessagesHttpResponse = {
     //Workplace
     WorkplaceAlreadyExistsException: 'Ya existe un Centro de trabajo con el mismo nombre.',
     WorkplaceNotBelongToCompanyException: 'La empresa del centro de trabajo que intenmtas actualizar no existe.',
+    WorkplaceNotFoundException: 'Centro de trabajo no encontrado',
 
     //HealthAndSafetyPolicy
     HealthAndSafetyNotFoundException: 'La política de la seguridad y salud de la empresa no existe en el sistema.',
@@ -31,5 +32,8 @@ export const MessagesHttpResponse = {
     //AuditType
     //Company
     AuditTypeAlreadyExistsException: 'Ya existe un tipo de Auditoria con el mismo nombre',
+
+    //BaselineStudy
+
 
 }
