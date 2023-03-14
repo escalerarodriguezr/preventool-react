@@ -31,9 +31,10 @@ export const MessagesHttpResponse = {
 
     //AuditType
     //Company
-    AuditTypeAlreadyExistsException: 'Ya existe un tipo de Auditoria con el mismo nombre',
+    AuditTypeAlreadyExistsException: 'Ya existe un tipo de Auditoria con el mismo nombre.',
 
     //BaselineStudy
+    WorkplaceBaselineStudyByCategoryNotFoundException: 'Estudio de línea base para la empresa no existe.'
 
 
 }

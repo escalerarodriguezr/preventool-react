@@ -8,6 +8,11 @@ import {useWorkplaceSessionStore} from "../../../../store/workplace/useWorkplace
 import {GetBaselineStudyComplianceService} from "../hook/getBaselineStudyCompliance/GetBaselineStudyComplianceService";
 import {useEffect} from "react";
 import {Card, CardBody, Col, Row, Table} from "reactstrap";
+import {
+    GetBaselineStudyComplianceResponseInterface
+} from "../hook/getBaselineStudyCompliance/GetBaselineStudyComplianceResponseInterface";
+
+
 
 interface BaselineStudyComplianceResumeProps {
     session:SessionState,
@@ -19,17 +24,8 @@ export const BaselineStudyComplianceResume = (
     const {appLoading,appLoaded} = useUiStore();
     const {baselineStudyCompliance, getBaselineStudyComplianceAction} = GetBaselineStudyComplianceService();
 
-    useEffect(()=>{
-        if(workplaceSession.actionWorkplace?.id){
-            console.log("llega");
-            appLoading();
-            getBaselineStudyComplianceAction(workplaceSession.actionWorkplace.id).then(appLoaded);
-        }
-
-    },[]);
-
-    const getChartOptions = (index:any) => {
-        var options = {
+    const getChartOptions = (index:number = 1) => {
+        const options = {
             chart: { sparkline: { enabled: !0 } },
             dataLabels: { enabled: !1 },
             colors: ["#556ee6"],
@@ -58,6 +54,26 @@ export const BaselineStudyComplianceResume = (
         return options;
     };
 
+    // const getCompliance = (study:GetBaselineStudyComplianceResponseInterface|undefined) => {
+    //
+    //     if(baselineStudyCompliance){
+    //         return[baselineStudyCompliance.compromisoCompliance]
+    //     }
+    //     return
+    //
+    // }
+
+    useEffect(()=>{
+        if(workplaceSession.actionWorkplace?.id){
+            console.log("llega");
+            appLoading();
+            getBaselineStudyComplianceAction(workplaceSession.actionWorkplace.id).then(appLoaded);
+        }
+
+    },[]);
+
+
+
 
 
     // @ts-ignore
@@ -84,13 +100,20 @@ export const BaselineStudyComplianceResume = (
 
                                                 <td>
                                                     <div id="radialchart-1" className="apex-charts">
-                                                        <ReactApexChart
-                                                            options={getChartOptions(1)}
-                                                            series={[baselineStudyCompliance?.compromisoCompliance!]}
-                                                            type="radialBar"
-                                                            height={60}
-                                                            width={60}
-                                                        />
+
+                                                        {
+                                                            baselineStudyCompliance &&
+                                                            baselineStudyCompliance.compromisoCompliance &&
+                                                            <ReactApexChart
+                                                                options={getChartOptions(1)}
+                                                                series={[baselineStudyCompliance?.compromisoCompliance!]}
+                                                                type="radialBar"
+                                                                height={"60%"}
+                                                                width={"60%"}
+                                                            />
+
+                                                        }
+
                                                     </div>
                                                 </td>
                                                 <td>
@@ -115,7 +138,7 @@ export const BaselineStudyComplianceResume = (
                                                     <div id="radialchart-1" className="apex-charts">
                                                         <ReactApexChart
                                                             options={getChartOptions(1)}
-                                                            series={[baselineStudyCompliance?.planeamientoCompliance]}
+                                                            series={[baselineStudyCompliance?.planeamientoCompliance!]}
                                                             type="radialBar"
                                                             height={60}
                                                             width={60}

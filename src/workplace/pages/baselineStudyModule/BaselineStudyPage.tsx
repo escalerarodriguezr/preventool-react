@@ -8,6 +8,7 @@ import {useUiStore} from "../../../store/ui/useUiStore";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
 import {BaselineStudyComplianceResume} from "./component/BaselineStudyComplianceResume";
+import {BaselineStudyCategories} from "./component/BaselineStudyCategories";
 
 export const BaselineStudyPage = () => {
     const [activeTab, setActiveTab] = useState("1");
@@ -48,6 +49,19 @@ export const BaselineStudyPage = () => {
                                                 Cumplimiento
                                             </NavLink>
                                         </NavItem>
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "2",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("2");
+                                                }}
+                                            >
+                                                Indicadores
+                                            </NavLink>
+                                        </NavItem>
                                     </Nav>
 
                                     <TabContent
@@ -65,6 +79,22 @@ export const BaselineStudyPage = () => {
                                                             session={sessionState}
                                                             workplaceSession={workplaceSessionState}
                                                         />
+                                                    }
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
+
+                                        <TabPane tabId="2">
+                                            <Row>
+                                                <Col sm="12">
+                                                    {activeTab == '2'
+                                                        && sessionState.actionAdmin
+                                                        && workplaceSessionState.actionWorkplace?.id
+                                                        &&
+                                                       <BaselineStudyCategories
+                                                           session={sessionState}
+                                                           workplaceSession={workplaceSessionState}
+                                                       />
                                                     }
                                                 </Col>
                                             </Row>
