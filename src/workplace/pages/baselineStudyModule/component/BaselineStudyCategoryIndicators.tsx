@@ -33,10 +33,6 @@ export const BaselineStudyCategoryIndicators = (
 
     },[category]);
 
-    useEffect(()=>{
-        console.log(indicators);
-    },[indicators])
-
     return(
         <>
             {
@@ -51,10 +47,7 @@ export const BaselineStudyCategoryIndicators = (
                         compliancePercentage={indicator.compliancePercentage}
                         observations={indicator.observations || ""}
                     />
-
                 ))
-
-
             }
         </>
     )

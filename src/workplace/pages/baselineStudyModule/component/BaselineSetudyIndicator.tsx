@@ -24,7 +24,7 @@ export const BaselineStudyIndicator = (
 
     const {workplaceSessionState} = useWorkplaceSessionStore();
 
-    
+
     const handleComplianceChange = (event:ChangeEvent<HTMLInputElement>)=>{
         const value = event.target.value
         setCompliance(value)
