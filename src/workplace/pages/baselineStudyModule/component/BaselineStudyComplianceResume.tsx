@@ -81,7 +81,7 @@ export const BaselineStudyComplianceResume = (
         <>
             <Row>
 
-                <Col xl="4">
+                <Col xl="6">
                     <Card>
                         <CardBody>
 
@@ -108,8 +108,8 @@ export const BaselineStudyComplianceResume = (
                                                                 options={getChartOptions(1)}
                                                                 series={[baselineStudyCompliance?.compromisoCompliance!]}
                                                                 type="radialBar"
-                                                                height={"60%"}
-                                                                width={"60%"}
+                                                                height={50}
+                                                                width={50}
                                                             />
 
                                                         }
@@ -140,8 +140,8 @@ export const BaselineStudyComplianceResume = (
                                                             options={getChartOptions(1)}
                                                             series={[baselineStudyCompliance?.planeamientoCompliance!]}
                                                             type="radialBar"
-                                                            height={60}
-                                                            width={60}
+                                                            height={50}
+                                                            width={50}
                                                         />
                                                     </div>
                                                 </td>
@@ -169,8 +169,8 @@ export const BaselineStudyComplianceResume = (
                                                             options={getChartOptions(1)}
                                                             series={[baselineStudyCompliance?.evaluacionCompliance!]}
                                                             type="radialBar"
-                                                            height={60}
-                                                            width={60}
+                                                            height={50}
+                                                            width={50}
                                                         />
                                                     </div>
                                                 </td>
@@ -198,8 +198,8 @@ export const BaselineStudyComplianceResume = (
                                                             options={getChartOptions(1)}
                                                             series={[baselineStudyCompliance?.controlCompliance!]}
                                                             type="radialBar"
-                                                            height={60}
-                                                            width={60}
+                                                            height={50}
+                                                            width={50}
                                                         />
                                                     </div>
                                                 </td>
@@ -218,7 +218,7 @@ export const BaselineStudyComplianceResume = (
                     </Card>
                 </Col>
 
-                <Col xl="4">
+                <Col xl="6">
                     <Card>
                         <CardBody>
 
@@ -242,8 +242,8 @@ export const BaselineStudyComplianceResume = (
                                                     options={getChartOptions(1)}
                                                     series={[baselineStudyCompliance?.politicaCompliance!]}
                                                     type="radialBar"
-                                                    height={60}
-                                                    width={60}
+                                                    height={50}
+                                                    width={50}
                                                 />
                                             </div>
                                         </td>
@@ -269,8 +269,8 @@ export const BaselineStudyComplianceResume = (
                                                     options={getChartOptions(1)}
                                                     series={[baselineStudyCompliance?.implementacionCompliance!]}
                                                     type="radialBar"
-                                                    height={60}
-                                                    width={60}
+                                                    height={50}
+                                                    width={50}
                                                 />
                                             </div>
                                         </td>
@@ -297,8 +297,8 @@ export const BaselineStudyComplianceResume = (
                                                     options={getChartOptions(1)}
                                                     series={[baselineStudyCompliance?.verificacionCompliance!]}
                                                     type="radialBar"
-                                                    height={60}
-                                                    width={60}
+                                                    height={50}
+                                                    width={50}
                                                 />
                                             </div>
                                         </td>
@@ -325,8 +325,8 @@ export const BaselineStudyComplianceResume = (
                                                     options={getChartOptions(1)}
                                                     series={[baselineStudyCompliance?.revisionCompliance!]}
                                                     type="radialBar"
-                                                    height={60}
-                                                    width={60}
+                                                    height={50}
+                                                    width={50}
                                                 />
                                             </div>
                                         </td>
@@ -350,7 +350,7 @@ export const BaselineStudyComplianceResume = (
 
             <Row>
 
-                <Col xl={{size: 4, offset: 4}}>
+                <Col xl={{size: 6, offset: 6}}>
                     <Card>
                         <CardBody>
 
@@ -373,8 +373,8 @@ export const BaselineStudyComplianceResume = (
                                                     options={getChartOptions(1)}
                                                     series={[baselineStudyCompliance?.totalCompliance!]}
                                                     type="radialBar"
-                                                    height={60}
-                                                    width={60}
+                                                    height={75}
+                                                    width={75   }
                                                 />
                                             </div>
                                         </td>

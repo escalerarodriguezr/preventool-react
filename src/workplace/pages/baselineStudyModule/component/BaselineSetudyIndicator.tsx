@@ -3,6 +3,11 @@ import {
 } from "../hook/getBaselineStudyIndicatotByCategory/BaselineStudyIndicatorInterface";
 import {Card, CardText, CardTitle, Input} from "reactstrap";
 import React, {ChangeEvent, SyntheticEvent, useEffect, useState} from "react";
+import {AxiosError, AxiosResponse} from "axios";
+import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
+import {useWorkplaceSessionStore} from "../../../../store/workplace/useWorkplaceSessionStore";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
 
 export const BaselineStudyIndicator = (
     {
@@ -17,9 +22,9 @@ export const BaselineStudyIndicator = (
     const [compliance, setCompliance] = useState<number|string>(compliancePercentage);
     const [observationsState, setObservationsState] = useState<any>(observations);
 
+    const {workplaceSessionState} = useWorkplaceSessionStore();
 
-
-
+    
     const handleComplianceChange = (event:ChangeEvent<HTMLInputElement>)=>{
         const value = event.target.value
         setCompliance(value)
@@ -46,10 +51,46 @@ export const BaselineStudyIndicator = (
 
 
 
-    const handleSaveAction = () => {
+    const handleSaveAction = async ():Promise<void> => {
 
-        //Validar la longitud de las observaciones
-        console.log(compliance);
+        try{
+
+            const url = `/update-baseline-study-indicator/${workplaceSessionState.actionWorkplace?.id}/${id}`;
+            const payload:any = {
+                compliancePercentage: (typeof compliance === 'string') ? parseInt(compliance) : compliance,
+                observations: observationsState.length >0 ? observationsState : null
+            }
+
+            await preventoolApi.put(
+                url,
+                payload
+            );
+            toast.info(MessagesHttpResponse.HealthAndSafetyStatusChangedSuccess);
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ) {
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else if ( status === 422 && data.class.includes('UnprocessableEntityHttpExceptio') ){
+                toast.error(MessagesHttpResponse.ErrorUnprocesableEntityResponse);
+            }else if( status === 404 ){
+                if(data.class.includes('WorkplaceNotFoundException')){
+                    toast.error(MessagesHttpResponse.WorkplaceNotFoundException);
+                }else if(data.class.includes('WorkplaceBaselineStudyByCategoryNotFoundException')){
+                    toast.error(MessagesHttpResponse.WorkplaceBaselineStudyByCategoryNotFoundException)
+                }
+                toast.error(MessagesHttpResponse.InternalError);
+
+            }else {
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
 
     }
 
@@ -87,6 +128,7 @@ export const BaselineStudyIndicator = (
                     value={observationsState}
                     onChange={handleObservationsChange}
                 />
+
             </CardText>
             <button
                 className="btn btn-primary w-25"

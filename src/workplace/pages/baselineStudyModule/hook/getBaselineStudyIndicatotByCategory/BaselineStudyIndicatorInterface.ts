@@ -4,5 +4,5 @@ export interface BaselineStudyIndicatorInterface {
     category:string;
     description:string;
     compliancePercentage:number;
-    observations:string|number
+    observations:string|null
 }

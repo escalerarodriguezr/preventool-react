@@ -8,6 +8,7 @@ export const MessagesHttpResponse = {
     SuccessUploadDocumentResponse: 'Documento guardado.',
     ErrorUploadDocumentResponse: 'El documento no se ha podido guardar.',
     ErrorUploadDocumentInvalidFormatResponse: 'El archivo no tiene el formato y/o tamaño adecuado.',
+    ErrorUnprocesableEntityResponse: 'Los datos introducidos no son válidos.',
 
     //Admin
     AdminAlreadyExistsException: 'Ya existe un Administrador con el email introducido.',
@@ -34,7 +35,8 @@ export const MessagesHttpResponse = {
     AuditTypeAlreadyExistsException: 'Ya existe un tipo de Auditoria con el mismo nombre.',
 
     //BaselineStudy
-    WorkplaceBaselineStudyByCategoryNotFoundException: 'Estudio de línea base para la empresa no existe.'
+    WorkplaceBaselineStudyByCategoryNotFoundException: 'Estudio de línea base para la empresa no existe.',
+    BaselineStudyIndicatorChangedSuccess: 'Indicador actualizado',
 
 
 }
