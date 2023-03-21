@@ -57,6 +57,45 @@ export const BaselineStudyCategories = (
                                         Política
                                     </NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        style={{ cursor: "pointer" }}
+                                        className={classnames({
+                                            active: activeTab === "3",
+                                        })}
+                                        onClick={() => {
+                                            setActiveTab("3");
+                                        }}
+                                    >
+                                        Planeamiento y aplicación
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        style={{ cursor: "pointer" }}
+                                        className={classnames({
+                                            active: activeTab === "4",
+                                        })}
+                                        onClick={() => {
+                                            setActiveTab("4");
+                                        }}
+                                    >
+                                        Implementación y operación
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        style={{ cursor: "pointer" }}
+                                        className={classnames({
+                                            active: activeTab === "5",
+                                        })}
+                                        onClick={() => {
+                                            setActiveTab("5");
+                                        }}
+                                    >
+                                        Evaluación normativa
+                                    </NavLink>
+                                </NavItem>
                             </Nav>
 
                             <TabContent
@@ -89,6 +128,51 @@ export const BaselineStudyCategories = (
                                                 <BaselineStudyCategoryIndicators
                                                     workplaceSession={workplaceSession}
                                                     category={'politica'}
+                                                />
+                                            }
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="3">
+                                    <Row>
+                                        <Col sm="12">
+                                            {activeTab == '3'
+                                                && session.actionAdmin
+                                                && workplaceSession.actionWorkplace?.id
+                                                &&
+                                                <BaselineStudyCategoryIndicators
+                                                    workplaceSession={workplaceSession}
+                                                    category={'planeamiento'}
+                                                />
+                                            }
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="4">
+                                    <Row>
+                                        <Col sm="12">
+                                            {activeTab == '4'
+                                                && session.actionAdmin
+                                                && workplaceSession.actionWorkplace?.id
+                                                &&
+                                                <BaselineStudyCategoryIndicators
+                                                    workplaceSession={workplaceSession}
+                                                    category={'implementacion'}
+                                                />
+                                            }
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="5">
+                                    <Row>
+                                        <Col sm="12">
+                                            {activeTab == '5'
+                                                && session.actionAdmin
+                                                && workplaceSession.actionWorkplace?.id
+                                                &&
+                                                <BaselineStudyCategoryIndicators
+                                                    workplaceSession={workplaceSession}
+                                                    category={'evaluacion'}
                                                 />
                                             }
                                         </Col>

@@ -19,3 +19,7 @@ code {
 .input-w-10{
     max-width: 10%;
 }
+
+.space-pre-line{
+    white-space: pre-line;
+}

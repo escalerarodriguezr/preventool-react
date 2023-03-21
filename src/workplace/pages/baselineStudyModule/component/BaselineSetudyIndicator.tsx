@@ -97,8 +97,8 @@ export const BaselineStudyIndicator = (
 
     return(
         <Card body className={"mt-4 border border-2"}>
-            <CardTitle className="mt-0">Indicador</CardTitle>
-            <CardText className={"mt-2"}>
+            <CardTitle className="mt-0">{name}</CardTitle>
+            <CardText className={"mt-2 space-pre-line"}>
                 {description}
             </CardText>
             <CardTitle className="mt-4">% de Cumplimiento</CardTitle>
