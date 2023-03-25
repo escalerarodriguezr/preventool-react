@@ -9,6 +9,7 @@ export const SideBarContent = () => {
     const simpleBar = useRef<any>(undefined);
     const [displayAdmin, setDisplayAdmin] = useState(false);
     const [displayCompany, setDisplayCompany] = useState(false);
+    const [displayAuditType, setDisplayAuditType] = useState(false);
 
 
 
@@ -40,6 +41,18 @@ export const SideBarContent = () => {
                     }else{
                         subMenu.style.display = 'none';
                         setDisplayCompany(false);
+                    }
+                };
+            }
+
+            if(subMenu.dataset.menu === 'audit-type-module'){
+                element.onclick = ()=>{
+                    if( displayAuditType == false ){
+                        subMenu.style.display = '';
+                        setDisplayAuditType(true);
+                    }else{
+                        subMenu.style.display = 'none';
+                        setDisplayAuditType(false);
                     }
                 };
             }
@@ -102,39 +115,73 @@ export const SideBarContent = () => {
                         }
 
 
-                                {/*Company*/}
+                            {/*Company*/}
 
-                                <li>
-                                    <a className="has-arrow">
-                                        <i className="fas fa-city" />
-                                        <span>{"Empresas"}</span>
-                                    </a>
-                                    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
-                                        data-menu="company-module"
-                                    >
+                            <li>
+                                <a className="has-arrow">
+                                    <i className="fas fa-city" />
+                                    <span>{"Empresas"}</span>
+                                </a>
+                                <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                    data-menu="company-module"
+                                >
 
-                                    {(sessionState.actionAdmin?.role === AdminRoles.ROOT) &&
+                                {(sessionState.actionAdmin?.role === AdminRoles.ROOT) &&
 
-                                        <li>
-                                            <NavLink
-                                                to="/admin/empresa"
-                                                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
-                                            >
-                                                {"Crear"}
-                                            </NavLink>
-                                        </li>
-                                    }
+                                    <li>
+                                        <NavLink
+                                            to="/admin/empresa"
+                                            className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                        >
+                                            {"Crear"}
+                                        </NavLink>
+                                    </li>
+                                }
 
-                                        <li>
-                                            <NavLink
-                                                to="/admin/empresas"
-                                                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
-                                            >
-                                                {"Listado"}
-                                            </NavLink>
-                                        </li>
-                                    </ul>
-                                </li>
+                                    <li>
+                                        <NavLink
+                                            to="/admin/empresas"
+                                            className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                        >
+                                            {"Listado"}
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                        {/*/!*AuditType*!/*/}
+
+                        {/*<li className="menu-title">{"Configuración SST"}</li>*/}
+
+                        {/*<li>*/}
+                        {/*    <a className="has-arrow">*/}
+                        {/*        <i className="fas fa-check-square" />*/}
+                        {/*        <span>{"Auditorías"}</span>*/}
+                        {/*    </a>*/}
+                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}*/}
+                        {/*        data-menu="audit-type-module"*/}
+                        {/*    >*/}
+
+                        {/*        <li>*/}
+                        {/*            <NavLink*/}
+                        {/*                to="/admin/tipo-auditoria"*/}
+                        {/*                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
+                        {/*            >*/}
+                        {/*                {"Crear"}*/}
+                        {/*            </NavLink>*/}
+                        {/*            <NavLink*/}
+                        {/*                to="/admin/tipo-auditoria-listado"*/}
+                        {/*                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
+                        {/*            >*/}
+                        {/*                {"Listado"}*/}
+                        {/*            </NavLink>*/}
+                        {/*        </li>*/}
+
+
+
+                        {/*    </ul>*/}
+                        {/*</li>*/}
 
                     </ul>
                 </div>
