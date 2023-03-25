@@ -96,6 +96,45 @@ export const BaselineStudyCategories = (
                                         Evaluación normativa
                                     </NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        style={{ cursor: "pointer" }}
+                                        className={classnames({
+                                            active: activeTab === "6",
+                                        })}
+                                        onClick={() => {
+                                            setActiveTab("6");
+                                        }}
+                                    >
+                                        Verificación
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        style={{ cursor: "pointer" }}
+                                        className={classnames({
+                                            active: activeTab === "7",
+                                        })}
+                                        onClick={() => {
+                                            setActiveTab("7");
+                                        }}
+                                    >
+                                        Control de información y documentos
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        style={{ cursor: "pointer" }}
+                                        className={classnames({
+                                            active: activeTab === "8",
+                                        })}
+                                        onClick={() => {
+                                            setActiveTab("8");
+                                        }}
+                                    >
+                                        Revisión por la dirección
+                                    </NavLink>
+                                </NavItem>
                             </Nav>
 
                             <TabContent
@@ -173,6 +212,51 @@ export const BaselineStudyCategories = (
                                                 <BaselineStudyCategoryIndicators
                                                     workplaceSession={workplaceSession}
                                                     category={'evaluacion'}
+                                                />
+                                            }
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="6">
+                                    <Row>
+                                        <Col sm="12">
+                                            {activeTab == '6'
+                                                && session.actionAdmin
+                                                && workplaceSession.actionWorkplace?.id
+                                                &&
+                                                <BaselineStudyCategoryIndicators
+                                                    workplaceSession={workplaceSession}
+                                                    category={'verificacion'}
+                                                />
+                                            }
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="7">
+                                    <Row>
+                                        <Col sm="12">
+                                            {activeTab == '7'
+                                                && session.actionAdmin
+                                                && workplaceSession.actionWorkplace?.id
+                                                &&
+                                                <BaselineStudyCategoryIndicators
+                                                    workplaceSession={workplaceSession}
+                                                    category={'control'}
+                                                />
+                                            }
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="8">
+                                    <Row>
+                                        <Col sm="12">
+                                            {activeTab == '8'
+                                                && session.actionAdmin
+                                                && workplaceSession.actionWorkplace?.id
+                                                &&
+                                                <BaselineStudyCategoryIndicators
+                                                    workplaceSession={workplaceSession}
+                                                    category={'revision'}
                                                 />
                                             }
                                         </Col>

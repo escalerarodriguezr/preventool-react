@@ -101,7 +101,7 @@ export const BaselineStudyIndicator = (
             <CardText className={"mt-2 space-pre-line"}>
                 {description}
             </CardText>
-            <CardTitle className="mt-4">% de Cumplimiento</CardTitle>
+            <CardTitle className="mt-4">% Cumplimiento</CardTitle>
             <CardText>
 
                 <Input

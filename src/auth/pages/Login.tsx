@@ -69,11 +69,11 @@ export const Login = () => {
                         <Col md={8} lg={6} xl={5}>
                             <Card className="overflow-hidden">
                                 <div className="bg-primary bg-soft">
-                                    <Row>
-                                        <Col className="col-5 align-self-end">
-                                            <img src={profile} alt="" className="img-fluid" />
-                                        </Col>
-                                    </Row>
+                                    {/*<Row>*/}
+                                    {/*    <Col className="col-5 align-self-end">*/}
+                                    {/*        /!*<img src={profile} alt="" className="img-fluid" />*!/*/}
+                                    {/*    </Col>*/}
+                                    {/*</Row>*/}
                                 </div>
                                 <CardBody className="pt-0">
                                     {/*<div className="auth-logo">*/}
@@ -89,7 +89,7 @@ export const Login = () => {
                                     {/*        </div>*/}
                                     {/*</div>*/}
 
-                                    <div className="p-2">
+                                    <div className="p-2 mt-2">
                                         <form
                                             noValidate
                                             className="form-horizontal"
