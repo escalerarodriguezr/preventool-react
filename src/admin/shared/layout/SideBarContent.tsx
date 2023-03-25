@@ -150,38 +150,38 @@ export const SideBarContent = () => {
                             </li>
 
 
-                        {/*AuditType*/}
+                        {/*/!*AuditType*!/*/}
 
-                        <li className="menu-title">{"Configuración SST"}</li>
+                        {/*<li className="menu-title">{"Configuración SST"}</li>*/}
 
-                        <li>
-                            <a className="has-arrow">
-                                <i className="fas fa-check-square" />
-                                <span>{"Auditorías"}</span>
-                            </a>
-                            <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
-                                data-menu="audit-type-module"
-                            >
+                        {/*<li>*/}
+                        {/*    <a className="has-arrow">*/}
+                        {/*        <i className="fas fa-check-square" />*/}
+                        {/*        <span>{"Auditorías"}</span>*/}
+                        {/*    </a>*/}
+                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}*/}
+                        {/*        data-menu="audit-type-module"*/}
+                        {/*    >*/}
 
-                                <li>
-                                    <NavLink
-                                        to="/admin/tipo-auditoria"
-                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
-                                    >
-                                        {"Crear"}
-                                    </NavLink>
-                                    <NavLink
-                                        to="/admin/tipo-auditoria-listado"
-                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
-                                    >
-                                        {"Listado"}
-                                    </NavLink>
-                                </li>
+                        {/*        <li>*/}
+                        {/*            <NavLink*/}
+                        {/*                to="/admin/tipo-auditoria"*/}
+                        {/*                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
+                        {/*            >*/}
+                        {/*                {"Crear"}*/}
+                        {/*            </NavLink>*/}
+                        {/*            <NavLink*/}
+                        {/*                to="/admin/tipo-auditoria-listado"*/}
+                        {/*                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
+                        {/*            >*/}
+                        {/*                {"Listado"}*/}
+                        {/*            </NavLink>*/}
+                        {/*        </li>*/}
 
 
 
-                            </ul>
-                        </li>
+                        {/*    </ul>*/}
+                        {/*</li>*/}
 
                     </ul>
                 </div>
