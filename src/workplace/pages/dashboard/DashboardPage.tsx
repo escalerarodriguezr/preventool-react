@@ -32,7 +32,7 @@ export const DashboardPage = () => {
         <>
             <div className="page-content">
                 <Container fluid>
-                    <GeneralDashboardPanel sessionState={sessionState} workplaceSessionState={workplaceSessionState} />
+                    {/*<GeneralDashboardPanel sessionState={sessionState} workplaceSessionState={workplaceSessionState} />*/}
                 </Container>
             </div>
         </>

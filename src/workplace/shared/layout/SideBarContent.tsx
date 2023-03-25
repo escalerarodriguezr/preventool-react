@@ -8,7 +8,7 @@ import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSes
 export const SideBarContent = () => {
 
     const simpleBar = useRef<any>(undefined);
-    const [displayWorkplace, setDisplayWorkplace] = useState(false);
+    const [displayBaseline, setDisplayBaseline] = useState(false);
 
 
 
@@ -21,17 +21,17 @@ export const SideBarContent = () => {
         arrows.forEach((element:HTMLElement)=>{
             const subMenu:any = element.closest('li')?.querySelector('ul');
             
-            // if(subMenu.dataset.menu === 'workplace-module'){
-            //     element.onclick = ()=>{
-            //         if( displayWorkplace == false ){
-            //             subMenu.style.display = '';
-            //             setDisplayWorkplace(true);
-            //         }else{
-            //             subMenu.style.display = 'none';
-            //             setDisplayWorkplace(false);
-            //         }
-            //     };
-            // }
+            if(subMenu.dataset.menu === 'baseline-module'){
+                element.onclick = ()=>{
+                    if( displayBaseline == false ){
+                        subMenu.style.display = '';
+                        setDisplayBaseline(true);
+                    }else{
+                        subMenu.style.display = 'none';
+                        setDisplayBaseline(false);
+                    }
+                };
+            }
 
         })
 
@@ -49,7 +49,7 @@ export const SideBarContent = () => {
                         {/*DashBoard*/}
                         <li>
                             <NavLink
-                                to="/workplace/dashboard"
+                                to="/centro-trabajo/dashboard"
                                 className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                             >
                                 <i className="bx bx-home-circle" />
@@ -58,57 +58,31 @@ export const SideBarContent = () => {
                         </li>
 
 
-                        <li className="menu-title">{"Administración"}</li>
-
-                        {/*<li>*/}
-                        {/*    <a className="has-arrow">*/}
-                        {/*        <i className="fas fa-tools" />*/}
-                        {/*        <span>{"Centros de trabajo"}</span>*/}
-                        {/*    </a>*/}
-                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}*/}
-                        {/*        data-menu="workplace-module"*/}
-                        {/*    >*/}
-                        {/*        <li>*/}
-                        {/*            <NavLink*/}
-                        {/*                to="/empresa/crear-centro-trabajo"*/}
-                        {/*                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
-                        {/*            >*/}
-                        {/*                {"Crear"}*/}
-                        {/*            </NavLink>*/}
-                        {/*        </li>*/}
-                        {/*        <li>*/}
-                        {/*            <NavLink*/}
-                        {/*                to="/empresa/centros-de-trabajo"*/}
-                        {/*                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
-                        {/*            >*/}
-                        {/*                {"Listado"}*/}
-                        {/*            </NavLink>*/}
-                        {/*        </li>*/}
-                        {/*    </ul>*/}
-                        {/*</li>*/}
 
 
-                        {/*<li className="menu-title">{"Sistema de Gestión SST"}</li>*/}
 
-                        {/*<li>*/}
-                        {/*    <a className="has-arrow">*/}
-                        {/*        <i className="fas fa-people-carry" />*/}
-                        {/*        <span>{"Política SS"}</span>*/}
-                        {/*    </a>*/}
-                        {/*    <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}*/}
-                        {/*        data-menu="workplace-module"*/}
-                        {/*    >*/}
-                        {/*        <li>*/}
-                        {/*            <NavLink*/}
-                        {/*                to="/empresa/politica-seguridad-y-salud"*/}
-                        {/*                className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}*/}
-                        {/*            >*/}
-                        {/*                {"Editar"}*/}
-                        {/*            </NavLink>*/}
-                        {/*        </li>*/}
 
-                        {/*    </ul>*/}
-                        {/*</li>*/}
+                        <li className="menu-title">{"Sistema de Gestión SST"}</li>
+
+                        <li>
+                            <a className="has-arrow">
+                                <i className="fas fa-check-double" />
+                                <span>{"Estudio de línea base"}</span>
+                            </a>
+                            <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                data-menu="baseline-module"
+                            >
+                                <li>
+                                    <NavLink
+                                        to="/centro-trabajo/estudio-linea-base"
+                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                    >
+                                        {"Gestionar"}
+                                    </NavLink>
+                                </li>
+
+                            </ul>
+                        </li>
 
                     </ul>
                 </div>
