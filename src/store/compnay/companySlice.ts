@@ -30,7 +30,7 @@ const initialState:CompanySessionState = {
 // @ts-ignore
 export const companySlice = createSlice({
     name: 'company',
-    initialState: localStorage.getItem('company') ? JSON.parse(localStorage.getItem('company')!) : initialState,
+    initialState: localStorage.getItem('companySession') ? JSON.parse(localStorage.getItem('companySession')!) : initialState,
     reducers: {
         setCompanySession: (state: CompanySessionState, action: PayloadAction<CompanySessionResponse>) => {
             state.companyError = false;

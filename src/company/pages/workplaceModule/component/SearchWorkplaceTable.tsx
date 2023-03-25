@@ -119,6 +119,11 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
         navigate('/empresa/centro-trabajo/' + id);
     }
 
+    const handleNavigateToWorkplaceLayout = (id:string) => {
+        localStorage.setItem('workplaceId', id );
+        navigate('/centro-trabajo/dashboard');
+    }
+
 
 
     return(
@@ -182,14 +187,14 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
                                                                             </button>
 
 
-                                                                            {/*<button*/}
-                                                                            {/*    type="button"*/}
-                                                                            {/*    className="btn btn-default"*/}
-                                                                            {/*    title="Gestionar empresa"*/}
-                                                                            {/*    onClick={()=>handleNavigateToCompanyLayout(company.id)}*/}
-                                                                            {/*>*/}
-                                                                            {/*    <i className="fas fa-city" />*/}
-                                                                            {/*</button>*/}
+                                                                            <button
+                                                                                type="button"
+                                                                                className="btn btn-default"
+                                                                                title="Gestionar centro"
+                                                                                onClick={()=>handleNavigateToWorkplaceLayout(workplace.id)}
+                                                                            >
+                                                                                <i className="fas fa-city" />
+                                                                            </button>
 
                                                                         </div>
                                                                     </td>
