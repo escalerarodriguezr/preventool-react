@@ -38,5 +38,8 @@ export const MessagesHttpResponse = {
     WorkplaceBaselineStudyByCategoryNotFoundException: 'Estudio de línea base para la empresa no existe.',
     BaselineStudyIndicatorChangedSuccess: 'Indicador actualizado',
 
+    //Process
+    ProcessAlreadyExistsException: 'Ya existe un proceso con el mismo nombre.',
+
 
 }
