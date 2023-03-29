@@ -8,23 +8,40 @@ import {MesseagesFormValidations} from "../../../../admin/shared/utils/Messeages
 import {Form, Input, Label} from "reactstrap";
 import {AxiosError, AxiosResponse} from "axios";
 import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
-import {CreateSuccessResponse} from "../../../../admin/shared/interface/CreateSuccessResponse";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
+
+import React, {useRef, useState} from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+
 
 interface CreateProcessGeneralDataProps{
     session: SessionState;
     workplace: WorkplaceSessionState
 }
+
 export const CreateProcessGeneralData = (
     {session,workplace}:CreateProcessGeneralDataProps
 )=>{
 
+    const editorRef = useRef<any>(null);
+
+    const [description, setDescription] = useState<string|undefined>(undefined);
     const {appLoading,appLoaded} = useUiStore();
 
     const createProcessForm:CreateProcessForm = {
-        name:''
+        name:'',
+        description:description
     }
+
+    const processDescription = () => {
+        if (editorRef.current) {
+            // @ts-ignore
+            const value = editorRef.current.getContent().length > 0 ? editorRef.current.getContent() : null;
+            formik.setFieldValue('description',value);
+            formik.setFieldTouched('description');
+        }
+    };
 
     const formik = useFormik({
         initialValues:createProcessForm,
@@ -66,9 +83,12 @@ export const CreateProcessGeneralData = (
             }
 
         }
-        
+
     }
 
+    let ClassicEditor;
+    // @ts-ignore
+    // @ts-ignore
     return(
         <>
             <Form
@@ -79,7 +99,6 @@ export const CreateProcessGeneralData = (
                     <Input
                         type="text"
                         id="name"
-                        placeholder="Nombre"
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={ formik.handleBlur }
@@ -94,6 +113,31 @@ export const CreateProcessGeneralData = (
                         {formik.errors.name}
                     </div>
                 </div>
+
+                <div className="mb-3">
+                    <Label htmlFor="name">Descripción del proceso</Label>
+
+                    <Editor
+                        onInit={(evt, editor) => editorRef.current = editor}
+                        initialValue={description}
+                        init={{
+                            height: 300,
+                            menubar: true,
+                            plugins: [
+                                'advlist autolink lists link image charmap print preview anchor',
+                                'searchreplace visualblocks code fullscreen',
+                                    'insertdatetime media table paste code table help'
+                            ],
+                            toolbar: 'undo redo | formatselect | ' +
+                                'bold italic backcolor | alignleft aligncenter ' +
+                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                'removeformat | help',
+                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                        }}
+                        onChange={processDescription}
+                    />
+                </div>
+
 
                 <div>
                     <button type="submit" className="btn btn-primary w-md">

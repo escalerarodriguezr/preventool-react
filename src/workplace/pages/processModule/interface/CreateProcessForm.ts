@@ -1,3 +1,4 @@
 export interface CreateProcessForm{
-    name:string
+    name:string;
+    description?:string|null
 }
