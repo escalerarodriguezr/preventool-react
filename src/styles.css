@@ -23,3 +23,5 @@ code {
 .space-pre-line{
     white-space: pre-line;
 }
+/*editor*/
+.tox-notifications-container, .tox-statusbar__branding, .tox-statusbar__wordcount, .tox-statusbar__text-container {display: none !important;}

@@ -9,6 +9,7 @@ export const SideBarContent = () => {
 
     const simpleBar = useRef<any>(undefined);
     const [displayBaseline, setDisplayBaseline] = useState(false);
+    const [displayProcess, setDisplayProcess] = useState(false);
 
 
 
@@ -29,6 +30,18 @@ export const SideBarContent = () => {
                     }else{
                         subMenu.style.display = 'none';
                         setDisplayBaseline(false);
+                    }
+                };
+            }
+
+            if(subMenu.dataset.menu === 'process-module'){
+                element.onclick = ()=>{
+                    if( displayProcess == false ){
+                        subMenu.style.display = '';
+                        setDisplayProcess(true);
+                    }else{
+                        subMenu.style.display = 'none';
+                        setDisplayProcess(false);
                     }
                 };
             }
@@ -58,8 +71,27 @@ export const SideBarContent = () => {
                         </li>
 
 
+                        <li className="menu-title">{"Organización"}</li>
 
+                        <li>
+                            <a className="has-arrow">
+                                <i className="fas fa-outdent" />
+                                <span>{"Procesos"}</span>
+                            </a>
+                            <ul className="sub-menu" aria-expanded="false" style={{display:'none'}}
+                                data-menu="process-module"
+                            >
+                                <li>
+                                    <NavLink
+                                        to="/centro-trabajo/crear-proceso"
+                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                    >
+                                        {"Crear"}
+                                    </NavLink>
+                                </li>
 
+                            </ul>
+                        </li>
 
 
                         <li className="menu-title">{"Sistema de Gestión SST"}</li>
