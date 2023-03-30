@@ -121,8 +121,7 @@ export const SearchProcessTable = (
     }
 
     const handleNavigateEdit = (id:string) => {
-        console.log(id);
-        // navigate('/empresa/centro-trabajo/' + id);
+        navigate('/centro-trabajo/editar-proceso/' + id);
     }
 
     // const handleNavigateToWorkplaceLayout = (id:string) => {
@@ -165,7 +164,7 @@ export const SearchProcessTable = (
                     </Col>
                 </Row>
 
-                
+
                 <Row>
                     <Col md={12}>
                         <Card>
@@ -208,7 +207,6 @@ export const SearchProcessTable = (
                                                                 /></td>
                                                                 <td>
                                                                     <div className="btn-group" >
-
                                                                         <button
                                                                             type="button"
                                                                             className="btn btn-default"

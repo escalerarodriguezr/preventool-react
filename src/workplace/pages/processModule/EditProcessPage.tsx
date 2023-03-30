@@ -1,17 +1,26 @@
+import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {useUiStore} from "../../../store/ui/useUiStore";
 import {useSessionStore} from "../../../store/session/useSessionStore";
+import {useCompanySessionStore} from "../../../store/compnay/useCompanySessionStore";
+import {useUiStore} from "../../../store/ui/useUiStore";
 import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
 import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
-import {SearchWorkplaceTable} from "../../../company/pages/workplaceModule/component/SearchWorkplaceTable";
-import {SearchProcessTable} from "./component/SearchProcessTable";
+import {EditWorkplaceGeneralData} from "../../../company/pages/workplaceModule/component/EditWorkplaceGeneralData";
+import {EditProcessGeneralData} from "./component/EditProcessGeneralData";
 
-export const SearchProcessPage = () => {
+export const EditProcessPage = () => {
+    const {id} = useParams();
     const [activeTab, setActiveTab] = useState("1");
-    const {appLoading, appLoaded} = useUiStore();
-    const {getSessionAction,sessionState} = useSessionStore();
-    const {getWorkplaceSessionAction, workplaceSessionState} = useWorkplaceSessionStore();
+
+    const {getSessionAction, sessionState} = useSessionStore();
+    const {workplaceSessionState} = useWorkplaceSessionStore();
+
+    const {
+        appLoading,
+        appLoaded
+    } = useUiStore();
+
 
     useEffect(()=>{
         appLoading();
@@ -27,7 +36,7 @@ export const SearchProcessPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Procesos</CardTitle>
+                                    <CardTitle className="h4">Editar Proceso</CardTitle>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
@@ -39,7 +48,7 @@ export const SearchProcessPage = () => {
                                                     setActiveTab("1");
                                                 }}
                                             >
-                                                Listado
+                                                Datos generales
                                             </NavLink>
                                         </NavItem>
                                     </Nav>
@@ -52,9 +61,15 @@ export const SearchProcessPage = () => {
                                             <Row>
                                                 <Col sm="12">
                                                     {activeTab == '1' &&
+                                                        id &&
                                                         sessionState.actionAdmin?.id &&
                                                         workplaceSessionState.actionWorkplace?.id &&
-                                                        <SearchProcessTable session={sessionState} workplace={workplaceSessionState}/>
+
+                                                        <EditProcessGeneralData
+                                                            id={id}
+                                                            session={sessionState}
+                                                            workplace={workplaceSessionState}
+                                                        />
                                                     }
                                                 </Col>
                                             </Row>
@@ -68,4 +83,6 @@ export const SearchProcessPage = () => {
             </div>
         </>
     )
+
+
 }
