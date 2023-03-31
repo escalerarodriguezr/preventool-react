@@ -3,6 +3,8 @@ import {WorkplaceLayout} from "../shared/layout/WorkplaceLayout";
 import {DashboardPage} from "../pages/dashboard/DashboardPage";
 import {BaselineStudyPage} from "../pages/baselineStudyModule/BaselineStudyPage";
 import {CreateProcessPage} from "../pages/processModule/CreateProcessPage";
+import {SearchProcessPage} from "../pages/processModule/SearchProcessPage";
+import {EditProcessPage} from "../pages/processModule/EditProcessPage";
 
 
 
@@ -15,11 +17,9 @@ export const WorkplaceRouter = () => {
                <Route path="estudio-linea-base" element={<BaselineStudyPage/>}/>
 
                <Route path="crear-proceso" element={<CreateProcessPage/>}/>
+               <Route path="procesos" element={<SearchProcessPage/>}/>
+               <Route path="editar-proceso/:id" element={<EditProcessPage/>}/>
 
-               {/*<Route path="crear-centro-trabajo" element={<CreateWorkplacePage/>} />*/}
-               {/*<Route path="centros-de-trabajo" element={<SearchWorkplacePage />} />*/}
-               {/*<Route path="centro-trabajo/:id" element={<EditWorkplacePage />} />*/}
-               {/*<Route path="politica-seguridad-y-salud" element={<EditHealthAndSafetyPolicyPage />} />*/}
            </Route>
        </Routes>
    )

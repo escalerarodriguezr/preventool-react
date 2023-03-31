@@ -89,6 +89,14 @@ export const SideBarContent = () => {
                                         {"Crear"}
                                     </NavLink>
                                 </li>
+                                <li>
+                                    <NavLink
+                                        to="/centro-trabajo/procesos"
+                                        className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
+                                    >
+                                        {"Listado"}
+                                    </NavLink>
+                                </li>
 
                             </ul>
                         </li>

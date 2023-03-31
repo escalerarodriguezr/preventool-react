@@ -1,38 +1,72 @@
 import {SessionState} from "../../../../store/session/sessionSlice";
 import {WorkplaceSessionState} from "../../../../store/workplace/workplaceSlice";
 import {useUiStore} from "../../../../store/ui/useUiStore";
-import {CreateProcessForm} from "../interface/CreateProcessForm";
+import {GetWorkplaceProcessByIdService} from "../service/getWorkplaceProcessByIdService/GetWorkplaceProcessByIdService";
+import React, {useEffect, useRef, useState} from "react";
+import {EditProcessForm} from "../interface/EditProcessForm";
 import {useFormik} from "formik";
+import {CreateProcessForm} from "../interface/CreateProcessForm";
 import * as Yup from "yup";
 import {MesseagesFormValidations} from "../../../../admin/shared/utils/MesseagesFormValidations";
 import {Form, Input, Label} from "reactstrap";
-import {AxiosError, AxiosResponse} from "axios";
+import {Editor} from "@tinymce/tinymce-react";
 import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
+import {AxiosError, AxiosResponse} from "axios";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
 
-import React, {useRef, useState} from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-
-
-interface CreateProcessGeneralDataProps{
-    session: SessionState;
-    workplace: WorkplaceSessionState
+interface EditProcessGeneralDataProps{
+    session:SessionState;
+    workplace:WorkplaceSessionState;
+    id:string;
 }
 
-export const CreateProcessGeneralData = (
-    {session,workplace}:CreateProcessGeneralDataProps
-)=>{
+export const EditProcessGeneralData = (
+    {session,workplace,id}: EditProcessGeneralDataProps
+) => {
+
+    const {appLoading,appLoaded} = useUiStore();
+    const {getWorkplaceByIdAction,process} = GetWorkplaceProcessByIdService();
 
     const editorRef = useRef<any>(null);
 
     const [description, setDescription] = useState<string|undefined>(undefined);
-    const {appLoading,appLoaded} = useUiStore();
 
-    const createProcessForm:CreateProcessForm = {
-        name:'',
-        description:description
+
+    useEffect(()=>{
+        if(id && session.actionAdmin?.id && workplace.actionWorkplace?.id ){
+            appLoading();
+            getWorkplaceByIdAction(
+                workplace.actionWorkplace.id,
+                id
+            ).then(appLoaded);
+        }
+
+    },[]);
+
+    useEffect(()=>{
+        if(process && process.description){
+            setDescription(process.description);
+        }
+    },[process])
+
+    const editProcessForm:EditProcessForm = {
+        name: process?.name ? process.name : '',
+        description: process?.description ? process.description : ''
     }
+
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues:editProcessForm,
+        onSubmit:async (value:CreateProcessForm) => {
+            appLoading();
+            await editProcessRequest(value);
+            appLoaded();
+        },
+        validationSchema: Yup.object({
+            name:Yup.string().required(MesseagesFormValidations.Required)
+        })
+    });
 
     const processDescription = () => {
         if (editorRef.current) {
@@ -43,30 +77,17 @@ export const CreateProcessGeneralData = (
         }
     };
 
-    const formik = useFormik({
-        initialValues:createProcessForm,
-        onSubmit:async (value:CreateProcessForm) => {
-            appLoading();
-            await createProcessRequest(value);
-            appLoaded();
-        },
-        validationSchema: Yup.object({
-            name:Yup.string().required(MesseagesFormValidations.Required)
-        })
-    })
+    const editProcessRequest = async (process:EditProcessForm): Promise<void> => {
 
-    const createProcessRequest = async (form:CreateProcessForm):Promise<void> =>{
-
-        try{
-            const response:AxiosResponse = await preventoolApi.post(
-                `/workplace/${workplace.actionWorkplace?.id}/process`,
-                form
+        try {
+            await preventoolApi.put(
+                `/workplace/${workplace.actionWorkplace?.id}/process/${id}`,
+                process
             );
-            // const responseData:CreateSuccessResponse = response.data;
-            toast.info(MessagesHttpResponse.SuccessCreatedResponse);
+            toast.info(MessagesHttpResponse.SuccessEditResponse);
 
+        }catch (error){
 
-        }catch (error:any){
             const axiosError = error as AxiosError;
             const {status, data} = axiosError.response as AxiosResponse ;
 
@@ -83,12 +104,8 @@ export const CreateProcessGeneralData = (
             }
 
         }
-
     }
 
-    let ClassicEditor;
-    // @ts-ignore
-    // @ts-ignore
     return(
         <>
             <Form
@@ -126,7 +143,7 @@ export const CreateProcessGeneralData = (
                             plugins: [
                                 'advlist autolink lists link image charmap print preview anchor',
                                 'searchreplace visualblocks code fullscreen',
-                                    'insertdatetime media table paste code table help'
+                                'insertdatetime media table paste code table help'
                             ],
                             toolbar: 'undo redo | formatselect | ' +
                                 'bold italic backcolor | alignleft aligncenter ' +
@@ -147,4 +164,7 @@ export const CreateProcessGeneralData = (
             </Form>
         </>
     )
+
+
+
 }
