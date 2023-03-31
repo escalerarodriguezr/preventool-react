@@ -10,6 +10,10 @@ import * as Yup from "yup";
 import {MesseagesFormValidations} from "../../../../admin/shared/utils/MesseagesFormValidations";
 import {Form, Input, Label} from "reactstrap";
 import {Editor} from "@tinymce/tinymce-react";
+import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
+import {AxiosError, AxiosResponse} from "axios";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
 
 interface EditProcessGeneralDataProps{
     session:SessionState;
@@ -56,8 +60,7 @@ export const EditProcessGeneralData = (
         initialValues:editProcessForm,
         onSubmit:async (value:CreateProcessForm) => {
             appLoading();
-            console.log(value);
-            // await createProcessRequest(value);
+            await editProcessRequest(value);
             appLoaded();
         },
         validationSchema: Yup.object({
@@ -77,10 +80,28 @@ export const EditProcessGeneralData = (
     const editProcessRequest = async (process:EditProcessForm): Promise<void> => {
 
         try {
-
-            console.log(process);
+            await preventoolApi.put(
+                `/workplace/${workplace.actionWorkplace?.id}/process/${id}`,
+                process
+            );
+            toast.info(MessagesHttpResponse.SuccessEditResponse);
 
         }catch (error){
+
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 409 && data.class.includes('ProcessAlreadyExistsException') )
+            {
+                toast.info(MessagesHttpResponse.ProcessAlreadyExistsException);
+            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
 
         }
     }
