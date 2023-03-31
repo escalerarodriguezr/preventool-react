@@ -9,7 +9,7 @@ import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHt
 export const GetWorkplaceProcessByIdService = () => {
     const [process, setProcess] = useState<GetWorkplaceProcessByIdResponse|null>(null);
 
-    const getWorkplaceByIdAction = async (workplaceId:string, id:string): Promise<boolean> => {
+    const getWorkplaceProcessByIdAction = async (workplaceId:string, id:string): Promise<boolean> => {
 
 
         try{
@@ -43,7 +43,7 @@ export const GetWorkplaceProcessByIdService = () => {
 
     return{
         process,
-        getWorkplaceByIdAction
+        getWorkplaceProcessByIdAction
     }
 
 }

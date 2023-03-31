@@ -26,7 +26,7 @@ export const EditProcessGeneralData = (
 ) => {
 
     const {appLoading,appLoaded} = useUiStore();
-    const {getWorkplaceByIdAction,process} = GetWorkplaceProcessByIdService();
+    const {getWorkplaceProcessByIdAction,process} = GetWorkplaceProcessByIdService();
 
     const editorRef = useRef<any>(null);
 
@@ -36,7 +36,7 @@ export const EditProcessGeneralData = (
     useEffect(()=>{
         if(id && session.actionAdmin?.id && workplace.actionWorkplace?.id ){
             appLoading();
-            getWorkplaceByIdAction(
+            getWorkplaceProcessByIdAction(
                 workplace.actionWorkplace.id,
                 id
             ).then(appLoaded);

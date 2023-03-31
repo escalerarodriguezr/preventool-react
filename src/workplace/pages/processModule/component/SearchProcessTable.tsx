@@ -124,10 +124,9 @@ export const SearchProcessTable = (
         navigate('/centro-trabajo/editar-proceso/' + id);
     }
 
-    // const handleNavigateToWorkplaceLayout = (id:string) => {
-    //     localStorage.setItem('workplaceId', id );
-    //     navigate('/centro-trabajo/dashboard');
-    // }
+    const handleNavigateToProcess = (id:string) => {
+        navigate('/centro-trabajo/proceso/' + id);
+    }
 
 
 
@@ -218,14 +217,14 @@ export const SearchProcessTable = (
                                                                         </button>
 
 
-                                                                        {/*<button*/}
-                                                                        {/*    type="button"*/}
-                                                                        {/*    className="btn btn-default"*/}
-                                                                        {/*    title="Gestionar centro"*/}
-                                                                        {/*    onClick={()=>handleNavigateToWorkplaceLayout(workplace.id)}*/}
-                                                                        {/*>*/}
-                                                                        {/*    <i className="fas fa-city" />*/}
-                                                                        {/*</button>*/}
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-default"
+                                                                            title="Gestionar proceso"
+                                                                            onClick={()=>handleNavigateToProcess(process.id)}
+                                                                        >
+                                                                            <i className="fas fa-city" />
+                                                                        </button>
 
                                                                     </div>
                                                                 </td>
