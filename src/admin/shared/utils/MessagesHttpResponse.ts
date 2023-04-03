@@ -42,6 +42,7 @@ export const MessagesHttpResponse = {
     ProcessAlreadyExistsException: 'Ya existe un proceso con el mismo nombre.',
     ProcessNotFoundException: 'Proceso de trabajo no encontrado',
     ProcessActivityAlreadyExistsException: 'Ya existe una actividad en el proceso con el mismo nombre.',
+    ProcessActivityNotFoundException: 'Actividad no encontrada',
 
 
 }

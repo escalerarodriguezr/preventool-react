@@ -7,6 +7,7 @@ import {SearchProcessPage} from "../pages/processModule/SearchProcessPage";
 import {EditProcessPage} from "../pages/processModule/EditProcessPage";
 import {ProcessPage} from "../pages/processModule/ProcessPage";
 import {CreateProcessActivityPage} from "../pages/processModule/CreateProcessActivityPage";
+import {EditProcessActivityPage} from "../pages/processModule/EditProcessActivityPage";
 
 
 
@@ -22,7 +23,9 @@ export const WorkplaceRouter = () => {
                <Route path="procesos" element={<SearchProcessPage/>}/>
                <Route path="editar-proceso/:id" element={<EditProcessPage/>}/>
                <Route path="proceso/:id" element={<ProcessPage/>}/>
+               {/*ProcessActivity*/}
                <Route path="proceso/:processId/crear-actividad" element={<CreateProcessActivityPage/>}/>
+               <Route path={"editar-actividad-de-proceso/:activityId"} element={<EditProcessActivityPage/>}/>
 
            </Route>
        </Routes>

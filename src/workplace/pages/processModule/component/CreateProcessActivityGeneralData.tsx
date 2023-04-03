@@ -90,7 +90,6 @@ export const CreateProcessActivityGeneralData = (
 
     }
 
-    let ClassicEditor;
     // @ts-ignore
     // @ts-ignore
     return(
