@@ -76,7 +76,7 @@ export const CreateProcessActivityGeneralData = (
 
             if( status === 409 && data.class.includes('ProcessActivityAlreadyExistsException') )
             {
-                toast.info(MessagesHttpResponse.ProcessAlreadyExistsException);
+                toast.info(MessagesHttpResponse.ProcessActivityAlreadyExistsException);
             }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
                 toast.info(MessagesHttpResponse.ActionNotAllowedException);
             }else if( status === 403 && data.class.includes('AccessDeniedException') ){

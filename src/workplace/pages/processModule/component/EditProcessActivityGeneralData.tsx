@@ -89,33 +89,31 @@ export const EditProcessActivityGeneralData = (
 
     const editProcessActivityRequest = async (activity:EditProcessActivityForm): Promise<void> => {
 
-        console.log(activity);
+        try {
+            await preventoolApi.put(
+                `/process-activity/${activityId}`,
+                activity
+            );
+            toast.info(MessagesHttpResponse.SuccessEditResponse);
 
-        // try {
-        //     await preventoolApi.put(
-        //         `/workplace/${workplace.actionWorkplace?.id}/process/${id}`,
-        //         process
-        //     );
-        //     toast.info(MessagesHttpResponse.SuccessEditResponse);
-        //
-        // }catch (error){
-        //
-        //     const axiosError = error as AxiosError;
-        //     const {status, data} = axiosError.response as AxiosResponse ;
-        //
-        //     if( status === 409 && data.class.includes('ProcessAlreadyExistsException') )
-        //     {
-        //         toast.info(MessagesHttpResponse.ProcessAlreadyExistsException);
-        //     }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
-        //         toast.info(MessagesHttpResponse.ActionNotAllowedException);
-        //     }else if( status === 403 && data.class.includes('AccessDeniedException') ){
-        //         toast.info(MessagesHttpResponse.AccessDeniedException);
-        //
-        //     }else{
-        //         toast.error(MessagesHttpResponse.InternalError);
-        //     }
-        //
-        // }
+        }catch (error){
+
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            
+            if( status === 409 && data.class.includes('ProcessActivityAlreadyExistsException') )
+            {
+                toast.info(MessagesHttpResponse.ProcessActivityAlreadyExistsException);
+            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+
+        }
     }
 
 

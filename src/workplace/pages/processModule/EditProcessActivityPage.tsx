@@ -32,8 +32,7 @@ export const EditProcessActivityPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Actividad</CardTitle>
-                                    <h6>Editar actividad-{activityId}</h6>
+                                    <CardTitle className="h4">Editar Actividad</CardTitle>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
