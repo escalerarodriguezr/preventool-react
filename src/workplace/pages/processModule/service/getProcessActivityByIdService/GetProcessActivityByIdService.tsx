@@ -1,25 +1,21 @@
+import {ProcessActivityResponse} from "../interface/ProcessActivityResponse";
 import {useState} from "react";
-import {GetWorkplaceProcessByIdResponse} from "./GetWorkplaceProcessByIdResponse";
-import {AxiosError, AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
-import {workplaceSlice} from "../../../../../store/workplace/workplaceSlice";
+import {AxiosError} from "axios/index";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
 
-export const GetWorkplaceProcessByIdService = () => {
-    const [process, setProcess] = useState<GetWorkplaceProcessByIdResponse|null>(null);
+export const GetProcessActivityByIdService = () => {
+    const [activity, setActivity] = useState<ProcessActivityResponse|null>(null);
 
-    const getWorkplaceProcessByIdAction = async (workplaceId:string, id:string): Promise<boolean> => {
+    const getAction = async (activityId:string):Promise<void> => {
 
-
-        try{
+        try {
             const response:AxiosResponse = await preventoolApi.get(
-                `/workplace/${workplaceId}/process/${id}`
+                `/process-activity/${activityId}`
             );
-
-            const process:GetWorkplaceProcessByIdResponse = response.data;
-            setProcess(process);
-            return true;
+            setActivity(response.data);
 
         }catch (error){
             const axiosError = error as AxiosError;
@@ -31,19 +27,16 @@ export const GetWorkplaceProcessByIdService = () => {
             }else if( status === 403 && data.class.includes('AccessDeniedException') ){
                 toast.info(MessagesHttpResponse.AccessDeniedException);
             }else if( status === 404 ){
-                toast.error(MessagesHttpResponse.ProcessNotFoundException)
+                toast.error(MessagesHttpResponse.ProcessActivityNotFoundException)
             }else {
                 toast.error(MessagesHttpResponse.InternalError);
             }
-            return false;
 
         }
-
     }
 
     return{
-        process,
-        getWorkplaceProcessByIdAction
+        activity,
+        getAction
     }
-
 }

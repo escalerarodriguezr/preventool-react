@@ -1,72 +1,43 @@
 import {SessionState} from "../../../../store/session/sessionSlice";
 import {WorkplaceSessionState} from "../../../../store/workplace/workplaceSlice";
 import {useUiStore} from "../../../../store/ui/useUiStore";
-import {GetWorkplaceProcessByIdService} from "../service/getWorkplaceProcessByIdService/GetWorkplaceProcessByIdService";
-import React, {useEffect, useRef, useState} from "react";
-import {EditProcessForm} from "../interface/EditProcessForm";
-import {useFormik} from "formik";
 import {CreateProcessForm} from "../interface/CreateProcessForm";
+import {useFormik} from "formik";
 import * as Yup from "yup";
 import {MesseagesFormValidations} from "../../../../admin/shared/utils/MesseagesFormValidations";
 import {Form, Input, Label} from "reactstrap";
-import {Editor} from "@tinymce/tinymce-react";
-import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
 import {AxiosError, AxiosResponse} from "axios";
+import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
 
-interface EditProcessGeneralDataProps{
-    session:SessionState;
-    workplace:WorkplaceSessionState;
-    id:string;
+import React, {useRef, useState} from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+import {CreateProcessActivityForm} from "../interface/CreateProcessActivityForm";
+import {useNavigate} from "react-router-dom";
+
+
+interface CreateProcessActivityGeneralDataProps{
+    session: SessionState;
+    workplace: WorkplaceSessionState,
+    processId: string
 }
 
-export const EditProcessGeneralData = (
-    {session,workplace,id}: EditProcessGeneralDataProps
-) => {
+export const CreateProcessActivityGeneralData = (
+    {session,workplace,processId}:CreateProcessActivityGeneralDataProps
+)=>{
 
-    const {appLoading,appLoaded} = useUiStore();
-    const {getWorkplaceProcessByIdAction,process} = GetWorkplaceProcessByIdService();
+    const navigate = useNavigate();
 
     const editorRef = useRef<any>(null);
 
     const [description, setDescription] = useState<string|undefined>(undefined);
+    const {appLoading,appLoaded} = useUiStore();
 
-
-    useEffect(()=>{
-        if(id && session.actionAdmin?.id && workplace.actionWorkplace?.id ){
-            appLoading();
-            getWorkplaceProcessByIdAction(
-                workplace.actionWorkplace.id,
-                id
-            ).then(appLoaded);
-        }
-
-    },[]);
-
-    useEffect(()=>{
-        if(process && process.description){
-            setDescription(process.description);
-        }
-    },[process])
-
-    const editProcessForm:EditProcessForm = {
-        name: process?.name ? process.name : '',
-        description: process?.description ? process.description : ''
+    const createProcessActivityForm:CreateProcessActivityForm = {
+        name:'',
+        description:description
     }
-
-    const formik = useFormik({
-        enableReinitialize: true,
-        initialValues:editProcessForm,
-        onSubmit:async (value:CreateProcessForm) => {
-            appLoading();
-            await editProcessRequest(value);
-            appLoaded();
-        },
-        validationSchema: Yup.object({
-            name:Yup.string().required(MesseagesFormValidations.Required)
-        })
-    });
 
     const processDescription = () => {
         if (editorRef.current) {
@@ -77,23 +48,35 @@ export const EditProcessGeneralData = (
         }
     };
 
-    const editProcessRequest = async (process:EditProcessForm): Promise<void> => {
+    const formik = useFormik({
+        initialValues:createProcessActivityForm,
+        onSubmit:async (value:CreateProcessForm) => {
+            appLoading();
+            await createProcessActivityRequest(value);
+            appLoaded();
+        },
+        validationSchema: Yup.object({
+            name:Yup.string().required(MesseagesFormValidations.Required)
+        })
+    })
 
-        try {
-            await preventoolApi.put(
-                `/workplace/${workplace.actionWorkplace?.id}/process/${id}`,
-                process
+    const createProcessActivityRequest = async (form:CreateProcessActivityForm):Promise<void> =>{
+
+        try{
+            const response:AxiosResponse = await preventoolApi.post(
+                `/process/${processId}/activity`,
+                form
             );
-            toast.info(MessagesHttpResponse.SuccessEditResponse);
+            toast.info(MessagesHttpResponse.SuccessCreatedResponse);
+            setTimeout(()=> navigate('/centro-trabajo/proceso/' + processId),1000);
 
-        }catch (error){
-
+        }catch (error:any){
             const axiosError = error as AxiosError;
             const {status, data} = axiosError.response as AxiosResponse ;
 
-            if( status === 409 && data.class.includes('ProcessAlreadyExistsException') )
+            if( status === 409 && data.class.includes('ProcessActivityAlreadyExistsException') )
             {
-                toast.info(MessagesHttpResponse.ProcessAlreadyExistsException);
+                toast.info(MessagesHttpResponse.ProcessActivityAlreadyExistsException);
             }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
                 toast.info(MessagesHttpResponse.ActionNotAllowedException);
             }else if( status === 403 && data.class.includes('AccessDeniedException') ){
@@ -106,8 +89,24 @@ export const EditProcessGeneralData = (
         }
     }
 
+    const handleNavigateToCreateProcessActivityPage = () => {
+        if(processId){
+            navigate('/centro-trabajo/proceso/'+processId);
+        }
+    }
+
+    // @ts-ignore
+    // @ts-ignore
     return(
         <>
+            <div className="d-flex justify-content-end">
+                <button type="button" className="btn btn-primary"
+                        onClick={handleNavigateToCreateProcessActivityPage}
+                >
+                    Volver al proceso
+                </button>
+            </div>
+
             <Form
                 onSubmit={formik.handleSubmit}
             >
@@ -132,7 +131,7 @@ export const EditProcessGeneralData = (
                 </div>
 
                 <div className="mb-3">
-                    <Label htmlFor="name">Descripción del proceso</Label>
+                    <Label htmlFor="name">Descripción</Label>
 
                     <Editor
                         onInit={(evt, editor) => editorRef.current = editor}
@@ -143,7 +142,7 @@ export const EditProcessGeneralData = (
                             plugins: [
                                 'advlist autolink lists link image charmap print preview anchor',
                                 'searchreplace visualblocks code fullscreen',
-                                'insertdatetime media table paste code table help'
+                                    'insertdatetime media table paste code table help'
                             ],
                             toolbar: 'undo redo | formatselect | ' +
                                 'bold italic backcolor | alignleft aligncenter ' +
@@ -158,13 +157,10 @@ export const EditProcessGeneralData = (
 
                 <div>
                     <button type="submit" className="btn btn-primary w-md">
-                        Guardar
+                        Registrar
                     </button>
                 </div>
             </Form>
         </>
     )
-
-
-
 }

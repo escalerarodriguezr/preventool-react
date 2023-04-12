@@ -1,25 +1,20 @@
 import {useState} from "react";
-import {GetWorkplaceProcessByIdResponse} from "./GetWorkplaceProcessByIdResponse";
-import {AxiosError, AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
-import {workplaceSlice} from "../../../../../store/workplace/workplaceSlice";
+import {AxiosError} from "axios/index";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
+import {ProcessActivityResponse} from "../interface/ProcessActivityResponse";
 
-export const GetWorkplaceProcessByIdService = () => {
-    const [process, setProcess] = useState<GetWorkplaceProcessByIdResponse|null>(null);
+export const GetAllProcessActivityByProcessIdService = () => {
+    const [collection, setCollection] = useState<ProcessActivityResponse[]>([]);
 
-    const getWorkplaceProcessByIdAction = async (workplaceId:string, id:string): Promise<boolean> => {
-
-
-        try{
+    const searchAction = async (processId:string): Promise<void>=>{
+        try {
             const response:AxiosResponse = await preventoolApi.get(
-                `/workplace/${workplaceId}/process/${id}`
-            );
-
-            const process:GetWorkplaceProcessByIdResponse = response.data;
-            setProcess(process);
-            return true;
+                '/all-process-activity/' + processId
+            )
+            setCollection(response.data);
 
         }catch (error){
             const axiosError = error as AxiosError;
@@ -30,20 +25,16 @@ export const GetWorkplaceProcessByIdService = () => {
                 toast.info(MessagesHttpResponse.ActionNotAllowedException);
             }else if( status === 403 && data.class.includes('AccessDeniedException') ){
                 toast.info(MessagesHttpResponse.AccessDeniedException);
-            }else if( status === 404 ){
-                toast.error(MessagesHttpResponse.ProcessNotFoundException)
-            }else {
+            }else{
                 toast.error(MessagesHttpResponse.InternalError);
             }
-            return false;
-
         }
 
     }
 
     return{
-        process,
-        getWorkplaceProcessByIdAction
+        collection,
+        setCollection,
+        searchAction
     }
-
 }

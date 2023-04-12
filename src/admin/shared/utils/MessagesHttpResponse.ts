@@ -5,6 +5,7 @@ export const MessagesHttpResponse = {
     InternalError : 'Servicio no disponible.',
     SuccessCreatedResponse: 'Registro completado.',
     SuccessEditResponse: 'Editado con éxito.',
+    SuccessReorderResponse: 'Elementos reordenados.',
     SuccessUploadDocumentResponse: 'Documento guardado.',
     ErrorUploadDocumentResponse: 'El documento no se ha podido guardar.',
     ErrorUploadDocumentInvalidFormatResponse: 'El archivo no tiene el formato y/o tamaño adecuado.',
@@ -41,6 +42,8 @@ export const MessagesHttpResponse = {
     //Process
     ProcessAlreadyExistsException: 'Ya existe un proceso con el mismo nombre.',
     ProcessNotFoundException: 'Proceso de trabajo no encontrado',
+    ProcessActivityAlreadyExistsException: 'Ya existe una actividad en el proceso con el mismo nombre.',
+    ProcessActivityNotFoundException: 'Actividad no encontrada',
 
 
 }

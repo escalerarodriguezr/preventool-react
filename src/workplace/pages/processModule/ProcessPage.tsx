@@ -1,0 +1,109 @@
+import {useParams} from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
+import {useSessionStore} from "../../../store/session/useSessionStore";
+import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
+import {useUiStore} from "../../../store/ui/useUiStore";
+import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
+import classnames from "classnames";
+import {EditProcessGeneralData} from "./component/EditProcessGeneralData";
+import {GetWorkplaceProcessByIdService} from "./service/getWorkplaceProcessByIdService/GetWorkplaceProcessByIdService";
+import {ProcessActivities} from "./component/processPage/ProcessActivities";
+
+export const ProcessPage = () => {
+    const {id} = useParams();
+    const renderDescription = useRef<any>();
+    const [activeTab, setActiveTab] = useState("1");
+
+    const {getSessionAction, sessionState} = useSessionStore();
+    const {workplaceSessionState} = useWorkplaceSessionStore();
+
+    const {getWorkplaceProcessByIdAction,process} = GetWorkplaceProcessByIdService();
+
+    const {
+        appLoading,
+        appLoaded
+    } = useUiStore();
+
+
+    useEffect(()=>{
+        appLoading();
+        getSessionAction().then(appLoaded);
+
+    },[]);
+
+    useEffect(()=>{
+        if(id && sessionState.actionAdmin?.id && workplaceSessionState.actionWorkplace?.id ){
+            appLoading();
+            getWorkplaceProcessByIdAction(
+                workplaceSessionState.actionWorkplace.id,
+                id
+            ).then(appLoaded);
+        }
+
+    },[sessionState]);
+
+    useEffect(() => {
+        if(process?.description){
+            renderDescription.current.innerHTML = process.description;
+        }
+    },[process]);
+
+    return(
+        <>
+            <div className="page-content">
+                <Container fluid>
+                    <Row>
+                        <Col lg={12}>
+                            <Card>
+                                <CardBody>
+                                    <CardTitle className="h4">{process?.name}</CardTitle>
+                                    <div ref={renderDescription} className="mb-3"></div>
+                                    <Nav tabs>
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "1",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("1");
+                                                }}
+                                            >
+                                                Actividades
+                                            </NavLink>
+                                        </NavItem>
+                                    </Nav>
+
+                                    <TabContent
+                                        activeTab={activeTab}
+                                        className="p-3 text-muted"
+                                    >
+                                        <TabPane tabId="1">
+                                            <Row>
+                                                <Col sm="12">
+                                                    {activeTab == '1' &&
+                                                        id &&
+                                                        sessionState.actionAdmin?.id &&
+                                                        workplaceSessionState.actionWorkplace?.id &&
+                                                        process?.id &&
+
+                                                        <ProcessActivities
+                                                            session={sessionState}
+                                                            workplace={workplaceSessionState}
+                                                            process={process}
+                                                        />
+
+                                                    }
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
+                                    </TabContent>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
+        </>
+    )
+}
