@@ -13,6 +13,10 @@ import {useUiStore} from "../../../../../store/ui/useUiStore";
 // @ts-ignore
 import ReactDragListView from "react-drag-listview/lib/index.js";
 import {ProcessActivityResponse} from "../../service/interface/ProcessActivityResponse";
+import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
+import {AxiosError, AxiosResponse} from "axios";
 
 interface ProcessActivitiesProps{
     session:SessionState,
@@ -66,15 +70,42 @@ export const ProcessActivities = (
 
         const orderList:string[] = [];
         collection.forEach((activity:ProcessActivityResponse) => {
-            orderList.push(activity.id + '-' + activity.name);
+            orderList.push(activity.id);
         })
         //hacer peticion con este order list
-        console.log(orderList);
+        appLoading()
+        reorderRequest(process.id,orderList).then(appLoaded);
+
+
 
     }
 
     const handleNavigateToEdit = (activityId:string):void => {
         navigate('/centro-trabajo/editar-actividad-de-proceso/' + activityId);
+    }
+
+    const reorderRequest = async (processActivity:string, order:string[]):Promise<void> => {
+
+        try {
+            await preventoolApi.put(
+                `/process/${processActivity}/reorder-activities`,
+                {order}
+            );
+            toast.info(MessagesHttpResponse.SuccessCreatedResponse)
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 404 )
+            {
+                toast.error(MessagesHttpResponse.ProcessNotFoundException);
+            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
     }
 
     return(
@@ -118,7 +149,6 @@ export const ProcessActivities = (
                                                 >
                                                     <i className="fas fa-edit"></i>
                                                 </button>
-
 
                                                 {/*<button*/}
                                                 {/*    type="button"*/}

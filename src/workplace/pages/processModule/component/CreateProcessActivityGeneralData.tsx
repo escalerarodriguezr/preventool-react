@@ -87,13 +87,26 @@ export const CreateProcessActivityGeneralData = (
             }
 
         }
+    }
 
+    const handleNavigateToCreateProcessActivityPage = () => {
+        if(processId){
+            navigate('/centro-trabajo/proceso/'+processId);
+        }
     }
 
     // @ts-ignore
     // @ts-ignore
     return(
         <>
+            <div className="d-flex justify-content-end">
+                <button type="button" className="btn btn-primary"
+                        onClick={handleNavigateToCreateProcessActivityPage}
+                >
+                    Volver al proceso
+                </button>
+            </div>
+
             <Form
                 onSubmit={formik.handleSubmit}
             >

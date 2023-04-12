@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
 import {useUiStore} from "../../../store/ui/useUiStore";
@@ -11,6 +11,7 @@ import {ProcessActivities} from "./component/processPage/ProcessActivities";
 
 export const ProcessPage = () => {
     const {id} = useParams();
+    const renderDescription = useRef<any>();
     const [activeTab, setActiveTab] = useState("1");
 
     const {getSessionAction, sessionState} = useSessionStore();
@@ -41,6 +42,12 @@ export const ProcessPage = () => {
 
     },[sessionState]);
 
+    useEffect(() => {
+        if(process?.description){
+            renderDescription.current.innerHTML = process.description;
+        }
+    },[process]);
+
     return(
         <>
             <div className="page-content">
@@ -50,7 +57,7 @@ export const ProcessPage = () => {
                             <Card>
                                 <CardBody>
                                     <CardTitle className="h4">{process?.name}</CardTitle>
-                                    <p>Gestionar proceso</p>
+                                    <div ref={renderDescription} className="mb-3"></div>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink

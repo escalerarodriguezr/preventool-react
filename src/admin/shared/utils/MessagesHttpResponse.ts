@@ -5,6 +5,7 @@ export const MessagesHttpResponse = {
     InternalError : 'Servicio no disponible.',
     SuccessCreatedResponse: 'Registro completado.',
     SuccessEditResponse: 'Editado con éxito.',
+    SuccessReorderResponse: 'Elementos reordenados.',
     SuccessUploadDocumentResponse: 'Documento guardado.',
     ErrorUploadDocumentResponse: 'El documento no se ha podido guardar.',
     ErrorUploadDocumentInvalidFormatResponse: 'El archivo no tiene el formato y/o tamaño adecuado.',
