@@ -84,6 +84,10 @@ export const ProcessActivities = (
         navigate('/centro-trabajo/editar-actividad-de-proceso/' + activityId);
     }
 
+    const handleNavigateToActivity = (activityId:string):void => {
+        navigate('/centro-trabajo/actividad/'+activityId);
+    }
+
     const reorderRequest = async (processActivity:string, order:string[]):Promise<void> => {
 
         try {
@@ -150,14 +154,14 @@ export const ProcessActivities = (
                                                     <i className="fas fa-edit"></i>
                                                 </button>
 
-                                                {/*<button*/}
-                                                {/*    type="button"*/}
-                                                {/*    className="btn btn-default"*/}
-                                                {/*    title="Gestionar proceso"*/}
-                                                {/*    onClick={()=>handleNavigateToProcess(process.id)}*/}
-                                                {/*>*/}
-                                                {/*    <i className="fas fa-city" />*/}
-                                                {/*</button>*/}
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-default"
+                                                    title="Gestionar Actividad"
+                                                    onClick={()=>handleNavigateToActivity(activity.id)}
+                                                >
+                                                    <i className="fas fa-city" />
+                                                </button>
 
                                             </div>
 

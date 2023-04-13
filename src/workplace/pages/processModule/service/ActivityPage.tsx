@@ -1,38 +1,46 @@
 import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {useSessionStore} from "../../../store/session/useSessionStore";
-import {useCompanySessionStore} from "../../../store/compnay/useCompanySessionStore";
-import {useUiStore} from "../../../store/ui/useUiStore";
-import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
 import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
-import {EditWorkplaceGeneralData} from "../../../company/pages/workplaceModule/component/EditWorkplaceGeneralData";
-import {EditProcessGeneralData} from "./component/EditProcessGeneralData";
+import {useSessionStore} from "../../../../store/session/useSessionStore";
+import {Simulate} from "react-dom/test-utils";
+import submit = Simulate.submit;
+import {useUiStore} from "../../../../store/ui/useUiStore";
+import {GetProcessActivityByIdService} from "./getProcessActivityByIdService/GetProcessActivityByIdService";
+import {ActivityDescription} from "../component/activityPage/ActivityDescription";
 
-export const EditProcessPage = () => {
+
+export const ActivityPage = () => {
     const {id} = useParams();
     const [activeTab, setActiveTab] = useState("1");
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const {getSessionAction, sessionState} = useSessionStore();
-    const {workplaceSessionState} = useWorkplaceSessionStore();
+    const {appLoading,appLoaded} = useUiStore()
+    const {sessionState,getSessionAction} = useSessionStore();
 
-    const {
-        appLoading,
-        appLoaded
-    } = useUiStore();
-
+    const {getAction,activity} = GetProcessActivityByIdService();
 
     useEffect(()=>{
         appLoading();
-        getSessionAction().then(appLoaded);
-
+        getSessionAction();
     },[]);
 
-    const handleNavigateToSearchProcessPage = () => {
-        navigate('/centro-trabajo/procesos');
+    useEffect(()=>{
+        if( id && sessionState.actionAdmin && id ){
+            getAction(id).then(appLoaded);
+        }
+    },[sessionState]);
+
+    useEffect(()=>{
+        console.log(activity);
+    },[activity]);
+
+    const handleNavigateToProcessPage = () => {
+        navigate('/centro-trabajo/proceso/'+activity?.processId);
     }
+
+
 
     return(
         <>
@@ -42,17 +50,17 @@ export const EditProcessPage = () => {
                         <button
                             type="button"
                             className="btn btn-primary"
-                            onClick={handleNavigateToSearchProcessPage}
+                            onClick={handleNavigateToProcessPage}
                         >
-                            Listado de Procesos
+                            Volver al Proceso
                         </button>
                     </div>
-
                     <Row>
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Editar Proceso</CardTitle>
+                                    <CardTitle className="h4">Actividad</CardTitle>
+
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
@@ -64,7 +72,7 @@ export const EditProcessPage = () => {
                                                     setActiveTab("1");
                                                 }}
                                             >
-                                                Datos generales
+                                                Descripción
                                             </NavLink>
                                         </NavItem>
                                     </Nav>
@@ -79,13 +87,8 @@ export const EditProcessPage = () => {
                                                     {activeTab == '1' &&
                                                         id &&
                                                         sessionState.actionAdmin?.id &&
-                                                        workplaceSessionState.actionWorkplace?.id &&
-
-                                                        <EditProcessGeneralData
-                                                            id={id}
-                                                            session={sessionState}
-                                                            workplace={workplaceSessionState}
-                                                        />
+                                                        activity?.id &&
+                                                        <ActivityDescription activityDescription={activity.description}/>
                                                     }
                                                 </Col>
                                             </Row>
