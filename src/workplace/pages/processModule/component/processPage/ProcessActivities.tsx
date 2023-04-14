@@ -76,8 +76,6 @@ export const ProcessActivities = (
         appLoading()
         reorderRequest(process.id,orderList).then(appLoaded);
 
-
-
     }
 
     const handleNavigateToEdit = (activityId:string):void => {
