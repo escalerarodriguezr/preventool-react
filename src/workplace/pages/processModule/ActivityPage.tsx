@@ -2,12 +2,13 @@ import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
-import {useSessionStore} from "../../../../store/session/useSessionStore";
+import {useSessionStore} from "../../../store/session/useSessionStore";
 import {Simulate} from "react-dom/test-utils";
 import submit = Simulate.submit;
-import {useUiStore} from "../../../../store/ui/useUiStore";
-import {GetProcessActivityByIdService} from "./getProcessActivityByIdService/GetProcessActivityByIdService";
-import {ActivityDescription} from "../component/activityPage/ActivityDescription";
+import {useUiStore} from "../../../store/ui/useUiStore";
+import {GetProcessActivityByIdService} from "./service/getProcessActivityByIdService/GetProcessActivityByIdService";
+import {ActivityDescription} from "./component/activityPage/ActivityDescription";
+import {ActivityTasks} from "./component/activityPage/ActivityTasks";
 
 
 export const ActivityPage = () => {
@@ -32,9 +33,6 @@ export const ActivityPage = () => {
         }
     },[sessionState]);
 
-    useEffect(()=>{
-        console.log(activity);
-    },[activity]);
 
     const handleNavigateToProcessPage = () => {
         navigate('/centro-trabajo/proceso/'+activity?.processId);
@@ -75,6 +73,19 @@ export const ActivityPage = () => {
                                                 Descripción
                                             </NavLink>
                                         </NavItem>
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "2",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("2");
+                                                }}
+                                            >
+                                                Tareas
+                                            </NavLink>
+                                        </NavItem>
                                     </Nav>
 
                                     <TabContent
@@ -89,6 +100,19 @@ export const ActivityPage = () => {
                                                         sessionState.actionAdmin?.id &&
                                                         activity?.id &&
                                                         <ActivityDescription activityDescription={activity.description}/>
+                                                    }
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
+
+                                        <TabPane tabId="2">
+                                            <Row>
+                                                <Col sm="12">
+                                                    {activeTab == '2' &&
+                                                        id &&
+                                                        sessionState.actionAdmin?.id &&
+                                                        activity?.id &&
+                                                        <ActivityTasks activity={activity}/>
                                                     }
                                                 </Col>
                                             </Row>
