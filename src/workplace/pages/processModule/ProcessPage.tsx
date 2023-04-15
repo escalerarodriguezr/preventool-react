@@ -8,10 +8,10 @@ import classnames from "classnames";
 import {EditProcessGeneralData} from "./component/EditProcessGeneralData";
 import {GetWorkplaceProcessByIdService} from "./service/getWorkplaceProcessByIdService/GetWorkplaceProcessByIdService";
 import {ProcessActivities} from "./component/processPage/ProcessActivities";
+import {ContentDescription} from "../../../shared/component/ContentDescription";
 
 export const ProcessPage = () => {
     const {id} = useParams();
-    const renderDescription = useRef<any>();
     const [activeTab, setActiveTab] = useState("1");
 
     const {getSessionAction, sessionState} = useSessionStore();
@@ -42,11 +42,6 @@ export const ProcessPage = () => {
 
     },[sessionState]);
 
-    useEffect(() => {
-        if(process?.description){
-            renderDescription.current.innerHTML = process.description;
-        }
-    },[process]);
 
     return(
         <>
@@ -57,7 +52,6 @@ export const ProcessPage = () => {
                             <Card>
                                 <CardBody>
                                     <CardTitle className="h4">{process?.name}</CardTitle>
-                                    <div ref={renderDescription} className="mb-3"></div>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
@@ -70,6 +64,19 @@ export const ProcessPage = () => {
                                                 }}
                                             >
                                                 Actividades
+                                            </NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "2",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("2");
+                                                }}
+                                            >
+                                                Descripción
                                             </NavLink>
                                         </NavItem>
                                     </Nav>
@@ -93,6 +100,20 @@ export const ProcessPage = () => {
                                                             process={process}
                                                         />
 
+                                                    }
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
+
+                                        <TabPane tabId="2">
+                                            <Row>
+                                                <Col sm="12">
+                                                    {activeTab == '2' &&
+                                                        id &&
+                                                        sessionState.actionAdmin?.id &&
+                                                        workplaceSessionState.actionWorkplace?.id &&
+                                                        process?.id &&
+                                                        <ContentDescription description={process.description}/>
                                                     }
                                                 </Col>
                                             </Row>

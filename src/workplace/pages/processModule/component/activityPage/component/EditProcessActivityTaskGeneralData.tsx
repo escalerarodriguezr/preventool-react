@@ -115,7 +115,7 @@ export const EditProcessActivityTaskGeneralData = (
                         onChange={processDescription}
                     />
                 </div>
-                
+
                 <div>
                     <button type="submit" className="btn btn-primary w-md">
                         Guardar
