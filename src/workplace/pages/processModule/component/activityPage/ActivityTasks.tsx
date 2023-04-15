@@ -67,6 +67,10 @@ export const ActivityTasks = (
 
     }
 
+    const handleNavigateToEdit = (taskId:string) => {
+        navigate(`/centro-trabajo/actividad/${activity.id}/editar-tarea/${taskId}`)
+    }
+
     return(
         <>
             <div className="d-flex justify-content-end">
@@ -102,7 +106,7 @@ export const ActivityTasks = (
                                                     type="button"
                                                     className="btn btn-default"
                                                     title="Editar"
-                                                    // onClick={()=>handleNavigateToEdit(activity.id)}
+                                                    onClick={()=>handleNavigateToEdit(task.id)}
 
                                                 >
                                                     <i className="fas fa-edit"></i>

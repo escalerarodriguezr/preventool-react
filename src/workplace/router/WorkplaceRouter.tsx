@@ -10,6 +10,7 @@ import {CreateProcessActivityPage} from "../pages/processModule/CreateProcessAct
 import {EditProcessActivityPage} from "../pages/processModule/EditProcessActivityPage";
 import {ActivityPage} from "../pages/processModule/ActivityPage";
 import {CreateProcessActivityTaskPage} from "../pages/processModule/CreateProcessActivityTaskPage";
+import {EditProcessActivityTaskPage} from "../pages/processModule/EditProcessActivityTaskPage";
 
 
 
@@ -31,6 +32,7 @@ export const WorkplaceRouter = () => {
                {/* ActivityTasks */}
                <Route path="actividad/:id" element={<ActivityPage/>}/>
                <Route path="actividad/:activityId/crear-tarea" element={<CreateProcessActivityTaskPage/>}/>
+               <Route path="actividad/:activityId/editar-tarea/:taskId" element={<EditProcessActivityTaskPage/>}/>
 
            </Route>
        </Routes>

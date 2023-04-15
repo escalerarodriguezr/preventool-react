@@ -45,7 +45,8 @@ export const MessagesHttpResponse = {
     ProcessActivityAlreadyExistsException: 'Ya existe una actividad en el proceso con el mismo nombre.',
     ProcessActivityNotFoundException: 'Actividad no encontrada',
     //ActivityTask
-    ProcessActivityTaskAlreadyExistsException: 'Ya existe una tarea registrada en la actividad con el mismo nombre'
+    ProcessActivityTaskAlreadyExistsException: 'Ya existe una tarea registrada en la actividad con el mismo nombre',
+    ProcessActivityTaskNotFoundException: 'Tarea no encontrada'
 
 
 }
