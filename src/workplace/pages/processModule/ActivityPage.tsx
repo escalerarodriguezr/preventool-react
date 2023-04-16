@@ -57,7 +57,7 @@ export const ActivityPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Actividad</CardTitle>
+                                    <CardTitle className="h4">{activity?.name}</CardTitle>
 
                                     <Nav tabs>
                                         <NavItem>
