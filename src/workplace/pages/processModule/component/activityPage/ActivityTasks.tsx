@@ -9,6 +9,10 @@ import {useUiStore} from "../../../../../store/ui/useUiStore";
 import {ProcessActivityTaskResponse} from "../../service/interface/ProcessActivityTaskResponse";
 // @ts-ignore
 import ReactDragListView from "react-drag-listview/lib/index.js";
+import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
+import {AxiosError, AxiosResponse} from "axios";
 
 interface ActivityTasksProps{
     activity:ProcessActivityResponse
@@ -25,10 +29,6 @@ export const ActivityTasks = (
         appLoading();
         getTasksAction(activity.id).then(appLoaded);
     },[]);
-
-    useEffect(()=>{
-        console.log(tasks);
-    },[tasks])
 
 
     const handleNavigateToCreateProcessActivityTaskPAge = () => {
@@ -61,14 +61,37 @@ export const ActivityTasks = (
         })
         //hacer peticion con este order list
         appLoading()
-        // reorderRequest(process.id,orderList).then(appLoaded);
-        console.log(orderList);
+        reorderRequest(activity.id,orderList).then(appLoaded);
         appLoaded();
 
     }
 
     const handleNavigateToEdit = (taskId:string) => {
         navigate(`/centro-trabajo/actividad/${activity.id}/editar-tarea/${taskId}`)
+    }
+
+    const reorderRequest = async (processActivity:string, order:string[]):Promise<void> => {
+
+        try {
+            await preventoolApi.put(
+                `/process-activity/${processActivity}/reorder-tasks`,
+                {order}
+            );
+            toast.info(MessagesHttpResponse.SuccessReorderResponse)
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 404 )
+            {
+                toast.error(MessagesHttpResponse.ProcessNotFoundException);
+            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
     }
 
     return(

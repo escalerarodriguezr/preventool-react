@@ -70,7 +70,7 @@ export const ActivityPage = () => {
                                                     setActiveTab("1");
                                                 }}
                                             >
-                                                Descripción
+                                                Tareas
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
@@ -83,7 +83,7 @@ export const ActivityPage = () => {
                                                     setActiveTab("2");
                                                 }}
                                             >
-                                                Tareas
+                                                Descripción
                                             </NavLink>
                                         </NavItem>
                                     </Nav>
@@ -99,12 +99,11 @@ export const ActivityPage = () => {
                                                         id &&
                                                         sessionState.actionAdmin?.id &&
                                                         activity?.id &&
-                                                        <ActivityDescription activityDescription={activity.description}/>
+                                                        <ActivityTasks activity={activity}/>
                                                     }
                                                 </Col>
                                             </Row>
                                         </TabPane>
-
                                         <TabPane tabId="2">
                                             <Row>
                                                 <Col sm="12">
@@ -112,7 +111,7 @@ export const ActivityPage = () => {
                                                         id &&
                                                         sessionState.actionAdmin?.id &&
                                                         activity?.id &&
-                                                        <ActivityTasks activity={activity}/>
+                                                        <ActivityDescription activityDescription={activity.description}/>
                                                     }
                                                 </Col>
                                             </Row>

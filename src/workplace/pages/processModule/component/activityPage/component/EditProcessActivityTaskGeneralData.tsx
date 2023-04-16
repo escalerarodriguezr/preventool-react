@@ -13,6 +13,10 @@ import * as Yup from "yup";
 import {MesseagesFormValidations} from "../../../../../../admin/shared/utils/MesseagesFormValidations";
 import {Form, Input, Label} from "reactstrap";
 import {Editor} from "@tinymce/tinymce-react";
+import preventoolApi from "../../../../../../shared/api/preventool/preventoolApi";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../../../admin/shared/utils/MessagesHttpResponse";
+import {AxiosError, AxiosResponse} from "axios";
 
 interface EditProcessActivityTaskGeneralDataProps{
     taskId:string;
@@ -51,7 +55,7 @@ export const EditProcessActivityTaskGeneralData = (
         initialValues: editForm,
         onSubmit: async (task:EditActivityTaskForm):Promise<void> => {
             appLoading();
-            console.log(task);
+            await updateTaskRequest(task)
             appLoaded();
         },
         validationSchema: Yup.object({
@@ -67,6 +71,33 @@ export const EditProcessActivityTaskGeneralData = (
             formik.setFieldTouched('description');
         }
     };
+
+    const updateTaskRequest = async (task:EditActivityTaskForm):Promise<void> => {
+        try {
+            await preventoolApi.put(
+                `/activity-task/${taskId}`,
+                task
+            );
+            toast.info(MessagesHttpResponse.SuccessEditResponse);
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 409 && data.class.includes('ProcessActivityTaskAlreadyExistsException') )
+            {
+                toast.info(MessagesHttpResponse.ProcessActivityAlreadyExistsException);
+            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
+
+    }
 
     return(
         <>
