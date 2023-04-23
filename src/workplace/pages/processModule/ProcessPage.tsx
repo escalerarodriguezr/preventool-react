@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
 import {useUiStore} from "../../../store/ui/useUiStore";
@@ -46,6 +46,9 @@ export const ProcessPage = () => {
     return(
         <>
             <div className="page-content">
+                <div className="d-flex justify-content-start mb-3">
+                    <span>Proceso</span>
+                </div>
                 <Container fluid>
                     <Row>
                         <Col lg={12}>

@@ -44,14 +44,20 @@ export const ActivityPage = () => {
         <>
             <div className="page-content">
                 <Container fluid>
-                    <div className="d-flex justify-content-end mb-3">
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={handleNavigateToProcessPage}
-                        >
-                            Volver al Proceso
-                        </button>
+                    <div className="d-flex justify-content-between mb-3">
+                        <div>
+                            <span>Proceso/Actividad</span>
+
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleNavigateToProcessPage}
+                            >
+                                Volver al Proceso
+                            </button>
+                        </div>
                     </div>
                     <Row>
                         <Col lg={12}>

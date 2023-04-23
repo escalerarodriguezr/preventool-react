@@ -70,6 +70,10 @@ export const ActivityTasks = (
         navigate(`/centro-trabajo/actividad/${activity.id}/editar-tarea/${taskId}`)
     }
 
+    const handleNavigateToTaskPage = (taskId:string):void => {
+        navigate(`/centro-trabajo/tarea/${taskId}`);
+    }
+
     const reorderRequest = async (processActivity:string, order:string[]):Promise<void> => {
 
         try {
@@ -138,8 +142,8 @@ export const ActivityTasks = (
                                                 <button
                                                     type="button"
                                                     className="btn btn-default"
-                                                    title="Gestionar Actividad"
-                                                    // onClick={()=>handleNavigateToActivity(activity.id)}
+                                                    title="Gestionar Tarea"
+                                                    onClick={()=>handleNavigateToTaskPage(task.id)}
                                                 >
                                                     <i className="fas fa-city" />
                                                 </button>
