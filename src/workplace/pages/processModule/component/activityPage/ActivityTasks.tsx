@@ -1,66 +1,53 @@
-import {SessionState} from "../../../../../store/session/sessionSlice";
-import {WorkplaceSessionState} from "../../../../../store/workplace/workplaceSlice";
-import {
-    GetWorkplaceProcessByIdResponse
-} from "../../service/getWorkplaceProcessByIdService/GetWorkplaceProcessByIdResponse";
-import React, {useEffect, useState} from "react";
+import {ProcessActivityResponse} from "../../service/interface/ProcessActivityResponse";
 import {Col, Row, Table} from "reactstrap";
+import React, {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {
-    GetAllProcessActivityByProcessIdService
-} from "../../service/getAllProcessActivityByProcessIdService/GetAllProcessActivityByProcessIdService";
+    GetAllProcessActivityTasksByProcessActivityId
+} from "../../service/getAllProcessActivityTasksByProcessActivityId/GetAllProcessActivityTasksByProcessActivityId";
 import {useUiStore} from "../../../../../store/ui/useUiStore";
+import {ProcessActivityTaskResponse} from "../../service/interface/ProcessActivityTaskResponse";
 // @ts-ignore
 import ReactDragListView from "react-drag-listview/lib/index.js";
-import {ProcessActivityResponse} from "../../service/interface/ProcessActivityResponse";
 import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
 import {AxiosError, AxiosResponse} from "axios";
 
-interface ProcessActivitiesProps{
-    session:SessionState,
-    workplace:WorkplaceSessionState,
-    process:GetWorkplaceProcessByIdResponse
-
+interface ActivityTasksProps{
+    activity:ProcessActivityResponse
 }
-export const ProcessActivities = (
-    {session,workplace,process}:ProcessActivitiesProps
+export const ActivityTasks = (
+    {activity}:ActivityTasksProps
 ) => {
 
-    const {appLoading,appLoaded} = useUiStore();
-
     const navigate = useNavigate();
-
-    const handleNavigateToCreateProcessActivityPage = () => {
-        navigate('/centro-trabajo/proceso/'+process.id+'/crear-actividad');
-    }
-
-    const {collection, searchAction, setCollection} = GetAllProcessActivityByProcessIdService();
-
-    const [orderArray, setOrderArray] = useState<string[]>([]);
-
+    const {appLoading,appLoaded} = useUiStore();
+    const {getTasksAction,setTasks,tasks} = GetAllProcessActivityTasksByProcessActivityId();
 
     useEffect(()=>{
-
-        if(process.id){
-            searchAction(process.id);
-        }
+        appLoading();
+        getTasksAction(activity.id).then(appLoaded);
     },[]);
+
+
+    const handleNavigateToCreateProcessActivityTaskPAge = () => {
+        navigate(`/centro-trabajo/actividad/${activity.id}/crear-tarea`);
+    }
 
     const dragProps = {
         onDragEnd(fromIndex:any, toIndex:any) {
 
-            const data:ProcessActivityResponse[] = [...collection];
-            const item:ProcessActivityResponse = data.splice(fromIndex, 1)[0];
+            const data:ProcessActivityTaskResponse[] = [...tasks];
+            const item:ProcessActivityTaskResponse = data.splice(fromIndex, 1)[0];
             data.splice(toIndex, 0, item);
             let itemIndex:number = 0;
 
-            data.forEach((activity:ProcessActivityResponse) => {
+            data.forEach((task:ProcessActivityTaskResponse) => {
                 itemIndex += 1;
-                activity.activityOrder = itemIndex;
+                task.taskOrder = itemIndex;
             })
-            setCollection(data);
+            setTasks(data);
         },
         nodeSelector: "tr",
         handleSelector: "tr",
@@ -69,31 +56,32 @@ export const ProcessActivities = (
     const handleSaveOrder = ():void => {
 
         const orderList:string[] = [];
-        collection.forEach((activity:ProcessActivityResponse) => {
-            orderList.push(activity.id);
+        tasks.forEach((task:ProcessActivityTaskResponse) => {
+            orderList.push(task.id);
         })
         //hacer peticion con este order list
         appLoading()
-        reorderRequest(process.id,orderList).then(appLoaded);
+        reorderRequest(activity.id,orderList).then(appLoaded);
+        appLoaded();
 
     }
 
-    const handleNavigateToEdit = (activityId:string):void => {
-        navigate('/centro-trabajo/editar-actividad-de-proceso/' + activityId);
+    const handleNavigateToEdit = (taskId:string) => {
+        navigate(`/centro-trabajo/actividad/${activity.id}/editar-tarea/${taskId}`)
     }
 
-    const handleNavigateToActivity = (activityId:string):void => {
-        navigate('/centro-trabajo/actividad/'+activityId);
+    const handleNavigateToTaskPage = (taskId:string):void => {
+        navigate(`/centro-trabajo/tarea/${taskId}`);
     }
 
     const reorderRequest = async (processActivity:string, order:string[]):Promise<void> => {
 
         try {
             await preventoolApi.put(
-                `/process/${processActivity}/reorder-activities`,
+                `/process-activity/${processActivity}/reorder-tasks`,
                 {order}
             );
-            toast.info(MessagesHttpResponse.SuccessCreatedResponse)
+            toast.info(MessagesHttpResponse.SuccessReorderResponse)
         }catch (error){
             const axiosError = error as AxiosError;
             const {status, data} = axiosError.response as AxiosResponse ;
@@ -112,12 +100,11 @@ export const ProcessActivities = (
 
     return(
         <>
-
             <div className="d-flex justify-content-end">
                 <button type="button" className="btn btn-primary"
-                        onClick={handleNavigateToCreateProcessActivityPage}
+                        onClick={handleNavigateToCreateProcessActivityTaskPAge}
                 >
-                    Añadir Actividad
+                    Añadir Tarea
                 </button>
             </div>
 
@@ -136,17 +123,17 @@ export const ProcessActivities = (
                                 </thead>
 
                                 <tbody>
-                                {collection.map((activity:ProcessActivityResponse, index:number) => (
+                                {tasks.map((task:ProcessActivityTaskResponse, index:number) => (
                                     <tr key={index}>
                                         <th scope="row" style={{width:'100px'}}>{index+1}</th>
-                                        <td>{activity.name}</td>
+                                        <td>{task.name}</td>
                                         <td>
                                             <div className="btn-group" >
                                                 <button
                                                     type="button"
                                                     className="btn btn-default"
                                                     title="Editar"
-                                                    onClick={()=>handleNavigateToEdit(activity.id)}
+                                                    onClick={()=>handleNavigateToEdit(task.id)}
 
                                                 >
                                                     <i className="fas fa-edit"></i>
@@ -155,8 +142,8 @@ export const ProcessActivities = (
                                                 <button
                                                     type="button"
                                                     className="btn btn-default"
-                                                    title="Gestionar Actividad"
-                                                    onClick={()=>handleNavigateToActivity(activity.id)}
+                                                    title="Gestionar Tarea"
+                                                    onClick={()=>handleNavigateToTaskPage(task.id)}
                                                 >
                                                     <i className="fas fa-city" />
                                                 </button>
@@ -182,7 +169,6 @@ export const ProcessActivities = (
 
                 </Col>
             </Row>
-
 
         </>
     )

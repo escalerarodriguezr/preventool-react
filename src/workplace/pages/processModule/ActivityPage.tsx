@@ -1,60 +1,70 @@
-import {useParams} from "react-router-dom";
-import React, {useEffect, useRef, useState} from "react";
-import {useSessionStore} from "../../../store/session/useSessionStore";
-import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
-import {useUiStore} from "../../../store/ui/useUiStore";
+import {useNavigate, useParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
-import {EditProcessGeneralData} from "./component/EditProcessGeneralData";
-import {GetWorkplaceProcessByIdService} from "./service/getWorkplaceProcessByIdService/GetWorkplaceProcessByIdService";
-import {ProcessActivities} from "./component/processPage/ProcessActivities";
-import {ContentDescription} from "../../../shared/component/ContentDescription";
+import {useSessionStore} from "../../../store/session/useSessionStore";
+import {Simulate} from "react-dom/test-utils";
+import submit = Simulate.submit;
+import {useUiStore} from "../../../store/ui/useUiStore";
+import {GetProcessActivityByIdService} from "./service/getProcessActivityByIdService/GetProcessActivityByIdService";
+import {ActivityDescription} from "./component/activityPage/ActivityDescription";
+import {ActivityTasks} from "./component/activityPage/ActivityTasks";
 
-export const ProcessPage = () => {
+
+export const ActivityPage = () => {
     const {id} = useParams();
     const [activeTab, setActiveTab] = useState("1");
 
-    const {getSessionAction, sessionState} = useSessionStore();
-    const {workplaceSessionState} = useWorkplaceSessionStore();
+    const navigate = useNavigate();
 
-    const {getWorkplaceProcessByIdAction,process} = GetWorkplaceProcessByIdService();
+    const {appLoading,appLoaded} = useUiStore()
+    const {sessionState,getSessionAction} = useSessionStore();
 
-    const {
-        appLoading,
-        appLoaded
-    } = useUiStore();
-
+    const {getAction,activity} = GetProcessActivityByIdService();
 
     useEffect(()=>{
         appLoading();
-        getSessionAction().then(appLoaded);
-
+        getSessionAction();
     },[]);
 
     useEffect(()=>{
-        if(id && sessionState.actionAdmin?.id && workplaceSessionState.actionWorkplace?.id ){
-            appLoading();
-            getWorkplaceProcessByIdAction(
-                workplaceSessionState.actionWorkplace.id,
-                id
-            ).then(appLoaded);
+        if( id && sessionState.actionAdmin && id ){
+            getAction(id).then(appLoaded);
         }
-
     },[sessionState]);
+
+
+    const handleNavigateToProcessPage = () => {
+        navigate('/centro-trabajo/proceso/'+activity?.processId);
+    }
+
 
 
     return(
         <>
             <div className="page-content">
-                <div className="d-flex justify-content-start mb-3">
-                    <span>Proceso</span>
-                </div>
                 <Container fluid>
+                    <div className="d-flex justify-content-between mb-3">
+                        <div>
+                            <span>Proceso/Actividad</span>
+
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleNavigateToProcessPage}
+                            >
+                                Volver al Proceso
+                            </button>
+                        </div>
+                    </div>
                     <Row>
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">{process?.name}</CardTitle>
+                                    <CardTitle className="h4">{activity?.name}</CardTitle>
+
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
@@ -66,7 +76,7 @@ export const ProcessPage = () => {
                                                     setActiveTab("1");
                                                 }}
                                             >
-                                                Actividades
+                                                Tareas
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
@@ -94,29 +104,20 @@ export const ProcessPage = () => {
                                                     {activeTab == '1' &&
                                                         id &&
                                                         sessionState.actionAdmin?.id &&
-                                                        workplaceSessionState.actionWorkplace?.id &&
-                                                        process?.id &&
-
-                                                        <ProcessActivities
-                                                            session={sessionState}
-                                                            workplace={workplaceSessionState}
-                                                            process={process}
-                                                        />
-
+                                                        activity?.id &&
+                                                        <ActivityTasks activity={activity}/>
                                                     }
                                                 </Col>
                                             </Row>
                                         </TabPane>
-
                                         <TabPane tabId="2">
                                             <Row>
                                                 <Col sm="12">
                                                     {activeTab == '2' &&
                                                         id &&
                                                         sessionState.actionAdmin?.id &&
-                                                        workplaceSessionState.actionWorkplace?.id &&
-                                                        process?.id &&
-                                                        <ContentDescription description={process.description}/>
+                                                        activity?.id &&
+                                                        <ActivityDescription activityDescription={activity.description}/>
                                                     }
                                                 </Col>
                                             </Row>
@@ -130,4 +131,6 @@ export const ProcessPage = () => {
             </div>
         </>
     )
+
+
 }

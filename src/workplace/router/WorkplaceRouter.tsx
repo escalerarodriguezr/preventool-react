@@ -8,6 +8,10 @@ import {EditProcessPage} from "../pages/processModule/EditProcessPage";
 import {ProcessPage} from "../pages/processModule/ProcessPage";
 import {CreateProcessActivityPage} from "../pages/processModule/CreateProcessActivityPage";
 import {EditProcessActivityPage} from "../pages/processModule/EditProcessActivityPage";
+import {ActivityPage} from "../pages/processModule/ActivityPage";
+import {CreateProcessActivityTaskPage} from "../pages/processModule/CreateProcessActivityTaskPage";
+import {EditProcessActivityTaskPage} from "../pages/processModule/EditProcessActivityTaskPage";
+import {TaskPage} from "../pages/processModule/TaskPage";
 
 
 
@@ -26,6 +30,13 @@ export const WorkplaceRouter = () => {
                {/*ProcessActivity*/}
                <Route path="proceso/:processId/crear-actividad" element={<CreateProcessActivityPage/>}/>
                <Route path={"editar-actividad-de-proceso/:activityId"} element={<EditProcessActivityPage/>}/>
+               {/* ActivityTasks */}
+               <Route path="actividad/:id" element={<ActivityPage/>}/>
+               <Route path="actividad/:activityId/crear-tarea" element={<CreateProcessActivityTaskPage/>}/>
+               <Route path="actividad/:activityId/editar-tarea/:taskId" element={<EditProcessActivityTaskPage/>}/>
+
+               {/* Tasks */}
+               <Route path="tarea/:id" element={<TaskPage/>}/>
 
            </Route>
        </Routes>

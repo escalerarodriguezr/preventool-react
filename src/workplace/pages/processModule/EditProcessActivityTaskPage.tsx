@@ -1,50 +1,43 @@
-import {useNavigate, useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
-import {useSessionStore} from "../../../store/session/useSessionStore";
-import {useCompanySessionStore} from "../../../store/compnay/useCompanySessionStore";
-import {useUiStore} from "../../../store/ui/useUiStore";
-import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
 import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
-import {EditWorkplaceGeneralData} from "../../../company/pages/workplaceModule/component/EditWorkplaceGeneralData";
-import {EditProcessGeneralData} from "./component/EditProcessGeneralData";
+import React, {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useUiStore} from "../../../store/ui/useUiStore";
+import {useSessionStore} from "../../../store/session/useSessionStore";
+import {
+    EditProcessActivityTaskGeneralData
+} from "./component/activityPage/component/EditProcessActivityTaskGeneralData";
 
-export const EditProcessPage = () => {
-    const {id} = useParams();
+export const EditProcessActivityTaskPage = () => {
+    const {activityId} = useParams();
     const [activeTab, setActiveTab] = useState("1");
+    const {taskId} = useParams();
+    const navigate = useNavigate();
 
-    const navigate = useNavigate()
-
-    const {getSessionAction, sessionState} = useSessionStore();
-    const {workplaceSessionState} = useWorkplaceSessionStore();
-
-    const {
-        appLoading,
-        appLoaded
-    } = useUiStore();
+    const {appLoading,appLoaded} = useUiStore()
+    const {sessionState,getSessionAction} = useSessionStore()
 
 
     useEffect(()=>{
-        appLoading();
-        getSessionAction().then(appLoaded);
+        appLoading()
+        getSessionAction()
+        appLoaded()
+    },[])
 
-    },[]);
-
-    const handleNavigateToSearchProcessPage = () => {
-        navigate('/centro-trabajo/procesos');
+    const navigateToActivityPage = () => {
+        navigate('/centro-trabajo/actividad/'+activityId)
     }
 
     return(
         <>
             <div className="page-content">
                 <Container fluid>
-                    <div className="d-flex justify-content-end mb-3">
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={handleNavigateToSearchProcessPage}
+
+                    <div className="d-flex justify-content-end">
+                        <button type="button" className="btn btn-primary mb-3"
+                                onClick={navigateToActivityPage}
                         >
-                            Listado de Procesos
+                            Volver Actividad
                         </button>
                     </div>
 
@@ -52,7 +45,7 @@ export const EditProcessPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Editar Proceso</CardTitle>
+                                    <CardTitle className="h4">Editar Tarea</CardTitle>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
@@ -77,15 +70,8 @@ export const EditProcessPage = () => {
                                             <Row>
                                                 <Col sm="12">
                                                     {activeTab == '1' &&
-                                                        id &&
-                                                        sessionState.actionAdmin?.id &&
-                                                        workplaceSessionState.actionWorkplace?.id &&
-
-                                                        <EditProcessGeneralData
-                                                            id={id}
-                                                            session={sessionState}
-                                                            workplace={workplaceSessionState}
-                                                        />
+                                                        taskId &&
+                                                        <EditProcessActivityTaskGeneralData taskId={taskId} />
                                                     }
                                                 </Col>
                                             </Row>
@@ -99,6 +85,5 @@ export const EditProcessPage = () => {
             </div>
         </>
     )
-
 
 }
