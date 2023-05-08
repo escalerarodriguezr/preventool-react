@@ -2,14 +2,14 @@ import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
-import {ActivityTasks} from "./component/activityPage/ActivityTasks";
-import {ActivityDescription} from "./component/activityPage/ActivityDescription";
 import {useUiStore} from "../../../store/ui/useUiStore";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {
     GetProcessActivityTaskByIdService
 } from "./service/getProcessActivityTaskById/GetProcessActivityTaskByIdService";
 import {ContentDescription} from "../../../shared/component/ContentDescription";
+import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
+import {AddHazardTable} from "./component/taskPage/AddHazardTable";
 
 export const TaskPage = () => {
     const {id}  =useParams();
@@ -19,6 +19,7 @@ export const TaskPage = () => {
 
     const {appLoading,appLoaded} = useUiStore();
     const {sessionState,getSessionAction} = useSessionStore();
+    const {workplaceSessionState} = useWorkplaceSessionStore();
     const {task,getTaskAction} = GetProcessActivityTaskByIdService();
 
     useEffect(()=>{
@@ -37,10 +38,6 @@ export const TaskPage = () => {
     const handleNavigateToActivity = (activityId:string) => {
         navigate(`/centro-trabajo/actividad/${activityId}`)
     }
-
-    useEffect(()=>{
-        console.log(task);
-    },[task])
 
     return(
         <>
@@ -92,6 +89,20 @@ export const TaskPage = () => {
                                                 Descripción
                                             </NavLink>
                                         </NavItem>
+
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "3",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("3");
+                                                }}
+                                            >
+                                                Asignar Peligro
+                                            </NavLink>
+                                        </NavItem>
                                     </Nav>
 
                                     <TabContent
@@ -120,6 +131,24 @@ export const TaskPage = () => {
                                                         sessionState.actionAdmin?.id &&
                                                         task?.id &&
                                                         <ContentDescription description={task.description}/>
+                                                    }
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
+
+                                        <TabPane tabId="3">
+                                            <Row>
+                                                <Col sm="12">
+
+                                                    <p>Listado de peligros</p>
+
+                                                    {activeTab == '3' &&
+                                                        task?.id &&
+                                                        workplaceSessionState.actionWorkplace &&
+                                                       <AddHazardTable
+                                                           task={task}
+                                                           workplace={workplaceSessionState.actionWorkplace}
+                                                       />
                                                     }
                                                 </Col>
                                             </Row>
