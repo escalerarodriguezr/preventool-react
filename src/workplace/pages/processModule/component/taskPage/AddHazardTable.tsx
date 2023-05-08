@@ -1,15 +1,16 @@
 import {ProcessActivityTaskResponse} from "../../service/interface/ProcessActivityTaskResponse";
 import {ActionWorkplace} from "../../../../../store/workplace/workplaceSlice";
-import {SyntheticEvent, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Card, CardBody, Col, Container, Input, Label, Row, Table} from "reactstrap";
-import Switch from "react-switch";
-import {OffSymbol} from "../../../../../admin/shared/component/OffSymbol";
-import {OnSymbol} from "../../../../../admin/shared/component/OnSymbol";
 import {TablePaginator} from "../../../../../admin/shared/component/TablePaginator";
 import {useUiStore} from "../../../../../store/ui/useUiStore";
 import {
     SearchWorkplaceHazardService,
 } from "../../service/searchWorkplaceHazardService/SearchWorkplaceHazardService";
+import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
+import {AxiosError, AxiosResponse} from "axios/index";
 
 interface props{
     task:ProcessActivityTaskResponse,
@@ -41,7 +42,6 @@ export const AddHazardTable = (
 
 
     useEffect(()=>{
-
         if(props.workplace.id){
             appLoading()
             searchAction(
@@ -121,7 +121,43 @@ export const AddHazardTable = (
     // }
 
 
+    const handleAddHazard = async (hazardId:string) => {
 
+        appLoading();
+        try {
+
+            const postData = {
+                taskId:props.task.id,
+                hazardId: hazardId
+            }
+            await preventoolApi.post(
+                '/create-task-hazard',
+                postData
+            );
+
+            toast.info('Peligro añadido a la tarea');
+
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+            if( status === 409 && data.class.includes('TaskHazardAlreadyExitsException') )
+            {
+                toast.info(MessagesHttpResponse.TaskHazardAlreadyExistsException);
+            }else if( status === 409 && data.class.includes('TaskHazardConflictException') ){
+                toast.error(MessagesHttpResponse.TaskHazardConflictException);
+            } else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
+        appLoaded();
+    }
 
 
     return(
@@ -194,15 +230,13 @@ export const AddHazardTable = (
                                                                     <div className="btn-group" >
                                                                         <button
                                                                             type="button"
-                                                                            className="btn btn-default"
+                                                                            className="btn btn-outline-secondary"
                                                                             title="Editar"
-                                                                            // onClick={()=>handleNavigateEdit(process.id)}
+                                                                            onClick={()=>handleAddHazard(hazard.id)}
 
                                                                         >
-                                                                            <i className="fas fa-edit"></i>
+                                                                           Asignar
                                                                         </button>
-
-
 
                                                                     </div>
                                                                 </td>

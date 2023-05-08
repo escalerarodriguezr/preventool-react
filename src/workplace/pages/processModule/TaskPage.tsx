@@ -45,7 +45,7 @@ export const TaskPage = () => {
                 <Container fluid>
                     <div className="d-flex justify-content-sm-between mb-3">
                        <div>
-                           <span>Actividad/Gestionar Tarea</span>
+                           <span>Proceso/Actividad/Gestionar Tarea</span>
                        </div>
                         <div>
                             <button
@@ -61,7 +61,7 @@ export const TaskPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">{task?.name}</CardTitle>
+                                    <span className="mb-2 d-block text-end">Gestionar Tarea: {task?.name}</span>
                                     <Nav tabs>
                                         {/*<NavItem>*/}
                                         {/*    <NavLink*/}
@@ -100,7 +100,7 @@ export const TaskPage = () => {
                                                     setActiveTab("3");
                                                 }}
                                             >
-                                                Asignar Peligro
+                                                Asignar Peligros
                                             </NavLink>
                                         </NavItem>
                                     </Nav>

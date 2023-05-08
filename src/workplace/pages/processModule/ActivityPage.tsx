@@ -46,7 +46,7 @@ export const ActivityPage = () => {
                 <Container fluid>
                     <div className="d-flex justify-content-between mb-3">
                         <div>
-                            <span>Proceso/Actividad</span>
+                            <span>Proceso/Gestionar Actividad</span>
 
                         </div>
                         <div>
@@ -63,7 +63,7 @@ export const ActivityPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">{activity?.name}</CardTitle>
+                                    <span className="mb-2 d-block text-end">Gestionar Actividad: {activity?.name}</span>
 
                                     <Nav tabs>
                                         <NavItem>
