@@ -10,6 +10,7 @@ import {
 import {ContentDescription} from "../../../shared/component/ContentDescription";
 import {useWorkplaceSessionStore} from "../../../store/workplace/useWorkplaceSessionStore";
 import {AddHazardTable} from "./component/taskPage/AddHazardTable";
+import {HazardsTable} from "./component/taskPage/HazardsTable";
 
 export const TaskPage = () => {
     const {id}  =useParams();
@@ -63,19 +64,19 @@ export const TaskPage = () => {
                                 <CardBody>
                                     <span className="mb-2 d-block text-end">Gestionar Tarea: {task?.name}</span>
                                     <Nav tabs>
-                                        {/*<NavItem>*/}
-                                        {/*    <NavLink*/}
-                                        {/*        style={{ cursor: "pointer" }}*/}
-                                        {/*        className={classnames({*/}
-                                        {/*            active: activeTab === "1",*/}
-                                        {/*        })}*/}
-                                        {/*        onClick={() => {*/}
-                                        {/*            setActiveTab("1");*/}
-                                        {/*        }}*/}
-                                        {/*    >*/}
-                                        {/*        Peligros*/}
-                                        {/*    </NavLink>*/}
-                                        {/*</NavItem>*/}
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "1",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("1");
+                                                }}
+                                            >
+                                                Peligros
+                                            </NavLink>
+                                        </NavItem>
                                         <NavItem>
                                             <NavLink
                                                 style={{ cursor: "pointer" }}
@@ -109,19 +110,19 @@ export const TaskPage = () => {
                                         activeTab={activeTab}
                                         className="p-3 text-muted"
                                     >
-                                        {/*<TabPane tabId="1">*/}
-                                        {/*    <Row>*/}
-                                        {/*        <Col sm="12">*/}
-                                        {/*            <p>Peligros</p>*/}
-                                        {/*            /!*{activeTab == '1' &&*!/*/}
-                                        {/*            /!*    id &&*!/*/}
-                                        {/*            /!*    sessionState.actionAdmin?.id &&*!/*/}
-                                        {/*            /!*    activity?.id &&*!/*/}
-                                        {/*            /!*    <ActivityTasks activity={activity}/>*!/*/}
-                                        {/*            /!*}*!/*/}
-                                        {/*        </Col>*/}
-                                        {/*    </Row>*/}
-                                        {/*</TabPane>*/}
+                                        <TabPane tabId="1">
+                                            <Row>
+                                                <Col sm="12">
+                                                    <p>Peligros</p>
+                                                    {activeTab == '1' &&
+                                                        id &&
+                                                        sessionState.actionAdmin?.id &&
+                                                        task?.id &&
+                                                        <HazardsTable taskId={task.id}/>
+                                                    }
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
                                         <TabPane tabId="2">
                                             <Row>
                                                 <Col sm="12">
