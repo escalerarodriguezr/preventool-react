@@ -46,7 +46,11 @@ export const MessagesHttpResponse = {
     ProcessActivityNotFoundException: 'Actividad no encontrada',
     //ActivityTask
     ProcessActivityTaskAlreadyExistsException: 'Ya existe una tarea registrada en la actividad con el mismo nombre',
-    ProcessActivityTaskNotFoundException: 'Tarea no encontrada'
+    ProcessActivityTaskNotFoundException: 'Tarea no encontrada',
+
+    //TaskHazard
+    TaskHazardAlreadyExistsException: 'Ya existe el peligro para la tarea',
+    TaskHazardConflictException: 'El peligro y la tarea no pertenecen al mismo centro de trabajo',
 
 
 }

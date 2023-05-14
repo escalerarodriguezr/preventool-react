@@ -54,7 +54,7 @@ export const ProcessPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">{process?.name}</CardTitle>
+                                    <span className="mb-2 d-block text-end">Gestionar Proceso: {process?.name}</span>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
