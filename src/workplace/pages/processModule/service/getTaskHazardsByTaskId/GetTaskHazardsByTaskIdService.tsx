@@ -15,6 +15,7 @@ export const getTaskHazardsByTaskIdService = () => {
 
             const response:AxiosResponse = await preventoolApi.get(`/task/${taskId}/hazards`);
             const data:TaskHazardResponse[] = response.data;
+            console.log(data);
             setTaskHazards(data)
 
         }catch (error){

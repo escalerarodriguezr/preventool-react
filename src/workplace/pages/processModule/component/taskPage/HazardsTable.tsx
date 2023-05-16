@@ -23,9 +23,10 @@ export const HazardsTable = (
         }
     },[]);
 
-    useEffect(()=>{
-        console.log(taskHazards)
-    },[taskHazards]);
+    
+    const handleNavigateToRisk = (riskId:string) => {
+        console.log(`Navegar al riesgo ${riskId}`);
+    }
 
 
     return(
@@ -43,9 +44,9 @@ export const HazardsTable = (
                                             <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th><span>Peligro</span></th>
                                                 <th><span>Riesgo</span></th>
-                                                <th><span>Asignado</span></th>
-                                                <th>Activo</th>
+                                                {/*<th>Activo</th>*/}
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -60,18 +61,18 @@ export const HazardsTable = (
                                                             >
                                                                 <th scope="row">{index+1}</th>
                                                                 <td>{taskHazard.hazardName}</td>
-                                                                <td>{new Date(taskHazard.createdAt).toLocaleDateString()}</td>
-                                                                <td><Switch
-                                                                    uncheckedIcon={<OffSymbol />}
-                                                                    className="me-1 mb-sm-8 mb-2"
-                                                                    checkedIcon={<OnSymbol />}
-                                                                    onColor="#02a499"
-                                                                    onChange={(checked, event, id) =>{
+                                                                <td>{taskHazard.riskName}</td>
+                                                                {/*<td><Switch*/}
+                                                                {/*    uncheckedIcon={<OffSymbol />}*/}
+                                                                {/*    className="me-1 mb-sm-8 mb-2"*/}
+                                                                {/*    checkedIcon={<OnSymbol />}*/}
+                                                                {/*    onColor="#02a499"*/}
+                                                                {/*    onChange={(checked, event, id) =>{*/}
 
-                                                                    }}
-                                                                    checked={taskHazard.active}
-                                                                    disabled={true}
-                                                                /></td>
+                                                                {/*    }}*/}
+                                                                {/*    checked={taskHazard.active}*/}
+                                                                {/*    disabled={true}*/}
+                                                                {/*/></td>*/}
                                                                 <td>
                                                                     <div className="btn-group" >
                                                                         <button
@@ -87,8 +88,8 @@ export const HazardsTable = (
                                                                         <button
                                                                             type="button"
                                                                             className="btn btn-default"
-                                                                            title="Evaluación de Riesgos"
-                                                                            // onClick={()=>handleNavigateToProcess(process.id)}
+                                                                            title="Gestionar Riesgo"
+                                                                            onClick={()=>handleNavigateToRisk(taskHazard.riskId)}
                                                                         >
                                                                             <i className="fas fa-bezier-curve" />
                                                                         </button>
