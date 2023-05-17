@@ -2,30 +2,43 @@ import React, {useEffect, useState} from "react";
 import {useUiStore} from "../../../../store/ui/useUiStore";
 import {useSessionStore} from "../../../../store/session/useSessionStore";
 import {useWorkplaceSessionStore} from "../../../../store/workplace/useWorkplaceSessionStore";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Card, CardBody, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
 import {HazardsTable} from "../../processModule/component/taskPage/HazardsTable";
 import {ContentDescription} from "../../../../shared/component/ContentDescription";
 import {AddHazardTable} from "../../processModule/component/taskPage/AddHazardTable";
+import {UpdateRisk} from "../component/UpdateRisk";
+import {GetTaskRiskByIdService} from "../service/getTaskRiskById/GetTaskRiskByIdService";
 
 export const RiskPage = () => {
     const {id}  =useParams();
+    const navigate = useNavigate();
+
     const [activeTab, setActiveTab] = useState("1");
     const {appLoading,appLoaded} = useUiStore();
     const {sessionState,getSessionAction} = useSessionStore();
-    // const {workplaceSessionState} = useWorkplaceSessionStore();
+    const {taskRisk,getTaskRiskAction} = GetTaskRiskByIdService();
 
     useEffect(()=>{
         if(id){
             appLoading()
             Promise.all([
                 getSessionAction(),
+                getTaskRiskAction(id)
             ]).then(appLoaded);
         }
     },[]);
 
+    const handleNavigateToTask = (taskId:string|undefined) => {
 
+        if(taskId){
+            navigate(`/centro-trabajo/tarea/${taskId}`)
+        }
+    }
+
+
+    // @ts-ignore
     return(
         <>
             <div className="page-content">
@@ -38,7 +51,7 @@ export const RiskPage = () => {
                             <button
                                 type="button"
                                 className="btn btn-primary"
-                                // onClick={()=>handleNavigateToActivity(task?.processActivityId!)}
+                                onClick={()=>handleNavigateToTask(taskRisk?.taskId)}
                             >
                                 Volver a la Tarea
                             </button>
@@ -85,13 +98,13 @@ export const RiskPage = () => {
                                         <TabPane tabId="1">
                                             <Row>
                                                 <Col sm="12">
-                                                    <p>Riesgo {id}</p>
-                                                    {/*{activeTab == '1' &&*/}
-                                                    {/*    id &&*/}
-                                                    {/*    sessionState.actionAdmin?.id &&*/}
-                                                    {/*    task?.id &&*/}
-                                                    {/*    <HazardsTable taskId={task.id}/>*/}
-                                                    {/*}*/}
+
+                                                    {activeTab == '1' &&
+                                                        id &&
+                                                        sessionState.actionAdmin?.id &&
+                                                        taskRisk?.id &&
+                                                        <UpdateRisk taskRisk={taskRisk}/>
+                                                    }
                                                 </Col>
                                             </Row>
                                         </TabPane>
