@@ -5,6 +5,7 @@ import {Card, CardBody, Col, Container, Input, Label, Row, Table} from "reactstr
 import Switch from "react-switch";
 import {OffSymbol} from "../../../../../admin/shared/component/OffSymbol";
 import {OnSymbol} from "../../../../../admin/shared/component/OnSymbol";
+import {useNavigate} from "react-router-dom";
 
 interface props{
     taskId: string
@@ -12,6 +13,7 @@ interface props{
 export const HazardsTable = (
     {taskId}:props
 ) => {
+    const navigate = useNavigate();
 
     const {appLoading,appLoaded, loading} = useUiStore();
     const {taskHazards,getTaskHazardsAction} = getTaskHazardsByTaskIdService();
@@ -23,9 +25,9 @@ export const HazardsTable = (
         }
     },[]);
 
-    
+
     const handleNavigateToRisk = (riskId:string) => {
-        console.log(`Navegar al riesgo ${riskId}`);
+       navigate(`/centro-trabajo/riesgo/${riskId}`);
     }
 
 

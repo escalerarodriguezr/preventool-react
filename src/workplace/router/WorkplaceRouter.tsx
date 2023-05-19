@@ -1,17 +1,18 @@
 import {Route, Routes} from "react-router-dom";
 import {WorkplaceLayout} from "../shared/layout/WorkplaceLayout";
-import {DashboardPage} from "../pages/dashboard/DashboardPage";
-import {BaselineStudyPage} from "../pages/baselineStudyModule/BaselineStudyPage";
-import {CreateProcessPage} from "../pages/processModule/CreateProcessPage";
-import {SearchProcessPage} from "../pages/processModule/SearchProcessPage";
-import {EditProcessPage} from "../pages/processModule/EditProcessPage";
-import {ProcessPage} from "../pages/processModule/ProcessPage";
-import {CreateProcessActivityPage} from "../pages/processModule/CreateProcessActivityPage";
-import {EditProcessActivityPage} from "../pages/processModule/EditProcessActivityPage";
-import {ActivityPage} from "../pages/processModule/ActivityPage";
-import {CreateProcessActivityTaskPage} from "../pages/processModule/CreateProcessActivityTaskPage";
-import {EditProcessActivityTaskPage} from "../pages/processModule/EditProcessActivityTaskPage";
-import {TaskPage} from "../pages/processModule/TaskPage";
+import {DashboardPage} from "../modules/dashboard/DashboardPage";
+import {BaselineStudyPage} from "../modules/baselineStudyModule/BaselineStudyPage";
+import {CreateProcessPage} from "../modules/processModule/CreateProcessPage";
+import {SearchProcessPage} from "../modules/processModule/SearchProcessPage";
+import {EditProcessPage} from "../modules/processModule/EditProcessPage";
+import {ProcessPage} from "../modules/processModule/ProcessPage";
+import {CreateProcessActivityPage} from "../modules/processModule/CreateProcessActivityPage";
+import {EditProcessActivityPage} from "../modules/processModule/EditProcessActivityPage";
+import {ActivityPage} from "../modules/processModule/ActivityPage";
+import {CreateProcessActivityTaskPage} from "../modules/processModule/CreateProcessActivityTaskPage";
+import {EditProcessActivityTaskPage} from "../modules/processModule/EditProcessActivityTaskPage";
+import {TaskPage} from "../modules/processModule/TaskPage";
+import {RiskPage} from "../modules/occupationalRisk/page/RiskPage";
 
 
 
@@ -37,6 +38,9 @@ export const WorkplaceRouter = () => {
 
                {/* Tasks */}
                <Route path="tarea/:id" element={<TaskPage/>}/>
+
+               {/* OccupationalRiskModule */}
+               <Route path="riesgo/:id" element={<RiskPage/>}/>
 
            </Route>
        </Routes>
