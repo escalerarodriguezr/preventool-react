@@ -10,44 +10,57 @@ import {MesseagesFormValidations} from "../../../../admin/shared/utils/Messeages
 import {Card, CardText, CardTitle, Form, Input, Label} from "reactstrap";
 import {Editor} from "@tinymce/tinymce-react";
 import {TaskRiskStatusMessages} from "../utils/TaskRiskStatusMessages";
+import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
+import {AxiosError, AxiosResponse} from "axios/index";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
 
 interface props{
-    taskRisk:TaskRiskResponse
+    taskRiskId:string
 }
 export const UpdateRisk = (
-    {taskRisk}:props
+    {taskRiskId}:props
 ) => {
+
+    const {taskRisk,getTaskRiskAction} = GetTaskRiskByIdService();
 
     // const [observationsState, setObservationsState] = useState<any>(taskRisk.observation);
 
+    const {appLoading,appLoaded} = useUiStore();
+
+    useEffect(()=>{
+        if(taskRiskId){
+            appLoading()
+            Promise.all([
+                getTaskRiskAction(taskRiskId)
+            ]).then(appLoaded);
+        }
+    },[]);
+
     const handleObservationsChange = (event:any)=>{
-        // setObservationsState(event.target.value);
-        const val = event.target.value.length < 1 ? null : event.target.value;
+        const val = event.target.value;
         formik.setFieldValue('observations',val)
-        // if(event.target.value.length > 5){
-        //     formik.setFieldError('observations', "un error");
-        // }
         formik.setFieldTouched('observations');
     }
 
     const handleLegalRequirementChange = (event:any)=>{
-        const val = event.target.value.length < 1 ? null : event.target.value;
+        const val = event.target.value;
         formik.setFieldValue('legalRequirement',val)
         formik.setFieldTouched('legalRequirement');
     }
 
     const handleHazardDescriptionChange = (event:any)=>{
-        const val = event.target.value.length < 1 ? null : event.target.value;
+        const val = event.target.value;
         formik.setFieldValue('hazardDescription',val)
         formik.setFieldTouched('hazardDescription');
     }
 
     const editForm: EditTaskRiskForm ={
-        name: taskRisk.name,
-        observations: taskRisk.observation,
-        legalRequirement: taskRisk.legalRequirement,
-        hazardName: taskRisk.hazardName,
-        hazardDescription: taskRisk.hazardDescription
+        name: taskRisk?.name || '',
+        observations: taskRisk?.observations || '',
+        legalRequirement: taskRisk?.legalRequirement || '',
+        hazardName: taskRisk?.hazardName || '',
+        hazardDescription: taskRisk?.hazardDescription || ''
     };
 
     const formik = useFormik({
@@ -55,9 +68,9 @@ export const UpdateRisk = (
         initialValues:editForm,
 
         onSubmit:async (value:EditTaskRiskForm) => {
-
-            console.log(value);
-
+           appLoading();
+           await updateTaskRiskRequest(taskRiskId,value);
+           appLoaded();
         },
         validationSchema: Yup.object({
             name:Yup.string()
@@ -121,6 +134,32 @@ export const UpdateRisk = (
         })
     });
 
+    const updateTaskRiskRequest = async (taskRiskId:string, formData:EditTaskRiskForm): Promise<void> => {
+
+        try {
+            await preventoolApi.put(`/task-risk/${taskRiskId}`, formData);
+            toast.info(MessagesHttpResponse.SuccessEditResponse);
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+
+
+
+            if( status === 404 && data.class.includes('TaskRiskNotFoundException') )
+            {
+                toast.info(MessagesHttpResponse.TaskRiskNotFoundException);
+            }else if( status === 409 && data.class.includes('ActionNotAllowedException') ) {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+
+            }else{
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
+    }
+
 
 
 
@@ -130,7 +169,11 @@ export const UpdateRisk = (
             <div className="d-flex justify-content-end">
                 <div>
                     <Label>Estado</Label>
-                    <span className="badge rounded-pill bg-info p-2 d-block">{TaskRiskStatusMessages(taskRisk.status)}</span>
+
+                    {taskRisk?.status &&
+                        <span className="badge rounded-pill bg-info p-2 d-block">{TaskRiskStatusMessages(taskRisk.status)}</span>
+                    }
+
                 </div>
 
             </div>
@@ -168,7 +211,7 @@ export const UpdateRisk = (
                             <Label htmlFor="observations">Observaciones</Label>
                             <Input
                                 type="textarea"
-                                id="textarea"
+                                id="observations"
                                 rows="4"
                                 placeholder="Máximo 300 caracteres..."
                                 value={formik.values.observations || ''}
@@ -191,7 +234,7 @@ export const UpdateRisk = (
                         <Label htmlFor="legalRequirement">Requerimiento Legal</Label>
                         <Input
                             type="textarea"
-                            id="textarea"
+                            id="legalRequirement"
                             rows="4"
                             placeholder="Máximo 300 caracteres..."
                             value={formik.values.legalRequirement || ''}
@@ -256,29 +299,7 @@ export const UpdateRisk = (
                         </div>
                     </div>
 
-
-
-
-
                 </Card>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <div>
                     <button type="submit" className="btn btn-primary w-md">

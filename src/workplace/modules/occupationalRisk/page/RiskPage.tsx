@@ -103,7 +103,7 @@ export const RiskPage = () => {
                                                         id &&
                                                         sessionState.actionAdmin?.id &&
                                                         taskRisk?.id &&
-                                                        <UpdateRisk taskRisk={taskRisk}/>
+                                                        <UpdateRisk taskRiskId={id}/>
                                                     }
                                                 </Col>
                                             </Row>

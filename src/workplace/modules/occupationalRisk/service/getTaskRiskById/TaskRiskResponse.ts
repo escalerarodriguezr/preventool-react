@@ -2,7 +2,7 @@ export interface TaskRiskResponse{
     id:string;
     name:string;
     status:string;
-    observation:string|null;
+    observations:string|null;
     legalRequirement:string|null;
     creatorId:string;
     updaterId: null;

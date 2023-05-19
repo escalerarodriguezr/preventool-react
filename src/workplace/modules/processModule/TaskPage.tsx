@@ -14,7 +14,7 @@ import {HazardsTable} from "./component/taskPage/HazardsTable";
 
 export const TaskPage = () => {
     const {id}  =useParams();
-    const [activeTab, setActiveTab] = useState("2");
+    const [activeTab, setActiveTab] = useState("1");
 
     const navigate = useNavigate();
 
@@ -31,8 +31,6 @@ export const TaskPage = () => {
                 getTaskAction(id)
             ]).then(appLoaded);
         }
-
-
     },[]);
 
 
