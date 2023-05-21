@@ -20,7 +20,59 @@ export const IpercAssessment = (
     const [riskLevel, setRiskLevel] = useState<number|null>(null);
     const getDescription = ():string => {
 
-            return 'PENDIENTE DE EVALUAR';
+            if (riskLevel != null){
+                if(riskLevel <= 4){
+                    return 'TRIVIAL';
+                }
+
+                if(riskLevel >= 5 && riskLevel <= 8){
+                    return 'TOLERABLE';
+                }
+
+                if(riskLevel >= 9 && riskLevel <= 16){
+                    return 'MODERADO';
+                }
+
+                if(riskLevel >= 17 && riskLevel <= 24){
+                    return 'IMPORTANTE';
+                }
+
+                if(riskLevel >= 25 && riskLevel <= 36){
+                    return 'INTORELABLE';
+                }
+                return 'PENDIENTE DE EVALUAR';
+            }else{
+                return 'PENDIENTE DE EVALUAR';
+            }
+
+    }
+
+    const getDescriptionTagClass = ():string => {
+
+        if (riskLevel != null){
+            if(riskLevel <= 4){
+                return 'bg-success';
+            }
+
+            if(riskLevel >= 5 && riskLevel <= 8){
+                return 'bg-info';
+            }
+
+            if(riskLevel >= 9 && riskLevel <= 16){
+                return 'bg-warning';
+            }
+
+            if(riskLevel >= 17 && riskLevel <= 24){
+                return 'bg-danger';
+            }
+
+            if(riskLevel >= 25 && riskLevel <= 36){
+                return 'bg-dark';
+            }
+            return 'bg-light';
+        }else{
+            return 'bg-light';
+        }
 
     }
 
@@ -31,6 +83,79 @@ export const IpercAssessment = (
         setPeopleExposed(valueIndex);
 
     }
+
+    const [procedure, setProcedure] = useState<number>(0);
+    const handleProcedureChange = (event:SyntheticEvent)=>{
+        // @ts-ignore
+        const valueIndex = event.nativeEvent.target.value
+        setProcedure(valueIndex);
+
+    }
+
+    const [training, setTraining] = useState<number>(0);
+    const handleTrainingChange = (event:SyntheticEvent)=>{
+        // @ts-ignore
+        const valueIndex = event.nativeEvent.target.value
+        setTraining(valueIndex);
+
+    }
+
+    const [exposure, setExposure] = useState<number>(0);
+    const handleExposureChange = (event:SyntheticEvent)=>{
+        // @ts-ignore
+        const valueIndex = event.nativeEvent.target.value
+        setExposure(valueIndex);
+
+    }
+
+    const [severity, setSeverity] = useState<number>(0);
+    const handleSeverityChange = (event:SyntheticEvent)=>{
+        // @ts-ignore
+        const valueIndex = event.nativeEvent.target.value
+        setSeverity(valueIndex);
+
+    }
+
+
+    const [disableCalculateButton, setDisableCalculateButton] = useState<boolean>(true);
+
+
+    useEffect(()=>{
+        handleDisableCalculate();
+
+    },[severity,peopleExposed,procedure,training,exposure])
+    const handleDisableCalculate = () => {
+        if( severity == 0 ||
+            peopleExposed == 0 ||
+            procedure == 0 ||
+            training == 0 ||
+            exposure == 0
+        ){
+            setDisableCalculateButton(true);
+            setDisableSaveButton(true);
+        }else{
+            setDisableCalculateButton(false);
+            if(riskLevel != null) {
+                setDisableSaveButton(false);
+            }
+        }
+
+
+    }
+
+    const handleCalculateRiskLevel = () => {
+        console.log("calcular");
+        const probabilityIndex:number = (+procedure + +peopleExposed + +training + +exposure)
+        const level:number = +severity*probabilityIndex;
+        setRiskLevel(level);
+        setDisableSaveButton(false);
+
+    }
+
+    const [disableSaveButton, setDisableSaveButton] = useState<boolean>(true);
+
+
+
 
 
 
@@ -44,8 +169,11 @@ export const IpercAssessment = (
 
         if(taskRiskAssessment == null){
             setRiskLevel(null);
-            setPeopleExposed(1);
-
+            setPeopleExposed(0);
+            setProcedure(0);
+            setTraining(0);
+            setExposure(0);
+            setSeverity(0);
         }
 
     },[taskRiskAssessment])
@@ -58,7 +186,7 @@ export const IpercAssessment = (
                 <Col sm={4}>
                     <div className="mb-3 row">
                         <div className="text-center" style={{fontSize:20}}>
-                            <span className="badge rounded-pill bg-info p-2 d-block">{getDescription()}</span>
+                            <span className={"badge rounded-pill p-2 d-block " + getDescriptionTagClass()}>{getDescription()}</span>
                         </div>
                     </div>
                 </Col>
@@ -96,8 +224,8 @@ export const IpercAssessment = (
 
                         <div className="">
                             <select className="form-select"
-                                // value={status}
-                                // onChange={handleSelectedChange}
+                                    value={procedure}
+                                    onChange={handleProcedureChange}
                             >
                                 <option value='0'>Seleccionar</option>
                                 <option value='1'>Existen, son satisfactorios y suficientes</option>
@@ -117,8 +245,8 @@ export const IpercAssessment = (
 
                         <div className="">
                             <select className="form-select"
-                                // value={status}
-                                // onChange={handleSelectedChange}
+                                    value={training}
+                                    onChange={handleTrainingChange}
                             >
                                 <option value='0'>Seleccionar</option>
                                 <option value='1'>Personal entrenado. Conoce el peligro y lo previene</option>
@@ -138,8 +266,8 @@ export const IpercAssessment = (
 
                         <div className="">
                             <select className="form-select"
-                                // value={status}
-                                // onChange={handleSelectedChange}
+                                    value={exposure}
+                                    onChange={handleExposureChange}
                             >
                                 <option value='0'>Seleccionar</option>
                                 <option value='1'>Al menos una vez al año (S) / Esporádicamente (SO)</option>
@@ -164,8 +292,8 @@ export const IpercAssessment = (
 
                         <div>
                             <select className="form-select"
-                                // value={status}
-                                // onChange={handleSelectedChange}
+                                    value={severity}
+                                    onChange={handleSeverityChange}
                             >
                                 <option value='0'>Seleccionar</option>
                                 <option value='1'>Lesión sin incapacidad (S) / Disconfort/Incomodidad (SO)</option>
@@ -174,6 +302,33 @@ export const IpercAssessment = (
 
                             </select>
                         </div>
+                    </div>
+                </Col>
+
+            </Row>
+
+            <Row>
+
+                <Col sm={12}>
+                    <div className="mb-3 d-flex justify-content-center">
+                       <button
+                           className={`btn btn-primary btn-rounded text-center px-4 `}
+                           disabled={disableCalculateButton}
+                           onClick={handleCalculateRiskLevel}
+                       >Calcular</button>
+                    </div>
+                </Col>
+
+            </Row>
+
+            <Row>
+
+                <Col sm={12}>
+                    <div className="mb-3 d-flex justify-content-center">
+                        <button
+                            className={`btn btn-primary btn-rounded text-center px-4 `}
+                            disabled={disableSaveButton}
+                        >Guardar evaluación</button>
                     </div>
                 </Col>
 
