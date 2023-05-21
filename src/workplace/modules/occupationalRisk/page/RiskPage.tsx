@@ -10,6 +10,7 @@ import {ContentDescription} from "../../../../shared/component/ContentDescriptio
 import {AddHazardTable} from "../../processModule/component/taskPage/AddHazardTable";
 import {UpdateRisk} from "../component/UpdateRisk";
 import {GetTaskRiskByIdService} from "../service/getTaskRiskById/GetTaskRiskByIdService";
+import {RiskAssessment} from "../component/RiskAssessment";
 
 export const RiskPage = () => {
     const {id}  =useParams();
@@ -61,7 +62,6 @@ export const RiskPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <span className="mb-2 d-block text-end">Gestionar Riesgo:</span>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
@@ -86,7 +86,7 @@ export const RiskPage = () => {
                                                     setActiveTab("2");
                                                 }}
                                             >
-                                                Evaluación de Riesgo
+                                                Evaluación IPERC
                                             </NavLink>
                                         </NavItem>
                                     </Nav>
@@ -111,15 +111,12 @@ export const RiskPage = () => {
                                         <TabPane tabId="2">
                                             <Row>
                                                 <Col sm="12">
-
-                                                    <p>Evaluación de Riesgos</p>
-
-                                                    {/*{activeTab == '2' &&*/}
-                                                    {/*    id &&*/}
-                                                    {/*    sessionState.actionAdmin?.id &&*/}
-                                                    {/*    task?.id &&*/}
-                                                    {/*    <ContentDescription description={task.description}/>*/}
-                                                    {/*}*/}
+                                                    {activeTab == '2' &&
+                                                        id &&
+                                                        sessionState.actionAdmin?.id &&
+                                                        taskRisk?.id &&
+                                                        <RiskAssessment taskRiskId={taskRisk.id}/>
+                                                    }
                                                 </Col>
                                             </Row>
                                         </TabPane>
