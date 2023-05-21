@@ -7,7 +7,7 @@ import {useFormik} from "formik";
 import {CreateProcessForm} from "../../processModule/interface/CreateProcessForm";
 import * as Yup from "yup";
 import {MesseagesFormValidations} from "../../../../admin/shared/utils/MesseagesFormValidations";
-import {Card, CardText, CardTitle, Form, Input, Label} from "reactstrap";
+import {Card, CardText, CardTitle, Col, Form, Input, Label, Row} from "reactstrap";
 import {Editor} from "@tinymce/tinymce-react";
 import {TaskRiskStatusMessages} from "../utils/TaskRiskStatusMessages";
 import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
@@ -164,19 +164,25 @@ export const UpdateRisk = (
 
 
 
+    // @ts-ignore
     return(
         <>
-            <div className="d-flex justify-content-end">
-                <div>
-                    <Label>Estado</Label>
 
-                    {taskRisk?.status &&
-                        <span className="badge rounded-pill bg-info p-2 d-block">{TaskRiskStatusMessages(taskRisk.status)}</span>
-                    }
 
-                </div>
+            <Row className="justify-content-center">
+                {/*<CardTitle className="text-center mt-4">ESTADO DEVALUACIÓN</CardTitle>*/}
+                <Col sm={4}>
+                    <div className="mb-3 row">
+                        <div className="text-center" style={{fontSize:20}}>
+                            {taskRisk?.status &&
+                                <span className={"badge rounded-pill bg-light p-2 d-block"}>{TaskRiskStatusMessages(taskRisk.status)}</span>
+                            }
 
-            </div>
+                        </div>
+                    </div>
+                </Col>
+
+            </Row>
 
             <Form
                 onSubmit={formik.handleSubmit}

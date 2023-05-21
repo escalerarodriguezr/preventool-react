@@ -8,6 +8,7 @@ export interface TaskRiskAssessmentResponse{
     procedureIndex:number;
     trainingIndex:number;
     exposureIndex:number;
+    riskLevelIndex:number;
     revisedAdminId:string|null;
     approvedAdminId:string|null;
     creatorId:string;

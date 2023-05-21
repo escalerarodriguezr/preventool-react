@@ -62,7 +62,6 @@ export const RiskPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <span className="mb-2 d-block text-end">Gestionar Riesgo:</span>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
