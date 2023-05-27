@@ -3,17 +3,17 @@ import {getEnv} from "../../../../../shared/utils/getEnv";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
 
-export const UseGetDocumentHealthAndSafetyPolicyByCompanyIdService = () => {
+export const GetProcessReportService = () => {
 
     const [documentUrl, setDocumentUrl] = useState<any>(null);
 
-    const getPolicyDocumentByCompanyIdAction = async (
-        companyId:string
-    ) =>
-    {
+    const getProcessReportAction = async (
+        processId:string,
+        type:string
+    ): Promise<void> => {
 
         const request = new Request(
-            `${getEnv().VITE_API_PREVENTOOL_URL}/company/${companyId}/document-health-and-safety-policy`,
+            `${getEnv().VITE_API_PREVENTOOL_URL}/process/${processId}/${type}`,
             {
                 method: "GET",
                 headers: {
@@ -31,18 +31,17 @@ export const UseGetDocumentHealthAndSafetyPolicyByCompanyIdService = () => {
 
         }catch (error){
             toast.error(MessagesHttpResponse.InternalError);
-
         }
 
 
     }
 
-    
+
+
     return{
         documentUrl,
-        getPolicyDocumentByCompanyIdAction,
+        getProcessReportAction,
         setDocumentUrl
     }
-
 
 }
