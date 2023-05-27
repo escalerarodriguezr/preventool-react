@@ -29,6 +29,7 @@
     "react-toastify": "^9.1.1",
     "reactstrap": "^9.1.5",
     "simplebar-react": "^2.4.3",
+    "sweetalert2": "^11.7.5",
     "yup": "^0.32.11"
   },
   "devDependencies": {

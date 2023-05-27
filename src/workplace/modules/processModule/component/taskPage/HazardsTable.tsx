@@ -2,10 +2,15 @@ import {useUiStore} from "../../../../../store/ui/useUiStore";
 import {useEffect} from "react";
 import {getTaskHazardsByTaskIdService} from "../../service/getTaskHazardsByTaskId/GetTaskHazardsByTaskIdService";
 import {Card, CardBody, Col, Container, Input, Label, Row, Table} from "reactstrap";
+import Swal from 'sweetalert2'
 import Switch from "react-switch";
 import {OffSymbol} from "../../../../../admin/shared/component/OffSymbol";
 import {OnSymbol} from "../../../../../admin/shared/component/OnSymbol";
 import {useNavigate} from "react-router-dom";
+import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
+import {AxiosError, AxiosResponse} from "axios";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
 
 interface props{
     taskId: string
@@ -28,6 +33,54 @@ export const HazardsTable = (
 
     const handleNavigateToRisk = (riskId:string) => {
        navigate(`/centro-trabajo/riesgo/${riskId}`);
+    }
+
+    const handleDeleteTaskHazad = (taskHazardId:string): void =>{
+
+        Swal.fire({
+            title: 'Estas seguro de querer eliminar el peligro?',
+            text: "Se va eliminar el peligro asociado a la tarea. La acción es irreversible.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, eliminar el peligro!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteTaskHazardRequest(taskHazardId);
+            }
+        })
+    }
+
+    const deleteTaskHazardRequest = async (taskHazardId:string) => {
+
+        try {
+            appLoading();
+            const url:string = '/task-hazard/'+taskHazardId
+            await preventoolApi.delete(url);
+            if(taskId){
+                getTaskHazardsAction(taskId)
+            }
+            appLoaded();
+            Swal.fire(
+                'Peligro!',
+                'El peligro se ha eliminado correctamente.',
+                'success'
+            )
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else {
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
     }
 
 
@@ -81,7 +134,7 @@ export const HazardsTable = (
                                                                             type="button"
                                                                             className="btn btn-default"
                                                                             title="Eliminar"
-                                                                            // onClick={()=>handleNavigateEdit(process.id)}
+                                                                            onClick={()=>handleDeleteTaskHazad(taskHazard.id)}
 
                                                                         >
                                                                             <i className="fas fa-trash"></i>
