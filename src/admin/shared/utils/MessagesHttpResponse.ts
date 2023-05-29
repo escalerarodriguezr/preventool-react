@@ -55,7 +55,8 @@ export const MessagesHttpResponse = {
     //TaskRisk
     TaskRiskNotFoundException: 'Riesgo no encontrado',
     //TaskRiskAssessment
-    TaskRiskAssessmentCalculated: 'Evaluación de riegos guardada'
+    TaskRiskAssessmentCalculated: 'Evaluación de riegos guardada',
+    TaskRiskAssessmentStatusUpdated: 'Estado de la valuación guardado'
 
 
 
