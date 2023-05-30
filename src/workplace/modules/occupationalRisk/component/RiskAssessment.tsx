@@ -3,6 +3,7 @@ import {Card, CardBody, Col, Container, Nav, NavItem, NavLink, Row, TabContent, 
 import classnames from "classnames";
 import {UpdateRisk} from "./UpdateRisk";
 import {IpercAssessment} from "./riskAssessment/IpercAssessment";
+import {StatusAssessment} from "./riskAssessment/StatusAssessment";
 
 interface props{
     taskRiskId:string
@@ -34,6 +35,19 @@ export const RiskAssessment = (
                                         Calcular
                                     </NavLink>
                                 </NavItem>
+                                <NavItem>
+                                    <NavLink
+                                        style={{ cursor: "pointer" }}
+                                        className={classnames({
+                                            active: activeTab === "2",
+                                        })}
+                                        onClick={() => {
+                                            setActiveTab("2");
+                                        }}
+                                    >
+                                        Revisar/Aprobar Evaluación
+                                    </NavLink>
+                                </NavItem>
 
                             </Nav>
 
@@ -48,6 +62,17 @@ export const RiskAssessment = (
                                             {activeTab == '1' &&
                                                 taskRiskId &&
                                                <IpercAssessment taskRiskId={taskRiskId}/>
+                                            }
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+
+                                <TabPane tabId="2">
+                                    <Row>
+                                        <Col sm="12">
+                                            {activeTab == '2' &&
+                                                taskRiskId &&
+                                                <StatusAssessment taskRiskId={taskRiskId}/>
                                             }
                                         </Col>
                                     </Row>
