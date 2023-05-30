@@ -4,6 +4,7 @@ import {authApi} from "../../shared/api/preventool/authApi";
 import {AxiosError, AxiosResponse} from "axios";
 import {clearErrorMessage, clearToken, onLoginSuccess, setErrorMessage} from "./authSlice";
 import {useSessionStore} from "../session/useSessionStore";
+import {toast} from "react-toastify";
 
 export const useAuthStore = () => {
 
@@ -33,9 +34,10 @@ export const useAuthStore = () => {
             if( status === 404 && data.class.includes('UserNotFoundException') )
             {
                 dispatch(setErrorMessage('El usuario no existe'));
-            }else if( status === 401 )
-            {
+            }else if( status === 401 ) {
                 dispatch(setErrorMessage('El usuario y password incorrectos'));
+            }else if( status === 409 && data.class.includes('UserAccountNotActiveException') ){
+                dispatch(setErrorMessage('Cuenta de usuario no activa'));
             }else{
                 dispatch(setErrorMessage('Servicio no disponible'));
             }
