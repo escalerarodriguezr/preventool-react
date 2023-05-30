@@ -38,7 +38,7 @@ export const HazardsTable = (
     const handleDeleteTaskHazad = (taskHazardId:string): void =>{
 
         Swal.fire({
-            title: 'Estas seguro de querer eliminar el peligro?',
+            title: 'Estás seguro de querer eliminar el peligro?',
             text: "Se va eliminar el peligro asociado a la tarea. La acción es irreversible.",
             icon: 'warning',
             showCancelButton: true,

@@ -5,6 +5,7 @@ import {SearchAdminResponseInterface} from "./SearchAdminResponseInterface";
 import {useUiStore} from "../../../../../store/ui/useUiStore";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../shared/utils/MessagesHttpResponse";
+import Swal from "sweetalert2";
 
 export const UseSearchAdminService = () =>{
 
@@ -51,13 +52,61 @@ export const UseSearchAdminService = () =>{
 
     }
 
+    const activateAdmin = async (currentAdmin:any) => {
+
+        const activateText:string = currentAdmin.active == true ? 'desactivar' : 'activar';
+        Swal.fire({
+            title: `¿Estás seguro de querer ${activateText} al Administrador?`,
+            text: "El Administrador ya no podrá acceder al sistema",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, lo confirmo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                activateRequest(currentAdmin);
+            }
+        })
+    }
+
+    const activateRequest = async (admin:any) => {
+
+        try {
+            appLoading();
+            const url:string = '/admin/'+ admin.id + '/activate'
+            await preventoolApi.put(url);
+            admin.active = !admin.active;
+            appLoaded();
+            Swal.fire(
+                'Admin!',
+                'Acción completada.',
+                'success'
+            )
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else {
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
+    }
+
     return{
         admins,
         currentPage,
         pages,
         total,
 
-        searchAdminAction
+        searchAdminAction,
+        activateAdmin
     }
 
 }

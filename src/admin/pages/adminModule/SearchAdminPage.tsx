@@ -26,7 +26,7 @@ export const SearchAdminPage = () => {
 
     //Servicio de session y admins
     const {getSessionAction, sessionState} = useSessionStore();
-    const {admins,total, currentPage, pages, searchAdminAction} = UseSearchAdminService();
+    const {admins,total, currentPage, pages, searchAdminAction, activateAdmin} = UseSearchAdminService();
 
     //filtros
     const [filterByEmail, setFilterByEmail] = useState('');
@@ -133,6 +133,10 @@ export const SearchAdminPage = () => {
 
     const handleNavigateEdit = (id:string) => {
         navigate('/admin/administrador/'+id);
+    }
+
+    const handleActiveChecked = (admin:any) => {
+        return admin.active == true;
     }
 
     // @ts-ignore
@@ -255,12 +259,10 @@ export const SearchAdminPage = () => {
                                                                     checkedIcon={<OnSymbol />}
                                                                     onColor="#02a499"
                                                                     onChange={(checked, event, id) =>{
-                                                                        if(checked = false){
-
-                                                                        }
+                                                                       activateAdmin(admin);
                                                                     }}
-                                                                    checked={admin.active}
-                                                                    disabled={true}
+                                                                    checked={handleActiveChecked(admin)}
+                                                                    disabled={sessionState.actionAdmin?.id == admin.id}
                                                                 /></td>
                                                                 <td>
                                                                     <div className="btn-group" >
