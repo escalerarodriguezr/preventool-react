@@ -52,5 +52,13 @@ export const MessagesHttpResponse = {
     TaskHazardAlreadyExistsException: 'Ya existe el peligro para la tarea',
     TaskHazardConflictException: 'El peligro y la tarea no pertenecen al mismo centro de trabajo',
 
+    //TaskRisk
+    TaskRiskNotFoundException: 'Riesgo no encontrado',
+    //TaskRiskAssessment
+    TaskRiskAssessmentCalculated: 'Evaluación de riegos guardada',
+    TaskRiskAssessmentStatusUpdated: 'Estado de la valuación guardado'
+
+
+
 
 }

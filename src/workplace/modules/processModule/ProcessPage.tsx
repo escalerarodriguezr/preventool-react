@@ -9,6 +9,7 @@ import {EditProcessGeneralData} from "./component/EditProcessGeneralData";
 import {GetWorkplaceProcessByIdService} from "./service/getWorkplaceProcessByIdService/GetWorkplaceProcessByIdService";
 import {ProcessActivities} from "./component/processPage/ProcessActivities";
 import {ContentDescription} from "../../../shared/component/ContentDescription";
+import {ProcessReports} from "./component/processPage/ProcessReports";
 
 export const ProcessPage = () => {
     const {id} = useParams();
@@ -82,6 +83,19 @@ export const ProcessPage = () => {
                                                 Descripción
                                             </NavLink>
                                         </NavItem>
+                                        <NavItem>
+                                            <NavLink
+                                                style={{ cursor: "pointer" }}
+                                                className={classnames({
+                                                    active: activeTab === "3",
+                                                })}
+                                                onClick={() => {
+                                                    setActiveTab("3");
+                                                }}
+                                            >
+                                                Informes
+                                            </NavLink>
+                                        </NavItem>
                                     </Nav>
 
                                     <TabContent
@@ -117,6 +131,19 @@ export const ProcessPage = () => {
                                                         workplaceSessionState.actionWorkplace?.id &&
                                                         process?.id &&
                                                         <ContentDescription description={process.description}/>
+                                                    }
+                                                </Col>
+                                            </Row>
+                                        </TabPane>
+                                        <TabPane tabId="3">
+                                            <Row>
+                                                <Col sm="12">
+                                                    {activeTab == '3' &&
+                                                        id &&
+                                                        sessionState.actionAdmin?.id &&
+                                                        workplaceSessionState.actionWorkplace?.id &&
+                                                        process?.id &&
+                                                        <ProcessReports process={process}/>
                                                     }
                                                 </Col>
                                             </Row>

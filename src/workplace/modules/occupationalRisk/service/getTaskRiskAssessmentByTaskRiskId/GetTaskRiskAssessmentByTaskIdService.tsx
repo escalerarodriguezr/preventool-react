@@ -1,21 +1,23 @@
 import {useState} from "react";
-import {TaskHazardResponse} from "./TaskHazardResponse";
+import {TaskRiskAssessmentResponse} from "./TaskRiskAssessmentResponse";
 import {AxiosError, AxiosResponse} from "axios/index";
 import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
-import {array} from "yup";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
 
-export const getTaskHazardsByTaskIdService = () => {
+export const GetTaskRiskAssessmentByTaskIdService = () => {
+    const [taskRiskAssessment, setTaskRiskAssessment] = useState<TaskRiskAssessmentResponse|null>(null);
 
-    const [taskHazards, setTaskHazards] = useState<TaskHazardResponse[]>([]);
+    const getTaskRiskAssessmentAction = async (taskRiskId:string):Promise<void> => {
 
-    const getTaskHazardsAction = async (taskId:string):Promise<void> => {
+        const url:string =  `task-risk/${taskRiskId}/task-risk-assessment`
         try {
-
-            const response:AxiosResponse = await preventoolApi.get(`/task/${taskId}/hazards`);
-            const data:TaskHazardResponse[] = response.data;
-            setTaskHazards(data)
+            const response:AxiosResponse = await preventoolApi.get(url);
+            const codeStatus:number = response.status
+            if(codeStatus == 200){
+                const data:TaskRiskAssessmentResponse = response.data;
+                setTaskRiskAssessment(data);
+            }
 
         }catch (error){
             const axiosError = error as AxiosError;
@@ -26,17 +28,18 @@ export const getTaskHazardsByTaskIdService = () => {
                 toast.info(MessagesHttpResponse.ActionNotAllowedException);
             }else if( status === 403 && data.class.includes('AccessDeniedException') ){
                 toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else if( status === 404 ){
+                toast.error(MessagesHttpResponse.TaskRiskNotFoundException)
             }else {
                 toast.error(MessagesHttpResponse.InternalError);
             }
         }
-
     }
-
 
 
     return{
-        taskHazards,
-        getTaskHazardsAction
+        taskRiskAssessment,
+        getTaskRiskAssessmentAction
     }
+
 }
