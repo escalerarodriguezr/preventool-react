@@ -67,7 +67,10 @@ export const SideBarContent = () => {
         <>
             <SimpleBar className="h-100">
                 <div id="sidebar-menu">
+                    <h5 className="text-center">SISTEMA</h5>
                     <ul className="metismenu list-unstyled" id="side-menu"  ref={simpleBar}>
+
+
                         {/*DashBoard*/}
                         <li>
                             <NavLink
@@ -98,7 +101,7 @@ export const SideBarContent = () => {
                                                 to="/admin/createAdmin"
                                                 className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                             >
-                                                {"Crear"}
+                                                {"Nuevo"}
                                             </NavLink>
                                         </li>
                                         <li>
@@ -106,7 +109,7 @@ export const SideBarContent = () => {
                                                 to="/admin/administradores"
                                                 className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                             >
-                                                {"Listado"}
+                                                {"Administradores"}
                                             </NavLink>
                                         </li>
                                     </ul>
@@ -133,7 +136,7 @@ export const SideBarContent = () => {
                                             to="/admin/empresa"
                                             className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                         >
-                                            {"Crear"}
+                                            {"Nueva"}
                                         </NavLink>
                                     </li>
                                 }
@@ -143,7 +146,7 @@ export const SideBarContent = () => {
                                             to="/admin/empresas"
                                             className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                         >
-                                            {"Listado"}
+                                            {"Empresas"}
                                         </NavLink>
                                     </li>
                                 </ul>

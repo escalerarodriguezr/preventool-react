@@ -37,7 +37,7 @@ export const SearchWorkplacePage = () => {
                                 <CardBody>
                                     <CardTitle className="h4">Centros de trabajo</CardTitle>
                                     <p className="card-title-desc">
-                                        Centros de trabajo de {companySessionState.actionCompany?.name}
+                                        Gestionar Centros de Trabajo registrados en el sistema
                                     </p>
                                     <Nav tabs>
                                         <NavItem>

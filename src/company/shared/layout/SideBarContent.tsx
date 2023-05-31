@@ -44,6 +44,8 @@ export const SideBarContent = () => {
         <>
             <SimpleBar className="h-100">
                 <div id="sidebar-menu">
+                    <h5 className="text-center">EMPRESA</h5>
+                    <h6 className="text-center">{companySessionState.actionCompany?.name}</h6>
                     <ul className="metismenu list-unstyled" id="side-menu"  ref={simpleBar}>
                         {/*DashBoard*/}
                         <li>
@@ -52,7 +54,7 @@ export const SideBarContent = () => {
                                 className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                             >
                                 <i className="bx bx-home-circle" />
-                                <span>{companySessionState.actionCompany?.name}</span>
+                                <span>Dashboard</span>
                             </NavLink>
                         </li>
 

@@ -58,6 +58,8 @@ export const SideBarContent = () => {
         <>
             <SimpleBar className="h-100">
                 <div id="sidebar-menu">
+                    <h5 className="text-center">CENTRO TRABAJO</h5>
+                    <h6 className="text-center">{workplaceSessionState.actionWorkplace?.name}</h6>
                     <ul className="metismenu list-unstyled" id="side-menu"  ref={simpleBar}>
                         {/*DashBoard*/}
                         <li>
@@ -66,7 +68,7 @@ export const SideBarContent = () => {
                                 className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                             >
                                 <i className="bx bx-home-circle" />
-                                <span>{workplaceSessionState.actionWorkplace?.name}</span>
+                                <span>Dashboard</span>
                             </NavLink>
                         </li>
 
@@ -86,7 +88,7 @@ export const SideBarContent = () => {
                                         to="/centro-trabajo/crear-proceso"
                                         className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                     >
-                                        {"Crear"}
+                                        {"Nuevo"}
                                     </NavLink>
                                 </li>
                                 <li>
@@ -94,7 +96,7 @@ export const SideBarContent = () => {
                                         to="/centro-trabajo/procesos"
                                         className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                     >
-                                        {"Listado"}
+                                        {"Procesos"}
                                     </NavLink>
                                 </li>
 
