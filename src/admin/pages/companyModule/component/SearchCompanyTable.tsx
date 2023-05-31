@@ -1,7 +1,6 @@
 import {SessionState} from "../../../../store/session/sessionSlice";
 import {useNavigate} from "react-router-dom";
 import {SyntheticEvent, useEffect, useState} from "react";
-import {UseSearchAdminService} from "../../adminModule/hook/searchAdminService/UseSearchAdminService";
 import {UseSearchCompanyService} from "../hook/searchCompanyService/UseSearchCompanyService";
 import {Card, CardBody, Col, Container, Input, Label, Row, Table} from "reactstrap";
 import Switch from "react-switch";
@@ -25,7 +24,7 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
 
     const pageSize:number = 10;
 
-    const {companies,total, currentPage, pages, searchCompanyAction} = UseSearchCompanyService();
+    const {companies,total, currentPage, pages, searchCompanyAction, activateCompany} = UseSearchCompanyService();
 
     //filtros
     const [filterByName, setFilterByName] = useState('');
@@ -115,6 +114,10 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
         navigate('/empresa/dashboard');
     }
 
+    const handleActiveChecked = (company:any) => {
+        return company.active == true;
+    }
+
     return(
         <>
                 <Container fluid>
@@ -189,12 +192,11 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                                 checkedIcon={<OnSymbol />}
                                                                 onColor="#02a499"
                                                                 onChange={(checked, event, id) =>{
-                                                                    if(checked = false){
+                                                                    activateCompany(company)
 
-                                                                    }
                                                                 }}
-                                                                checked={company.active}
-                                                                disabled={true}
+                                                                checked={handleActiveChecked(company)}
+                                                                disabled={sessionState?.actionAdmin?.role != AdminRoles.ROOT}
                                                             /></td>
                                                             <td>
                                                                 <div className="btn-group" >
@@ -209,14 +211,17 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                                         </button>
                                                                     }
 
-                                                                    <button
-                                                                        type="button"
-                                                                        className="btn btn-default"
-                                                                        title="Gestionar empresa"
-                                                                        onClick={()=>handleNavigateToCompanyLayout(company.id)}
-                                                                    >
-                                                                        <i className="fas fa-city" />
-                                                                    </button>
+                                                                    {
+                                                                        company.active === true &&
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-default"
+                                                                            title="Gestionar empresa"
+                                                                            onClick={()=>handleNavigateToCompanyLayout(company.id)}
+                                                                        >
+                                                                            <i className="fas fa-city" />
+                                                                        </button>
+                                                                    }
 
                                                                 </div>
                                                             </td>

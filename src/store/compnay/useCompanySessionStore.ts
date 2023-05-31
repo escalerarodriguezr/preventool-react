@@ -9,11 +9,15 @@ import {
     setCompanySession,
     setCompanySessionError
 } from "./companySlice";
+import {useNavigate} from "react-router-dom";
+import Swal from "sweetalert2";
 
 export const useCompanySessionStore = () => {
 
     const companySessionState:CompanySessionState = useSelector( (state: RootState)=> state.company );
     const dispatch = useDispatch();
+
+    const navigate = useNavigate();
 
     const clearCompanySessionAction = () => {
         dispatch(clearCompanySession());
@@ -28,10 +32,22 @@ export const useCompanySessionStore = () => {
             const companySessionResponse:AxiosResponse = await preventoolApi.get('/company-session/'+companyId);
             const data = companySessionResponse.data;
             if(data){
-                dispatch(setCompanySession(data))
-                localStorage.setItem('companySession', JSON.stringify(data));
-                return true;
+                if(data.actionCompany.active == true){
+                    dispatch(setCompanySession(data))
+                    localStorage.setItem('companySession', JSON.stringify(data));
+                    return true;
+                }else{
+                    dispatch(setCompanySessionError());
+                    navigate('/admin/dashboard');
+                    Swal.fire(
+                        'Error!',
+                        'La Empresa no está activa en el sistema',
+                        'error'
+                    )
+                    return false;
+                }
             }
+            
             return false;
 
         } catch (error) {

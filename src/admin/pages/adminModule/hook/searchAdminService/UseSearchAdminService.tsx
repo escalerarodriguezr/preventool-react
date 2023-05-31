@@ -54,10 +54,15 @@ export const UseSearchAdminService = () =>{
 
     const activateAdmin = async (currentAdmin:any) => {
 
-        const activateText:string = currentAdmin.active == true ? 'desactivar' : 'activar';
+
+
+        const activateTitleText:string = currentAdmin.active == true ? 'desactivar' : 'activar';
+        const activateText:string = currentAdmin.active == true
+            ? 'El Administrador no podrá acceder al sistema'
+            : 'El Administrador podrá acceder al sistema'
         Swal.fire({
-            title: `¿Estás seguro de querer ${activateText} al Administrador?`,
-            text: "El Administrador ya no podrá acceder al sistema",
+            title: `¿Estás seguro de querer ${activateTitleText} al Administrador?`,
+            text: activateText,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
