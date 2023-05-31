@@ -32,8 +32,7 @@ export const useCompanySessionStore = () => {
             const companySessionResponse:AxiosResponse = await preventoolApi.get('/company-session/'+companyId);
             const data = companySessionResponse.data;
             if(data){
-
-                if(data.active === true){
+                if(data.actionCompany.active == true){
                     dispatch(setCompanySession(data))
                     localStorage.setItem('companySession', JSON.stringify(data));
                     return true;
@@ -47,9 +46,8 @@ export const useCompanySessionStore = () => {
                     )
                     return false;
                 }
-
-
             }
+            
             return false;
 
         } catch (error) {
