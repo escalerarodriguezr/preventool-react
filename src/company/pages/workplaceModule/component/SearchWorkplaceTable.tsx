@@ -30,7 +30,7 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
 
     const pageSize:number = 10;
 
-    const {workplaces,total, currentPage, pages, searchWorkplaceAction} = UseSearchWorkplaceService();
+    const {workplaces,total, currentPage, pages, searchWorkplaceAction, activateWorkplace} = UseSearchWorkplaceService();
 
     //filtros
     const [filterQuery, setFilterQuery] = useState('');
@@ -124,6 +124,10 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
         navigate('/centro-trabajo/dashboard');
     }
 
+    const handleActiveChecked = (workplace:any) => {
+        return workplace.active == true;
+    }
+
 
 
     return(
@@ -166,12 +170,10 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
                                                                         checkedIcon={<OnSymbol />}
                                                                         onColor="#02a499"
                                                                         onChange={(checked, event, id) =>{
-                                                                            if(checked = false){
-
-                                                                            }
+                                                                            activateWorkplace(workplace)
                                                                         }}
-                                                                        checked={workplace.active}
-                                                                        disabled={true}
+                                                                        checked={handleActiveChecked(workplace)}
+
                                                                     /></td>
                                                                     <td>
                                                                         <div className="btn-group" >
@@ -186,15 +188,17 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
                                                                                 <i className="fas fa-edit"></i>
                                                                             </button>
 
-
-                                                                            <button
-                                                                                type="button"
-                                                                                className="btn btn-default"
-                                                                                title="Gestionar centro"
-                                                                                onClick={()=>handleNavigateToWorkplaceLayout(workplace.id)}
-                                                                            >
-                                                                                <i className="fas fa-city" />
-                                                                            </button>
+                                                                            {
+                                                                                workplace.active == true &&
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-default"
+                                                                                    title="Gestionar centro"
+                                                                                    onClick={()=>handleNavigateToWorkplaceLayout(workplace.id)}
+                                                                                >
+                                                                                    <i className="fas fa-city" />
+                                                                                </button>
+                                                                            }
 
                                                                         </div>
                                                                     </td>
