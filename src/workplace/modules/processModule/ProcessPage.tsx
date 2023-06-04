@@ -47,15 +47,17 @@ export const ProcessPage = () => {
     return(
         <>
             <div className="page-content">
-                <div className="d-flex justify-content-start mb-3">
-                    <span>Proceso</span>
-                </div>
+
                 <Container fluid>
                     <Row>
                         <Col lg={12}>
                             <Card>
+
                                 <CardBody>
-                                    <span className="mb-2 d-block text-end">Gestionar Proceso: {process?.name}</span>
+                                    <CardTitle className="h4">Proceso</CardTitle>
+                                    <p className="card-title-desc">
+                                        Gestionar proceso <b>{(process?.name)?.toUpperCase()}</b>
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink

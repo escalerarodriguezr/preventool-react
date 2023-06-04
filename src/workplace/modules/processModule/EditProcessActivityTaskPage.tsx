@@ -7,6 +7,7 @@ import {useSessionStore} from "../../../store/session/useSessionStore";
 import {
     EditProcessActivityTaskGeneralData
 } from "./component/activityPage/component/EditProcessActivityTaskGeneralData";
+import {GetProcessActivityByIdService} from "./service/getProcessActivityByIdService/GetProcessActivityByIdService";
 
 export const EditProcessActivityTaskPage = () => {
     const {activityId} = useParams();
@@ -15,14 +16,23 @@ export const EditProcessActivityTaskPage = () => {
     const navigate = useNavigate();
 
     const {appLoading,appLoaded} = useUiStore()
-    const {sessionState,getSessionAction} = useSessionStore()
+    const {sessionState,getSessionAction} = useSessionStore();
+
+    const {getAction,activity} = GetProcessActivityByIdService();
 
 
     useEffect(()=>{
         appLoading()
-        getSessionAction()
-        appLoaded()
-    },[])
+        getSessionAction().then(appLoaded)
+
+    },[]);
+
+    useEffect(()=>{
+        if( activityId  ){
+            appLoading()
+            getAction(activityId).then(appLoaded);
+        }
+    },[sessionState.actionAdmin?.id]);
 
     const navigateToActivityPage = () => {
         navigate('/centro-trabajo/actividad/'+activityId)
@@ -37,7 +47,7 @@ export const EditProcessActivityTaskPage = () => {
                         <button type="button" className="btn btn-primary mb-3"
                                 onClick={navigateToActivityPage}
                         >
-                            Volver Actividad
+                            Volver a Actividad
                         </button>
                     </div>
 
@@ -46,6 +56,9 @@ export const EditProcessActivityTaskPage = () => {
                             <Card>
                                 <CardBody>
                                     <CardTitle className="h4">Editar Tarea</CardTitle>
+                                    <p className="card-title-desc">
+                                        Editar Tarea de la actividad <b>{(activity?.name)?.toUpperCase()}</b>
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink

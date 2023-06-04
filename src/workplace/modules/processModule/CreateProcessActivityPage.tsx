@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useSessionStore} from "../../../store/session/useSessionStore";
 import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
@@ -45,8 +45,10 @@ export const CreateProcessActivityPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">{process?.name}</CardTitle>
-                                    <h6>Registrar actividad</h6>
+                                    <CardTitle className="h4">Crear Actividad</CardTitle>
+                                    <p className="card-title-desc">
+                                        Regisrar Actividad para el proceso <b>{(process?.name)?.toUpperCase()}</b>
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink

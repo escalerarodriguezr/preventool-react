@@ -2,10 +2,11 @@ import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, T
 import classnames from "classnames";
 import {CreateProcessActivityGeneralData} from "./component/CreateProcessActivityGeneralData";
 import {useNavigate, useParams} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {CreateActivityTaskGeneralData} from "./component/activityPage/component/CreateActivityTaskGeneralData";
 import {useUiStore} from "../../../store/ui/useUiStore";
 import {useSessionStore} from "../../../store/session/useSessionStore";
+import {GetProcessActivityByIdService} from "./service/getProcessActivityByIdService/GetProcessActivityByIdService";
 
 export const CreateProcessActivityTaskPage = () => {
     const {activityId} = useParams();
@@ -13,9 +14,19 @@ export const CreateProcessActivityTaskPage = () => {
 
     const navigate = useNavigate();
 
+    const {appLoading,appLoaded} = useUiStore()
+
     const navigateToActivityPage = () => {
         navigate('/centro-trabajo/actividad/'+activityId)
     }
+
+    const {getAction,activity} = GetProcessActivityByIdService();
+
+    useEffect(()=>{
+        if( activityId  ){
+            getAction(activityId).then(appLoaded);
+        }
+    },[]);
 
 
     return(
@@ -36,6 +47,9 @@ export const CreateProcessActivityTaskPage = () => {
                             <Card>
                                 <CardBody>
                                     <CardTitle className="h4">Crear Tarea</CardTitle>
+                                    <p className="card-title-desc">
+                                        Registrar Tarea para la actividad <b>{(activity?.name)?.toUpperCase()}</b>
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink

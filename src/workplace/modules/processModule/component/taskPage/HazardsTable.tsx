@@ -99,8 +99,8 @@ export const HazardsTable = (
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th><span>Peligro</span></th>
                                                 <th><span>Riesgo</span></th>
+                                                <th><span>Peligro</span></th>
                                                 {/*<th>Activo</th>*/}
                                                 <th></th>
                                             </tr>
@@ -115,8 +115,8 @@ export const HazardsTable = (
                                                                 key={taskHazard.id}
                                                             >
                                                                 <th scope="row">{index+1}</th>
-                                                                <td>{taskHazard.hazardName}</td>
                                                                 <td>{taskHazard.riskName}</td>
+                                                                <td>{taskHazard.hazardName}</td>
                                                                 {/*<td><Switch*/}
                                                                 {/*    uncheckedIcon={<OffSymbol />}*/}
                                                                 {/*    className="me-1 mb-sm-8 mb-2"*/}

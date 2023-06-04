@@ -28,6 +28,9 @@ export const CreateProcessPage = () => {
                             <Card>
                                 <CardBody>
                                     <CardTitle className="h4">Crear Proceso</CardTitle>
+                                    <p className="card-title-desc">
+                                        Registrar un nuevo proceso para el Centro de Trabajo
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
