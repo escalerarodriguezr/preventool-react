@@ -8,6 +8,12 @@ import {OffSymbol} from "../../../shared/component/OffSymbol";
 import {OnSymbol} from "../../../shared/component/OnSymbol";
 import {TablePaginator} from "../../../shared/component/TablePaginator";
 import {AdminRoles} from "../../../shared/model/Admin/AdminRoles";
+import Swal from "sweetalert2";
+import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
+import {AxiosError, AxiosResponse} from "axios/index";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../shared/utils/MessagesHttpResponse";
+import {useUiStore} from "../../../../store/ui/useUiStore";
 
 interface SearchCompanyTableProps{
     sessionState:SessionState|undefined,
@@ -16,6 +22,7 @@ interface SearchCompanyTableProps{
 export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
 
     const navigate = useNavigate();
+    const {appLoading,appLoaded} = useUiStore();
 
     //Estados para gestionar el paginador y la ordenación
     const [orderBy, setOrderBy] = useState('createdAt');
@@ -116,6 +123,61 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
 
     const handleActiveChecked = (company:any) => {
         return company.active == true;
+    }
+
+    const handleDeleteCompany = (companyId:string): void =>{
+
+        Swal.fire({
+            title: 'Estás seguro de querer eliminar la empresa?',
+            text: "Se va eliminar la empresa del sistema. La acción es irreversible.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, eliminar la empresa!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteCompanyRequest(companyId);
+            }
+        })
+    }
+
+    const deleteCompanyRequest = async (companyId:string): Promise<void> => {
+
+        try {
+            appLoading();
+            const url:string = '/company/'+companyId
+            await preventoolApi.delete(url);
+            if(companyId){
+                searchCompanyAction(
+                    '?'
+                    +'pageSize='+pageSize
+                    +'&orderBy='+orderBy
+                    +'&orderDirection='+orderByDirection
+                    +'&currentPage='+requiredPage
+                    +filterQuery
+                );
+            }
+            appLoaded();
+            Swal.fire(
+                'Empresa',
+                'La empresa se ha eliminado correctamente.',
+                'success'
+            )
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else {
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
     }
 
     return(
@@ -220,6 +282,18 @@ export const SearchCompanyTable = ({sessionState}:SearchCompanyTableProps) => {
                                                                             onClick={()=>handleNavigateToCompanyLayout(company.id)}
                                                                         >
                                                                             <i className="fas fa-city" />
+                                                                        </button>
+                                                                    }
+
+                                                                    {sessionState?.actionAdmin?.role == AdminRoles.ROOT &&
+                                                                        company.active != true &&
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-default"
+                                                                            title="Eliminar"
+                                                                            onClick={()=>handleDeleteCompany(company.id)}
+                                                                        >
+                                                                            <i className="fas fa-trash"></i>
                                                                         </button>
                                                                     }
 
