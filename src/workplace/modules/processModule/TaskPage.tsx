@@ -42,10 +42,7 @@ export const TaskPage = () => {
         <>
             <div className="page-content">
                 <Container fluid>
-                    <div className="d-flex justify-content-sm-between mb-3">
-                       <div>
-                           <span>Proceso/Actividad/Gestionar Tarea</span>
-                       </div>
+                    <div className="d-flex justify-content-sm-end mb-3">
                         <div>
                             <button
                                 type="button"
@@ -60,7 +57,10 @@ export const TaskPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <span className="mb-2 d-block text-end">Gestionar Tarea: {task?.name}</span>
+                                    <CardTitle className="h4">Gestionar Tarea</CardTitle>
+                                    <p className="card-title-desc">
+                                        Gestionar Tarea <b>{(task?.name)?.toUpperCase()}</b>
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
@@ -72,7 +72,7 @@ export const TaskPage = () => {
                                                     setActiveTab("1");
                                                 }}
                                             >
-                                                Peligros
+                                                Riesgos
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
@@ -111,7 +111,6 @@ export const TaskPage = () => {
                                         <TabPane tabId="1">
                                             <Row>
                                                 <Col sm="12">
-                                                    <p>Peligros</p>
                                                     {activeTab == '1' &&
                                                         id &&
                                                         sessionState.actionAdmin?.id &&
@@ -138,9 +137,6 @@ export const TaskPage = () => {
                                         <TabPane tabId="3">
                                             <Row>
                                                 <Col sm="12">
-
-                                                    <p>Listado de peligros</p>
-
                                                     {activeTab == '3' &&
                                                         task?.id &&
                                                         workplaceSessionState.actionWorkplace &&

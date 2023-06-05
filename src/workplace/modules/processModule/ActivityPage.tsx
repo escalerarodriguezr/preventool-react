@@ -44,11 +44,11 @@ export const ActivityPage = () => {
         <>
             <div className="page-content">
                 <Container fluid>
-                    <div className="d-flex justify-content-between mb-3">
-                        <div>
-                            <span>Proceso/Gestionar Actividad</span>
+                    <div className="d-flex justify-content-end mb-3">
+                        {/*<div>*/}
+                        {/*    <span>Proceso/Gestionar Actividad</span>*/}
 
-                        </div>
+                        {/*</div>*/}
                         <div>
                             <button
                                 type="button"
@@ -63,7 +63,10 @@ export const ActivityPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <span className="mb-2 d-block text-end">Gestionar Actividad: {activity?.name}</span>
+                                    <CardTitle className="h4">Gestionar Actividad</CardTitle>
+                                    <p className="card-title-desc">
+                                        Gestionar actividad <b>{(activity?.name)?.toUpperCase()}</b>
+                                    </p>
 
                                     <Nav tabs>
                                         <NavItem>

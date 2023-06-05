@@ -3,7 +3,7 @@ import {useUiStore} from "../../../../store/ui/useUiStore";
 import {useSessionStore} from "../../../../store/session/useSessionStore";
 import {useWorkplaceSessionStore} from "../../../../store/workplace/useWorkplaceSessionStore";
 import {useNavigate, useParams} from "react-router-dom";
-import {Card, CardBody, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
+import {Card, CardBody, CardTitle, Col, Container, Nav, NavItem, NavLink, Row, TabContent, TabPane} from "reactstrap";
 import classnames from "classnames";
 import {HazardsTable} from "../../processModule/component/taskPage/HazardsTable";
 import {ContentDescription} from "../../../../shared/component/ContentDescription";
@@ -44,10 +44,7 @@ export const RiskPage = () => {
         <>
             <div className="page-content">
                 <Container fluid>
-                    <div className="d-flex justify-content-sm-between mb-3">
-                        <div>
-                            <span>Proceso/Actividad/Tarea/Gestionar Riesgo</span>
-                        </div>
+                    <div className="d-flex justify-content-sm-end mb-3">
                         <div>
                             <button
                                 type="button"
@@ -62,6 +59,10 @@ export const RiskPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
+                                    <CardTitle className="h4">Gestionar Riesgo</CardTitle>
+                                    <p className="card-title-desc">
+                                        Gestionar riesgo <b>{(taskRisk?.name)?.toUpperCase()}</b>
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink

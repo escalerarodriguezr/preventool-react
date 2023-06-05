@@ -88,7 +88,7 @@ export const SideBarContent = () => {
                                         to="/centro-trabajo/crear-proceso"
                                         className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                     >
-                                        {"Nuevo"}
+                                        {"Crear"}
                                     </NavLink>
                                 </li>
                                 <li>

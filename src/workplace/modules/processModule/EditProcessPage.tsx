@@ -52,7 +52,10 @@ export const EditProcessPage = () => {
                         <Col lg={12}>
                             <Card>
                                 <CardBody>
-                                    <CardTitle className="h4">Editar Proceso</CardTitle>
+                                    <CardTitle className="h4">Editar Procesos</CardTitle>
+                                    <p className="card-title-desc">
+                                        Editar Proceso del Centro de Trabajo
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink

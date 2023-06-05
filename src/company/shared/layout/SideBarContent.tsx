@@ -82,7 +82,7 @@ export const SideBarContent = () => {
                                         to="/empresa/centros-de-trabajo"
                                         className={({isActive}) => `${isActive ? 'text-primary bold' : ''}`}
                                     >
-                                        {"Listado"}
+                                        {"Centros de trabajo"}
                                     </NavLink>
                                 </li>
                             </ul>

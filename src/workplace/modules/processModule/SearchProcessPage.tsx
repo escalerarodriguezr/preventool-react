@@ -28,6 +28,9 @@ export const SearchProcessPage = () => {
                             <Card>
                                 <CardBody>
                                     <CardTitle className="h4">Procesos</CardTitle>
+                                    <p className="card-title-desc">
+                                        Gestionar Procesos del Centro de Trabajo
+                                    </p>
                                     <Nav tabs>
                                         <NavItem>
                                             <NavLink
