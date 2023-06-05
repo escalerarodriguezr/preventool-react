@@ -9,6 +9,11 @@ import {OffSymbol} from "../../../../admin/shared/component/OffSymbol";
 import {TablePaginator} from "../../../../admin/shared/component/TablePaginator";
 import {OnSymbol} from "../../../../admin/shared/component/OnSymbol";
 import {useUiStore} from "../../../../store/ui/useUiStore";
+import Swal from "sweetalert2";
+import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
+import {AxiosError, AxiosResponse} from "axios";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
 
 interface SearchWorkplaceTableProps{
     sessionState:SessionState|undefined,
@@ -20,6 +25,8 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
     const navigate = useNavigate();
 
     const {
+        appLoading,
+        appLoaded,
         loading
     } = useUiStore();
 
@@ -128,6 +135,62 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
         return workplace.active == true;
     }
 
+    const handleDeleteWorkplace = (companyId:string, workplaceId:string): void =>{
+
+        Swal.fire({
+            title: 'Estás seguro de querer eliminar el Centro de Trabajo?',
+            text: "Se va eliminar el Centro de Trabajo.La acción es irreversible.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, eliminar el Centro de Trabajo!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+               deleteWorkplaceRequest(companyId,workplaceId);
+            }
+        })
+    }
+
+    const deleteWorkplaceRequest = async (companyId:string,workplaceId:string): Promise<void> => {
+
+        try {
+            appLoading();
+            const url:string = '/company/'+companyId+'/workplace/'+workplaceId;
+            await preventoolApi.delete(url);
+            if(companyId){
+                searchWorkplaceAction(
+                    '?'
+                    +'pageSize='+pageSize
+                    +'&orderBy='+orderBy
+                    +'&orderDirection='+orderByDirection
+                    +'&currentPage='+requiredPage
+                    +'&filterByCompanyId='+companySessionState?.actionCompany?.id
+                    +filterQuery
+                );
+            }
+            appLoaded();
+            Swal.fire(
+                'Centro de Trabajo',
+                'El Centro de Trabajo se ha eliminado correctamente.',
+                'success'
+            )
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else {
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
+    }
+
 
 
     return(
@@ -197,6 +260,21 @@ export const SearchWorkplaceTable = ({sessionState, companySessionState}:SearchW
                                                                                     onClick={()=>handleNavigateToWorkplaceLayout(workplace.id)}
                                                                                 >
                                                                                     <i className="fas fa-city" />
+                                                                                </button>
+                                                                            }
+
+                                                                            {workplace.active != true &&
+                                                                                companySessionState?.actionCompany?.id  &&
+                                                                                <button
+                                                                                    type="button"
+                                                                                    className="btn btn-default"
+                                                                                    title="Eliminar"
+                                                                                    onClick={()=>handleDeleteWorkplace(
+                                                                                        companySessionState?.actionCompany?.id!,
+                                                                                        workplace.id
+                                                                                    )}
+                                                                                >
+                                                                                    <i className="fas fa-trash"></i>
                                                                                 </button>
                                                                             }
 
