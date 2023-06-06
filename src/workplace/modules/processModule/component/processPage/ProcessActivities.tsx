@@ -17,6 +17,7 @@ import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
 import {AxiosError, AxiosResponse} from "axios";
+import Swal from "sweetalert2";
 
 interface ProcessActivitiesProps{
     session:SessionState,
@@ -110,6 +111,55 @@ export const ProcessActivities = (
         }
     }
 
+    const handleDeleteActivity = (activityId:string): void =>{
+
+        Swal.fire({
+            title: 'Estás seguro de querer eliminar la Actividad?',
+            text: "Se va eliminar la Actividad del sistema. La acción es irreversible.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, eliminar la Actividad!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteActivityRequest(activityId);
+            }
+        })
+    }
+
+    const deleteActivityRequest = async (activityId:string): Promise<void> => {
+
+        try {
+            appLoading();
+            const url:string = '/process-activity/' + activityId
+            await preventoolApi.delete(url);
+            if(process.id){
+                searchAction(process.id);
+            }
+
+            appLoaded();
+            Swal.fire(
+                'Actividad',
+                'La Actividad se ha eliminado correctamente.',
+                'success'
+            )
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else {
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
+    }
+
     return(
         <>
 
@@ -159,6 +209,15 @@ export const ProcessActivities = (
                                                     onClick={()=>handleNavigateToActivity(activity.id)}
                                                 >
                                                     <i className="fas fa-city" />
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-default"
+                                                    title="Eliminar"
+                                                    onClick={()=>handleDeleteActivity(activity.id)}
+                                                >
+                                                    <i className="fas fa-trash"></i>
                                                 </button>
 
                                             </div>
