@@ -57,20 +57,17 @@ export const GeneralDashboardPanel = ({sessionState,workplaceSessionState,dashbo
                         <CardTitle className="mt-4 h4 text-center">Estudio de Línea Base</CardTitle>
 
                         <CardBody>
-                            <div className="table-responsive mt-4">
+                            <div className="table-responsive mt-4 overflow-md-hidden">
                                 <Table className="table align-middle mb-0">
                                     <tbody>
                                     <tr key={'total'}>
                                         <td>
-
                                             <p className="text-muted mb-0">
-                                                Cumplimiento total del estudio de líena base
+                                                Cumplimiento total del estudio de línea base
                                             </p>
                                         </td>
-
                                         <td>
                                             <div className="apex-charts">
-
                                                     <ReactApexChart
                                                         options={getChartOptions(dashboardData.baselineStudyTotalCompliance)}
                                                         series={[dashboardData.baselineStudyTotalCompliance]}
