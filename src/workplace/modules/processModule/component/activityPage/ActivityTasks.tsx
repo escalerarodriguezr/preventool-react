@@ -13,6 +13,7 @@ import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
 import {AxiosError, AxiosResponse} from "axios";
+import Swal from "sweetalert2";
 
 interface ActivityTasksProps{
     activity:ProcessActivityResponse
@@ -98,6 +99,52 @@ export const ActivityTasks = (
         }
     }
 
+    const handleDeleteTask = (taskId:string): void =>{
+
+        Swal.fire({
+            title: 'Estás seguro de querer eliminar la Tarea?',
+            text: "Se va eliminar la Tarea del sistema. La acción es irreversible.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, eliminar la Tarea!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteTaskRequest(taskId);
+            }
+        })
+    }
+
+    const deleteTaskRequest = async (taskId:string): Promise<void> => {
+
+        try {
+            appLoading();
+            const url:string = '/activity-task/' + taskId
+            await preventoolApi.delete(url);
+            getTasksAction(activity.id);
+            appLoaded();
+            Swal.fire(
+                'Tarea',
+                'La tarea se ha eliminado correctamente.',
+                'success'
+            )
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else {
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
+    }
+
     return(
         <>
             <div className="d-flex justify-content-end">
@@ -146,6 +193,15 @@ export const ActivityTasks = (
                                                     onClick={()=>handleNavigateToTaskPage(task.id)}
                                                 >
                                                     <i className="fas fa-city" />
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-default"
+                                                    title="Eliminar"
+                                                    onClick={()=>handleDeleteTask(task.id)}
+                                                >
+                                                    <i className="fas fa-trash"></i>
                                                 </button>
 
                                             </div>
