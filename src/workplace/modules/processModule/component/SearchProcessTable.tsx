@@ -12,6 +12,11 @@ import {OffSymbol} from "../../../../admin/shared/component/OffSymbol";
 import {OnSymbol} from "../../../../admin/shared/component/OnSymbol";
 import {TablePaginator} from "../../../../admin/shared/component/TablePaginator";
 import {SearchProcessService} from "../service/searchProcessService/SearchProcessService";
+import Swal from "sweetalert2";
+import preventoolApi from "../../../../shared/api/preventool/preventoolApi";
+import {AxiosError, AxiosResponse} from "axios";
+import {toast} from "react-toastify";
+import {MessagesHttpResponse} from "../../../../admin/shared/utils/MessagesHttpResponse";
 
 interface SearchProcessTableProps{
     session:SessionState;
@@ -24,6 +29,8 @@ export const SearchProcessTable = (
     const navigate = useNavigate();
 
     const {
+        appLoading,
+        appLoaded,
         loading
     } = useUiStore();
 
@@ -128,7 +135,68 @@ export const SearchProcessTable = (
         navigate('/centro-trabajo/proceso/' + id);
     }
 
+    const handleDeleteProcess = (processId:string): void =>{
 
+        Swal.fire({
+            title: 'Estás seguro de querer eliminar el Proceso?',
+            text: "Se va eliminar el Proceso del sistema. La acción es irreversible.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Sí, eliminar el Proceso!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if(workplace?.actionWorkplace?.id){
+                    deleteProcessRequest(
+                        workplace?.actionWorkplace?.id,
+                        processId
+                    );
+                }
+
+            }
+        })
+    }
+
+    const deleteProcessRequest = async (workplaceId:string,processId:string): Promise<void> => {
+
+
+        try {
+            appLoading();
+            const url:string = '/workplace/' + workplaceId + '/process/' + processId;
+            await preventoolApi.delete(url);
+            if(workplace?.actionWorkplace?.id) {
+                searchAction(
+                    '?'
+                    + 'pageSize=' + pageSize
+                    + '&orderBy=' + orderBy
+                    + '&orderDirection=' + orderByDirection
+                    + '&currentPage=' + requiredPage
+                    + '&filterByWorkplaceId=' + workplace.actionWorkplace.id
+                    + filterQuery
+                );
+            }
+            appLoaded();
+            Swal.fire(
+                'Proceso',
+                'El Proceso se ha eliminado correctamente.',
+                'success'
+            )
+
+        }catch (error){
+            const axiosError = error as AxiosError;
+            const {status, data} = axiosError.response as AxiosResponse ;
+            if( status === 409 && data.class.includes('ActionNotAllowedException') )
+            {
+                toast.info(MessagesHttpResponse.ActionNotAllowedException);
+            }else if( status === 403 && data.class.includes('AccessDeniedException') ){
+                toast.info(MessagesHttpResponse.AccessDeniedException);
+            }else {
+                toast.error(MessagesHttpResponse.InternalError);
+            }
+        }
+    }
 
     return(
         <>
@@ -224,6 +292,15 @@ export const SearchProcessTable = (
                                                                             onClick={()=>handleNavigateToProcess(process.id)}
                                                                         >
                                                                             <i className="fas fa-city" />
+                                                                        </button>
+
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-default"
+                                                                            title="Eliminar"
+                                                                            onClick={()=>handleDeleteProcess(process.id)}
+                                                                        >
+                                                                            <i className="fas fa-trash"></i>
                                                                         </button>
 
                                                                     </div>
