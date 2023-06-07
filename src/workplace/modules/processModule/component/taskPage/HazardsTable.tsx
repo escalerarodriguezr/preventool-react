@@ -11,6 +11,8 @@ import preventoolApi from "../../../../../shared/api/preventool/preventoolApi";
 import {AxiosError, AxiosResponse} from "axios";
 import {toast} from "react-toastify";
 import {MessagesHttpResponse} from "../../../../../admin/shared/utils/MessagesHttpResponse";
+import {TaskRiskStatusMessages} from "../../../occupationalRisk/utils/TaskRiskStatusMessages";
+import {TaskRiskTagClassMessages} from "../../../occupationalRisk/utils/TaskRiskStatusTagClass";
 
 interface props{
     taskId: string
@@ -84,6 +86,8 @@ export const HazardsTable = (
     }
 
 
+
+
     return(
         <>
             <Container fluid>
@@ -101,6 +105,7 @@ export const HazardsTable = (
                                                 <th>#</th>
                                                 <th><span>Riesgo</span></th>
                                                 <th><span>Peligro</span></th>
+                                                <th><span>Estado</span></th>
                                                 {/*<th>Activo</th>*/}
                                                 <th></th>
                                             </tr>
@@ -117,6 +122,12 @@ export const HazardsTable = (
                                                                 <th scope="row">{index+1}</th>
                                                                 <td>{taskHazard.riskName}</td>
                                                                 <td>{taskHazard.hazardName}</td>
+                                                                <td>
+                                                                    <span
+                                                                        className={`badge rounded-pill font-size-11 ${TaskRiskTagClassMessages(taskHazard.status)}`}>
+                                                                        {TaskRiskStatusMessages(taskHazard.status)}
+                                                                    </span>
+                                                                </td>
                                                                 {/*<td><Switch*/}
                                                                 {/*    uncheckedIcon={<OffSymbol />}*/}
                                                                 {/*    className="me-1 mb-sm-8 mb-2"*/}

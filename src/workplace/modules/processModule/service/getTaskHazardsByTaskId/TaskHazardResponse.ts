@@ -5,6 +5,7 @@ export interface TaskHazardResponse{
     riskName:string;
     riskId:string;
     active:boolean;
+    status:string;
     creatorId:string;
     updaterId: null;
     createdAt: string;
