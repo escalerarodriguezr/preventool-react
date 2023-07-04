@@ -28,27 +28,27 @@ export const ProcessReports = (
                     <Card>
                         <CardBody>
                             <Nav tabs>
-                                {/*<NavItem>*/}
-                                {/*    <NavLink*/}
-                                {/*        style={{ cursor: "pointer" }}*/}
-                                {/*        className={classnames({*/}
-                                {/*            active: activeTab === "1",*/}
-                                {/*        })}*/}
-                                {/*        onClick={() => {*/}
-                                {/*            setActiveTab("1");*/}
-                                {/*        }}*/}
-                                {/*    >*/}
-                                {/*        Completo*/}
-                                {/*    </NavLink>*/}
-                                {/*</NavItem>*/}
+                                <NavItem>
+                                    <NavLink
+                                        style={{ cursor: "pointer" }}
+                                        className={classnames({
+                                            active: activeTab === "1",
+                                        })}
+                                        onClick={() => {
+                                            setActiveTab("1");
+                                        }}
+                                    >
+                                        Completo
+                                    </NavLink>
+                                </NavItem>
                                 <NavItem>
                                 <NavLink
                                     style={{ cursor: "pointer" }}
                                     className={classnames({
-                                        active: activeTab === "1",
+                                        active: activeTab === "2",
                                     })}
                                     onClick={() => {
-                                        setActiveTab("1");
+                                        setActiveTab("2");
                                     }}
                                 >
                                     Proceso
@@ -61,20 +61,20 @@ export const ProcessReports = (
                                 activeTab={activeTab}
                                 className="p-3 text-muted"
                             >
-                                {/*<TabPane tabId="1">*/}
-                                {/*    <Row>*/}
-                                {/*        <Col sm="12">*/}
-                                {/*            {activeTab == '1' &&*/}
-                                {/*                process.id &&*/}
-                                {/*               <ShowReportByType processId={process.id} type={'general'}/>*/}
-                                {/*            }*/}
-                                {/*        </Col>*/}
-                                {/*    </Row>*/}
-                                {/*</TabPane>*/}
                                 <TabPane tabId="1">
                                     <Row>
                                         <Col sm="12">
                                             {activeTab == '1' &&
+                                                process.id &&
+                                               <ShowReportByType processId={process.id} type={'general'}/>
+                                            }
+                                        </Col>
+                                    </Row>
+                                </TabPane>
+                                <TabPane tabId="2">
+                                    <Row>
+                                        <Col sm="12">
+                                            {activeTab == '2' &&
                                                 process.id &&
                                                 <ShowReportByType processId={process.id} type={'process-resume'}/>
                                             }
